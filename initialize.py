@@ -11,10 +11,12 @@ def get_movies_data():
         movies = json.load(json_data)
         return movies
 
-def get_connection():
+def get_admin_connection():
     try:
         print "Acquiring connection to Mongo..."
-        client = MongoClient('localhost', 27017)
+        username = 'tamu'
+        password = 'notatouchback'
+        client = MongoClient('mongodb://%s:%s@13.58.47.75:27017/movies_mongo' % (username, password))
         db = client['movies_mongo']
         return db
     
@@ -22,15 +24,17 @@ def get_connection():
         print ex
 
 def main():
-    db = get_connection()
+    db = get_admin_connection()
     print "Importing movies..."
     movies_collection = db['movies']
     movies_collection.insert(get_movies_data())
     print "Importing credits..."
 
+    """
     #TODO Import credits collection according to spec
-    #credits_collection = db['credits']
-    #credits_collection.insert(get_credits_data())
+    credits_collection = db['credits']
+    credits_collection.insert(get_credits_data())
+    """
     print "Done"
 
 if __name__ == '__main__':
