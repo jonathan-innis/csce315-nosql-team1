@@ -1,3 +1,5 @@
+from pymongo import MongoClient
+
 def get_connection():
     try:
         print "Acquiring connection to Mongo..."
@@ -27,3 +29,9 @@ def getCreditsStats():
 
 def getAggregateRecordByMovieId(movie_id):
     return
+
+def main():
+    get_connection()
+
+if __name__ == "__main__":
+    main()
