@@ -1,4 +1,5 @@
 import json
+import pymongo
 from pymongo import MongoClient
 from MovieBaseClasses import MongoConnection
 
@@ -29,11 +30,11 @@ def main():
         ############################
         print "Importing credits..."
         credits = get_credits_data()
-        movies_collection.createIndex(
-            {
-                'id' : 1,
-                'credits.id': 1
-            }
+        movies_collection.create_index(
+            [
+                ('id', pymongo.ASCENDING),
+                ('credits.id', pymongo.DESCENDING)
+            ]
         )
 
         for credit in credits:
