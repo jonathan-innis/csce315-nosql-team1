@@ -58,3 +58,13 @@ typings/
 .env
 
 **.json
+
+#python virtual envs
+venv
+
+#suggested Data file
+data
+
+#python compiled files
+*.pyc
+scratch.py

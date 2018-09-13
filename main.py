@@ -1,16 +1,15 @@
 from pymongo import MongoClient
+import pprint
+from MovieBaseClasses import MongoConnection
 
-def get_connection():
-    try:
-        print "Acquiring connection to Mongo..."
-        username = 'reader'
-        password = 'ilovetamu'
-        client = MongoClient('mongodb://%s:%s@13.58.47.75:27017/movies_mongo' % (username, password))
-        db = client['movies_mongo']
-        return db
-    
-    except Exception as ex:
-        print ex
+
+USERNAME = 'reader'
+PASSWORD = 'ilovetamu'
+COLLECTION = 'movies_mongo'
+DB_ENDPOINT = 'mongodb://{username}:{password}@13.58.47.75:27017/movies_mongo'.format(
+    password=PASSWORD,
+    username=USERNAME
+)
 
 def getMoviesByMovieId(movie_id):
     return
@@ -31,7 +30,9 @@ def getAggregateRecordByMovieId(movie_id):
     return
 
 def main():
-    get_connection()
+    with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
+        pprint.pprint(db)
+    return
 
 if __name__ == "__main__":
     main()

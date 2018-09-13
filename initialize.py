@@ -1,5 +1,14 @@
 import json
 from pymongo import MongoClient
+from MovieBaseClasses import MongoConnection
+
+USERNAME = 'tamu'
+PASSWORD = 'notatouchback'
+COLLECTION = 'movies_mongo'
+DB_ENDPOINT = 'mongodb://{username}:{password}@13.58.47.75:27017/movies_mongo'.format(
+    password=PASSWORD,
+    username=USERNAME
+)
 
 def get_credits_data():
     with open('data/credits.json') as json_data:
@@ -11,31 +20,42 @@ def get_movies_data():
         movies = json.load(json_data)
         return movies
 
-def get_admin_connection():
-    try:
-        print "Acquiring connection to Mongo..."
-        username = 'tamu'
-        password = 'notatouchback'
-        client = MongoClient('mongodb://%s:%s@13.58.47.75:27017/movies_mongo' % (username, password))
-        db = client['movies_mongo']
-        return db
-    
-    except Exception as ex:
-        print ex
-
 def main():
-    db = get_admin_connection()
-    print "Importing movies..."
-    movies_collection = db['movies']
-    movies_collection.insert(get_movies_data())
-    print "Importing credits..."
+    with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
+        ############################
+        #print "Importing movies..."
+        movies_collection = db['movies']
+        #movies_collection.insert(get_movies_data())
+        ############################
+        print "Importing credits..."
+        credits = get_credits_data()
+        movies_collection.createIndex(
+            {
+                'id' : 1,
+                'credits.id': 1
+            }
+        )
 
-    """
-    #TODO Import credits collection according to spec
-    credits_collection = db['credits']
-    credits_collection.insert(get_credits_data())
-    """
-    print "Done"
+        for credit in credits:
+            creditID = int(credit['id'])
+
+            movies_collection.update(
+                {
+                    u'id' : creditID
+                },
+                {
+                    "$set" : {
+                        u'credits' : credit['cast']
+                    }
+                }
+            )
+            print("updated:{id}".format(id=creditID))
+
+        """
+        #TODO Clean up this function of any bad practices
+        #TODO Get it to connect to the mongo server consistently
+        """
+        print "Done"
 
 if __name__ == '__main__':
     main()
