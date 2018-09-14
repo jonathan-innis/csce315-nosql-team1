@@ -3,10 +3,10 @@ import pprint
 from MovieBaseClasses import MongoConnection
 
 
-USERNAME = 'reader'
-PASSWORD = 'ilovetamu'
-COLLECTION = 'movies_mongo'
-DB_ENDPOINT = 'mongodb://{username}:{password}@13.58.47.75:27017/movies_mongo'.format(
+USERNAME : 'reader'
+PASSWORD : 'ilovetamu'
+COLLECTION : 'movies_mongo'
+DB_ENDPOINT : 'mongodb://{username}:{password}@13.58.47.75:27017/movies_mongo'.format(
     password=PASSWORD,
     username=USERNAME
 )
