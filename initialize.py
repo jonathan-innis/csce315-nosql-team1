@@ -16,6 +16,7 @@ DB_ENDPOINT = 'mongodb://{username}:{password}@13.58.47.75:27017/movies_mongo'.f
 class Initialize:
     def __init__(self, db):
         self.people_dict = {}
+        self.credits = None
         self.db = db
 
     def get_credits_data(self):
@@ -30,9 +31,9 @@ class Initialize:
 
     def add_movies_collection(self):
         print "Importing movies..."
-        movies = self.get_movies_data()
+        self.movies = self.get_movies_data()
         movies_collection = self.db['movies']
-        movies_collection.insert(movies)
+        movies_collection.insert(self.movies)
         movies_collection.create_index(
             [
                 ('id', pymongo.ASCENDING),
@@ -44,45 +45,31 @@ class Initialize:
         movies_collection = self.db['movies']
         people = credit['cast'] + credit['crew']
 
-        movie_id = movies_collection.find_one({u'id': int(credit['id'])})['_id']
+        movie_id = movies_collection.find_one({'id': int(credit['id'])}, {'_id': True})
 
         for person in people:
-            if person['credit_id'] in self.people_dict.keys():
-                self.people_dict[person['credit_id']]['movies'].append({'_id' : ObjectId(movie_id)})
+            if person['credit_id'] in self.people_dict:
+                self.people_dict[person['credit_id']]['movies'].append({'_id' : movie_id})
             else:
-                person['movies'] = [{'_id' : ObjectId(movie_id)}]
+                person['movies'] = [{'_id' : movie_id}]
                 self.people_dict[person['credit_id']] = person            
 
     def add_people_collection(self):
+        print "Adding the people to the collection..."
+        for credit in self.credits:
+            self.create_people_dict(credit)
         people_collection = self.db['people']
-        for _id in self.people_dict.keys():
-            people_collection.insert(self.people_dict[_id])
+        people_collection.insert_many(self.people_dict.values())
 
     def merge_credits_collection(self):
         print "Merging credits into movies..."
         movies_collection = self.db['movies']
-        credits = self.get_credits_data()
-        for credit in credits:
+        operations = []
+        self.credits = self.get_credits_data()takes a source file movie id (from the json) and returns an aggregate object
+        for credit in self.credits:
             creditID = int(credit['id'])
-
-            movies_collection.update(
-                {
-                    u'id' : creditID
-                },
-                {
-                    "$set" : {
-                        u'credits' : {
-                            u'cast' : credit['cast'],
-                            u'crew' : credit['crew']
-                        }
-                    }
-                }
-            )
-            print("updated:{id}".format(id=creditID))
-            self.create_people_dict(credit)
-
-        self.add_people_collection()
-
+            operations.append(pymongo.UpdateOne({u'id': creditID}, {'$set': {u'cast': credit['cast'], u'crew': credit['crew']}}))
+        movies_collection.bulk_write(operations, ordered=False)
 
 #Copied code from https://stackoverflow.com/questions/3041986/apt-command-line-interface-like-yes-no-input
 def query_yes_no(question, default="yes"):
@@ -128,6 +115,8 @@ def main():
             init = Initialize(db)
             init.add_movies_collection()
             init.merge_credits_collection()
+            init.add_people_collection()
+            print "Done"
         else:
             print "Quitting..."
 
