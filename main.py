@@ -20,8 +20,21 @@ def getRecordByIMDBId(imdb_id):
 def getMovieStats():
     return
 
-def getCaseByMovieId():
-    return
+def getCastByMovieId(_movie_id):
+    with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
+        movie = db['movies'].find_one(
+            {
+                u'id' : int(_movie_id)
+            },
+            {
+                u'_id' : 0,
+                u'cast' : 1
+            }
+        )
+        if movie:
+            return movie.get(u'cast', None)
+        else:
+            return None
 
 def getCreditsStats():
     return
