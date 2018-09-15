@@ -14,7 +14,10 @@ DB_ENDPOINT = 'mongodb://{username}:{password}@13.58.47.75:27017/movies_mongo'.f
 def getMoviesByMovieId(movie_id):
     with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
         movie_collection = db['movies']
-        return dumps(movie_collection.find_one({'id': movie_id}))
+        ret = movie_collection.find_one({'id': movie_id})
+        if ret is None:
+            print "There is no movie with this id"
+        return dumps(ret)
 
 def getRecordByIMDBId(imdb_id):
     return
@@ -34,4 +37,7 @@ def getPersonById(person_id):
 def getAggregateRecordByMovieId(movie_id):
     with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
         movie_collection = db['movies']
-        return dumps(movie_collection.find_one({'id': movie_id}))
+        ret = movie_collection.find_one({'id': movie_id})
+        if ret is None:
+            print "There is no movie with this id"
+        return dumps(ret)

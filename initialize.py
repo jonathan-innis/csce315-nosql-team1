@@ -17,27 +17,27 @@ class Initialize:
     def __init__(self, db):
         self.people_dict = {}
         self.credits = None
+        self.movies = None
         self.db = db
 
     def get_credits_data(self):
         with open('data/credits.json') as json_data:
             credits = json.load(json_data)
-            return credits
+            self.credits = credits
 
     def get_movies_data(self):
         with open('data/movies.json') as json_data:
             movies = json.load(json_data)
-            return movies
+            self.movies = movies
 
     def add_movies_collection(self):
         print "Importing movies..."
-        self.movies = self.get_movies_data()
         movies_collection = self.db['movies']
         movies_collection.insert(self.movies)
         movies_collection.create_index(
             [
                 ('id', pymongo.ASCENDING),
-                ('credits.id', pymongo.DESCENDING)
+                ('imdb_id', pymongo.ASCENDING)
             ]
         )
 
@@ -65,7 +65,6 @@ class Initialize:
         print "Merging credits into movies..."
         movies_collection = self.db['movies']
         operations = []
-        self.credits = self.get_credits_data()takes a source file movie id (from the json) and returns an aggregate object
         for credit in self.credits:
             creditID = int(credit['id'])
             operations.append(pymongo.UpdateOne({u'id': creditID}, {'$set': {u'cast': credit['cast'], u'crew': credit['crew']}}))
@@ -113,6 +112,8 @@ def main():
     
             print "Importing the new database...."
             init = Initialize(db)
+            init.get_credits_data()
+            init.get_movies_data()
             init.add_movies_collection()
             init.merge_credits_collection()
             init.add_people_collection()
