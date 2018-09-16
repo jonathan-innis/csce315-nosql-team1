@@ -1,7 +1,6 @@
 from pymongo import MongoClient
 from bson.json_util import dumps
 from MovieBaseClasses import MongoConnection
-import time
 
 
 USERNAME = 'reader'
@@ -12,9 +11,9 @@ DB_ENDPOINT = 'mongodb://{username}:{password}@13.58.47.75:27017/movies_mongo'.f
     username=USERNAME
 )
 
-def getMoviesByMovieId(movie_id):
+def getRecordByMovieId(movie_id):
     """Takes in a movie_id and returns the corresponding movie that is associated with it
-    
+
     Arguments:
         movie_id: unique integer identifier for a movie
     Assumptions:
@@ -31,16 +30,32 @@ def getMoviesByMovieId(movie_id):
             return dumps(doc)
 
 def getRecordByIMDBId(imdb_id):
-    return
+    """Takes in a imdb_id and returns the corresponding movie that is associated with it
+
+    Arguments:
+        imdb_id: unique integer identifier for a imdb
+    Assumptions:
+        Assumes the movie collection has already been initialized
+    """
+
+    with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
+        movie_collection = db['movies']
+        ret = movie_collection.find({'imdb_id': imdb_id})
+        print dumps(ret.explain()['executionStats'])
+        if ret.count() <= 0:
+            return "There is no movie with this imdb id"
+        for doc in ret:
+            return dumps(doc)
 
 def getMovieStats():
     """
-    Fetches a cursor with all movies from the database, only containing the runtime and genre fields,
+    Fetches a cursor with all movies from the database, only containing the runtime and genre fields
+
     sums the total runtimes, number of unique genres, and the total count returned by the cursor
 
     """
 
-    response = "Total Movies: {count}\nTotal Runtime: {runtime}\nUnique Genres: {genres}"
+    response = """Total Movies: {count}\nTotal Runtime: {runtime}\nUnique Genres: {genres}"""
 
     with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
         cursor = db['movies'].find(
@@ -74,10 +89,11 @@ def getMovieStats():
 def getCastByMovieId(_movie_id):
     """
     Fetches the cast based on a provided number _movie_id
+
     if there is no movie found with that number it returns NoneType
+
     if a movie is found it returns the cast entry
     """
-
     with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
         cursor = db['movies'].find(
             {
@@ -89,7 +105,7 @@ def getCastByMovieId(_movie_id):
             }
         )
 
-        
+
         if cursor:
             print dumps(cursor.explain()['executionStats'])
 
@@ -102,7 +118,7 @@ def getCreditsStats():
 
 def getPersonById(person_id):
     """Takes in a person_id and returns the corresponding person that is associated with it
-    
+
     Arguments:
         person_id: unique integer identifier for a person
     Assumptions:
@@ -114,10 +130,10 @@ def getPersonById(person_id):
         movie_collection = db['movies']
         person_result = people_collection.find({'id': person_id})
         print person_result.explain()['executionStats']
-        
+
         if person_result.count() <= 0:
             return "There is no person with this id"
-            
+
         person = person_result[0]
 
         #Replaces the cast_in array with the actual movies associated with the ids
@@ -129,7 +145,7 @@ def getPersonById(person_id):
                 for cast in cast_result:
                     cast_in.append(cast)
             person['cast_in'] = cast_in
-        
+
         #Replaces the crew_in array with the actual movies associated with the ids
         if 'crew_in' in person:
             crew_in = []
@@ -139,12 +155,12 @@ def getPersonById(person_id):
                 for crew in crew_result:
                     crew_in.append(crew)
             person['crew_in'] = crew_in
-        
+
         return dumps(person)
 
 def getAggregateRecordByMovieId(movie_id):
     """Takes in a movie_id and returns the corresponding movie that is associated with it
-    
+
     Arguments:
         movie_id: unique integer identifier for a movie
     Assumptions:
