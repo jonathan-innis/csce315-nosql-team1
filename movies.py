@@ -22,10 +22,12 @@ def getMoviesByMovieId(movie_id):
 
     with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
         movie_collection = db['movies']
-        ret = movie_collection.find_one({'id': movie_id})
-        if ret is None:
-            print "There is no movie with this id"
-        return dumps(ret)
+        ret = movie_collection.find({'id': movie_id})
+        print dumps(ret.explain()['executionStats'])
+        if ret.count() <= 0:
+            return "There is no movie with this id"
+        for doc in ret:
+            return dumps(doc)
 
 def getRecordByIMDBId(imdb_id):
     return
@@ -51,20 +53,32 @@ def getPersonById(person_id):
     with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
         people_collection = db['people']
         movie_collection = db['movies']
-        person = people_collection.find_one({'id': person_id})
+        person_result = people_collection.find({'id': person_id})
+        print person_result.explain()['executionStats']
+        
+        if person_result.count() <= 0:
+            return "There is no person with this id"
+            
+        person = person_result[0]
 
         #Replaces the cast_in array with the actual movies associated with the ids
         if 'cast_in' in person:
             cast_in = []
             for movie_id in person['cast_in']:
-                cast_in.append(movie_collection.find_one({'_id': movie_id}))
+                cast_result = movie_collection.find({'_id': movie_id})
+                print dumps(cast_result.explain()['executionStats'])
+                for cast in cast_result:
+                    cast_in.append(cast)
             person['cast_in'] = cast_in
         
         #Replaces the crew_in array with the actual movies associated with the ids
         if 'crew_in' in person:
             crew_in = []
             for movie_id in person['crew_in']:
-                crew_in.append(movie_collection.find_one({'_id': movie_id}))
+                crew_result = movie_collection.find({'_id': movie_id})
+                print dumps(crew_result.explain()['executionStats'])
+                for crew in crew_result:
+                    crew_in.append(crew)
             person['crew_in'] = crew_in
         
         return dumps(person)
@@ -80,7 +94,9 @@ def getAggregateRecordByMovieId(movie_id):
 
     with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
         movie_collection = db['movies']
-        ret = movie_collection.find_one({'id': movie_id})
-        if ret is None:
-            print "There is no movie with this id"
-        return dumps(ret)
+        ret = movie_collection.find({'id': movie_id})
+        print dumps(ret.explain()['executionStats'])
+        if ret.count() <= 0:
+            return "There is no movie with this id"
+        for doc in ret:
+            return dumps(doc)
