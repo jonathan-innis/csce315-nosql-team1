@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 from bson.json_util import dumps
 from MovieBaseClasses import MongoConnection
+import time
 
 
 USERNAME = 'reader'
@@ -34,13 +35,12 @@ def getRecordByIMDBId(imdb_id):
 
 def getMovieStats():
     """
-    Fetches a cursor with all movies from the database, only containing the runtime and genre fields
-
+    Fetches a cursor with all movies from the database, only containing the runtime and genre fields,
     sums the total runtimes, number of unique genres, and the total count returned by the cursor
 
     """
 
-    response = """Total Movies: {count}\nTotal Runtime: {runtime}\nUnique Genres: {genres}"""
+    response = "Total Movies: {count}\nTotal Runtime: {runtime}\nUnique Genres: {genres}"
 
     with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
         cursor = db['movies'].find(
@@ -70,13 +70,12 @@ def getMovieStats():
     )
 
 def getCastByMovieId():
-        """
+    """
     Fetches the cast based on a provided number _movie_id
-
     if there is no movie found with that number it returns NoneType
-
     if a movie is found it returns the cast entry
     """
+
     with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
         movie = db['movies'].find_one(
             {
