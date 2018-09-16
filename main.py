@@ -22,8 +22,15 @@ def getRecordByIMDBId(imdb_id):
 def getMovieStats():
     return
 
-# Fetches the cast of a movie (no crew returned)
+
 def getCastByMovieId(_movie_id):
+    """
+    Fetches the cast based on a provided number _movie_id
+
+    if there is no movie found with that number it returns NoneType
+
+    if a movie is found it returns the cast entry
+    """
     with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
         movie = db['movies'].find_one(
             {
@@ -40,6 +47,13 @@ def getCastByMovieId(_movie_id):
             return None
 
 def getMoviesStats():
+    """
+    Fetches a cursor with all movies from the database, only containing the runtime and genre fields
+
+    sums the total runtimes, number of unique genres, and the total count returned by the cursor
+
+    """
+
     response = """Total Movies: {count}\nTotal Runtime: {runtime}\nUnique Genres: {genres}"""
 
     with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
