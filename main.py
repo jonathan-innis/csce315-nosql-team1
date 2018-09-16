@@ -2,6 +2,7 @@ from pymongo import MongoClient
 import pprint
 from MovieBaseClasses import MongoConnection
 import time
+from bson.json_util import dumps
 
 
 USERNAME = 'reader'
@@ -34,7 +35,7 @@ def getCastByMovieId(_movie_id):
             }
         )
         if movie:
-            return movie.get(u'cast', None)
+            return dumps(movie.get(u'cast', None))
         else:
             return None
 
