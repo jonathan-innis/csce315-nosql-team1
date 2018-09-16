@@ -115,7 +115,34 @@ def getCastByMovieId(_movie_id):
             return None
 
 def getCreditsStats():
-    return
+    """
+    Fetches three cursors containing movies with credits, people that are crew, and people that are cast respectively. 
+    Returns the sums of each of these cursors as a string.
+
+    """
+
+    response = ''
+
+    with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
+        credit_cursor = db['movies'].find({'credits':{'$exists':True}})
+        print dumps(credit_cursor.explain()['executionStats'])
+
+        crew_cursor = db['people'].find({'crew_in':{'$exists':True}})
+        print dumps(crew_cursor.explain()['executionStats'])
+
+        cast_cursor = db['people'].find({'cast_in':{'$exists':True}})
+        print dumps(cast_cursor.explain()['executionStats'])
+
+        credit_entries = credit_cursor.count()
+        cast_entries = crew_cursor.count()
+        crew_entries = cast_cursor.count()
+
+        response += 'Credits Entries: ' + str(credit_cursor.count())
+        response += '\nCast Members: ' + str(crew_cursor.count())
+        response += '\nCrew Members: ' + str(cast_cursor.count())
+
+        return response
+   
 
 def getPersonById(person_id):
     """Takes in a person_id and returns the corresponding person that is associated with it
