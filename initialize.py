@@ -58,5 +58,46 @@ def main():
         """
         print "Done"
 
+
+#Record of the population of the cast and crew objects
+def createCastCrew():
+    with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
+        crew = {}
+        cast = {}
+        movies = db['movies'].find()
+        for movie in movies:
+            for member in movie[u'cast']:
+                if member[u'id'] in cast:
+                    cast[member[u'id']]["movies"].append(movie[u'id'])
+                else:
+                    cast[member[u'id']] = {
+                        "id" : member[u'id'],
+                        "name": member[u'name'], 
+                        "gender": member[u'gender'], 
+                        "profile_path": member[u'profile_path'],
+                        "movies": [movie[u'id']]            
+                    }
+            for member in movie[u'crew']:
+                if member[u'id'] in crew:
+                    crew[member[u'id']]["movies"].append(movie[u'id'])
+                else:
+                    crew[member[u'id']] = {
+                        "id" : member[u'id'],
+                        "name": member[u'name'], 
+                        "gender": member[u'gender'], 
+                        "profile_path": member[u'profile_path'],
+                        "movies": [movie[u'id']]
+                    }
+        mongo_cast = []
+        mongo_crew = []
+        for ID in cast:
+            mongo_cast.append(cast[ID])
+        for ID in crew:
+            mongo_crew.append(crew[ID])
+
+        db['cast'].insert(mongo_cast)
+        db['crew'].insert(mongo_crew)
+        
+
 if __name__ == '__main__':
     main()
