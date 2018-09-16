@@ -154,8 +154,10 @@ class Initialize:
             bulk_operations.append(pymongo.UpdateOne(
                 { u'id': creditID }, 
                 {'$set': {
-                    u'cast': credit['cast'],
-                    u'crew': credit['crew']
+                    u'credits' : {
+                        u'cast': credit['cast'],
+                        u'crew': credit['crew']
+                    }
                 }}))
         movies_collection.bulk_write(bulk_operations, ordered=False)
 

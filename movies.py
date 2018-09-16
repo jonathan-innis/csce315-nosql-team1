@@ -33,7 +33,7 @@ def getRecordByIMDBId(imdb_id):
     """Takes in a imdb_id and returns the corresponding movie that is associated with it
 
     Arguments:
-        imdb_id: unique integer identifier for a imdb
+        imdb_id: unique string identifier for the imdb_id
     Assumptions:
         Assumes the movie collection has already been initialized
     """
@@ -97,19 +97,20 @@ def getCastByMovieId(_movie_id):
     with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
         cursor = db['movies'].find(
             {
-                u'id' : int(_movie_id)
+                'id' : int(_movie_id)
             },
             {
-                u'_id' : 0,
-                u'cast' : 1
+                '_id' : 0,
+                'credits' : 1
             }
         )
 
 
         if cursor:
             print dumps(cursor.explain()['executionStats'])
-
-            return dumps(cursor[0].get(u'cast', None))
+            credits = cursor[0].get(u'credits', None)
+            if credits is not None:
+                return dumps(credits.get(u'cast', None))
         else:
             return None
 
