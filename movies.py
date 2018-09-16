@@ -52,6 +52,8 @@ def getMovieStats():
             }
         )
 
+        print dumps(cursor.explain()['executionStats'])
+
         runtime = 0
         genres = {}
         totalMovies = cursor.count()
@@ -65,11 +67,11 @@ def getMovieStats():
 
     return response.format(
         count=totalMovies,
-        runtime=time.strftime("%d days, %H:%M:%S", time.gmtime(runtime * 60)),
+        runtime="{hours}:{minutes}".format(hours=(runtime / 60), minutes=(runtime % 60)),
         genres=len(genres)
     )
 
-def getCastByMovieId():
+def getCastByMovieId(_movie_id):
     """
     Fetches the cast based on a provided number _movie_id
     if there is no movie found with that number it returns NoneType
@@ -77,7 +79,7 @@ def getCastByMovieId():
     """
 
     with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
-        movie = db['movies'].find_one(
+        cursor = db['movies'].find(
             {
                 u'id' : int(_movie_id)
             },
@@ -86,8 +88,12 @@ def getCastByMovieId():
                 u'cast' : 1
             }
         )
-        if movie:
-            return dumps(movie.get(u'cast', None))
+
+        
+        if cursor:
+            print dumps(cursor.explain()['executionStats'])
+
+            return dumps(cursor[0].get(u'cast', None))
         else:
             return None
 
