@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 import pprint
 from MovieBaseClasses import MongoConnection
+import time
 
 
 USERNAME = 'reader'
@@ -20,6 +21,7 @@ def getRecordByIMDBId(imdb_id):
 def getMovieStats():
     return
 
+# Fetches the cast of a movie (no crew returned)
 def getCastByMovieId(_movie_id):
     with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
         movie = db['movies'].find_one(
@@ -36,8 +38,35 @@ def getCastByMovieId(_movie_id):
         else:
             return None
 
-def getCreditsStats():
-    return
+def getMoviesStats():
+    response = """Total Movies: {count}\nTotal Runtime: {runtime}\nUnique Genres: {genres}"""
+
+    with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
+        cursor = db['movies'].find(
+            {},
+            {
+                u'_id' : 0,
+                u'genres' : 1,
+                u'runtime' : 1
+            }
+        )
+
+        runtime = 0
+        genres = {}
+        totalMovies = cursor.count()
+
+        for movie in cursor:
+            if movie[u'runtime']:
+                runtime += movie[u'runtime']
+            for genre in movie[u'genres']:
+                if genre[u'id'] not in genres:
+                    genres[genre[u'id']] = genre[u'name']
+
+    return response.format(
+        count=totalMovies,
+        runtime=time.strftime("%d days, %H:%M:%S", time.gmtime(runtime * 60)),
+        genres=len(genres)
+    )
 
 def getAggregateRecordByMovieId(movie_id):
     return
