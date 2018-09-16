@@ -3,10 +3,11 @@
 ## Setup
 This setup assumes that you have MongoDB installed/access to the AWS VM as well as Python 2.7 installed.
 
-1. Activate your virtual environment
-2. Install the packages to the virtual environment using `pip install -r requirements.txt`
-3. If you are running the program locally or you would like to reinitialize the database run the command `python initialize.py`
-4. Run the library commands by going into the python shell `python` and importing the module `import movies`
+1. Make sure that the `credits.json` and `movies.json` file inside a `data/` directory
+2. Activate your virtual environment
+3. Install the packages to the virtual environment using `pip install -r requirements.txt`
+4. If you are running the program locally or you would like to reinitialize the database run the command `python initialize.py`
+5. Run the library commands by going into the python shell `python` and importing the module `import movies`
 
 ## Deliverable 1
 - Create a new database called movies_mongo. Use it while developing the functionality below.
