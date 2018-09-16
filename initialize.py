@@ -19,7 +19,6 @@ class Initialize:
         """Initializes the Initialize object"""
 
         self.people_dict = {}
-        self.start = time.time()
         self.credits = None
         self.movies = None
         self.db = db
@@ -196,6 +195,7 @@ def query_yes_no(question, default="yes"):
 def main():
     with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
         if query_yes_no("Would you like to reinitialize the database?"):
+            last = time.time()
             print "Dropping the old database..."
             db.movies.drop()
             db.people.drop()
@@ -205,11 +205,14 @@ def main():
             init.get_credits_data()
             init.get_movies_data()
             init.add_movies_collection()
-            print "Finished inserting the movies collection (%ss)"%(int(time.time() - init.start))
+            print "Finished inserting the movies collection (%ss)"%(int(time.time() - last))
+            last = time.time()
             init.merge_credits_collection()
-            print "Finished merging the credits collection (%ss)"%(int(time.time() - init.start))
+            print "Finished merging the credits collection (%ss)"%(int(time.time() - last))
+            last = time.time()
             init.add_people_collection()
-            print "Finished adding the people collection (%ss)"%(int(time.time() - init.start))
+            print "Finished adding the people collection (%ss)"%(int(time.time() - last))
+            last = time.time()
         else:
             print "Quitting..."
 
