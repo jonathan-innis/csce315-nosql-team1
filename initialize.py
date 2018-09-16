@@ -133,6 +133,7 @@ class Initialize:
         for credit in self.credits:
             self.create_people_dict(credit, cache_movie_dict)
         people_collection = self.db['people']
+        people_collection.create_index('id')
         people_collection.insert_many(self.people_dict.values())
 
     def merge_credits_collection(self):

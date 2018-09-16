@@ -32,7 +32,23 @@ def getCreditsStats():
     return
 
 def getPersonById(person_id):
-    return
+    with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
+        people_collection = db['people']
+        movie_collection = db['movies']
+        person = people_collection.find_one({'id': person_id})
+        if 'cast_in' in person:
+            cast_in = []
+            for movie_id in person['cast_in']:
+                cast_in.append(movie_collection.find_one({'_id': movie_id}))
+            person['cast_in'] = cast_in
+        
+        if 'crew_in' in person:
+            crew_in = []
+            for movie_id in person['crew_in']:
+                crew_in.append(movie_collection.find_one({'_id': movie_id}))
+            person['crew_in'] = crew_in
+        
+        return dumps(person)
 
 def getAggregateRecordByMovieId(movie_id):
     with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
