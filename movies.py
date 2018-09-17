@@ -1,15 +1,7 @@
 from pymongo import MongoClient
 from bson.json_util import dumps
 from MovieBaseClasses import MongoConnection
-
-
-USERNAME = 'reader'
-PASSWORD = 'ilovetamu'
-COLLECTION = 'movies_mongo'
-DB_ENDPOINT = 'mongodb://{username}:{password}@13.58.47.75:27017/movies_mongo'.format(
-    password=PASSWORD,
-    username=USERNAME
-)
+import config
 
 def getRecordByMovieId(movie_id):
     """Takes in a movie_id and returns the corresponding movie that is associated with it
@@ -20,7 +12,7 @@ def getRecordByMovieId(movie_id):
         Assumes the movie collection has already been initialized
     """
 
-    with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
+    with MongoConnection(config.COLLECTION, config.READER_DB_ENDPOINT) as db:
         movie_collection = db['movies']
         ret = movie_collection.find({'id': movie_id})
         print dumps(ret.explain()['executionStats'])
@@ -38,7 +30,7 @@ def getRecordByIMDBId(imdb_id):
         Assumes the movie collection has already been initialized
     """
 
-    with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
+    with MongoConnection(config.COLLECTION, config.READER_DB_ENDPOINT) as db:
         movie_collection = db['movies']
         ret = movie_collection.find({'imdb_id': imdb_id})
         print dumps(ret.explain()['executionStats'])
@@ -57,7 +49,7 @@ def getMovieStats():
 
     response = """Total Movies: {count}\nTotal Runtime: {runtime}\nUnique Genres: {genres}"""
 
-    with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
+    with MongoConnection(config.COLLECTION, config.READER_DB_ENDPOINT) as db:
         cursor = db['movies'].find(
             {},
             {
@@ -94,7 +86,7 @@ def getCastByMovieId(_movie_id):
 
     if a movie is found it returns the cast entry
     """
-    with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
+    with MongoConnection(config.COLLECTION, config.READER_DB_ENDPOINT) as db:
         cursor = db['movies'].find(
             {
                 'id' : int(_movie_id)
@@ -105,14 +97,14 @@ def getCastByMovieId(_movie_id):
             }
         )
 
+        print dumps(cursor.explain()['executionStats'])
 
-        if cursor:
-            print dumps(cursor.explain()['executionStats'])
+        if cursor.count() > 0:
             credits = cursor[0].get(u'credits', None)
             if credits is not None:
                 return dumps(credits.get(u'cast', None))
         else:
-            return None
+            return 'There is no movie with this movie id'
 
 def getCreditsStats():
     """
@@ -120,10 +112,9 @@ def getCreditsStats():
     Returns the sums of each of these cursors as a string.
 
     """
-
     response = ''
 
-    with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
+    with MongoConnection(config.COLLECTION, config.READER_DB_ENDPOINT) as db:
         credit_cursor = db['movies'].find({'credits':{'$exists':True}})
         print dumps(credit_cursor.explain()['executionStats'])
 
@@ -153,7 +144,7 @@ def getPersonById(person_id):
         Assumes the person and movie collection have already been initialized
     """
 
-    with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
+    with MongoConnection(config.COLLECTION, config.READER_DB_ENDPOINT) as db:
         people_collection = db['people']
         movie_collection = db['movies']
         person_result = people_collection.find({'id': person_id})
@@ -195,7 +186,7 @@ def getAggregateRecordByMovieId(movie_id):
         Assumes the movie collection has already been initialized
     """
 
-    with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
+    with MongoConnection(config.COLLECTION, config.READER_DB_ENDPOINT) as db:
         movie_collection = db['movies']
         ret = movie_collection.find({'id': movie_id})
         print dumps(ret.explain()['executionStats'])

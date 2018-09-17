@@ -2,6 +2,7 @@ import json
 import sys
 import pymongo
 import time
+import config
 import argparse
 from pymongo import MongoClient
 from bson.objectid import ObjectId
@@ -189,27 +190,7 @@ def query_yes_no(question, default="yes"):
 
 def main():
 
-    #Parsing command-line and initializing the database
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--hostname", help="Host name")
-    parser.add_argument("--port", help="Port")
-    parser.add_argument("-u", "--username", help="User name")
-    parser.add_argument("-p", "--password", help="Password")
-    parser.add_argument("-d", "--database", help="Database")
-
-    args = parser.parse_args()
-
-    DB_ENDPOINT = 'mongodb://{username}:{password}@{hostname}:{port}/{database}'.format(
-        password=args.password,
-        username=args.username,
-        hostname=args.hostname,
-        database=args.database,
-        port=args.port
-    )
-
-    COLLECTION = args.database
-
-    with MongoConnection(COLLECTION, DB_ENDPOINT) as db:
+    with MongoConnection(config.COLLECTION, config.WRITER_DB_ENDPOINT) as db:
 
         if query_yes_no("Would you like to reinitialize the database?"):
             last = time.time()
