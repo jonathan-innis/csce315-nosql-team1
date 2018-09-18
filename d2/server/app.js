@@ -7,7 +7,6 @@ const { db } = config;
 const connectionString = `mongodb://${db.host}:${db.port}/${db.name}`;
 mongoose.connect(connectionString, {useNewUrlParser: true})
 
-
-app.get('/', (req, res) => res.send('Hello World!'))
+app.use('/', require('./routes'))
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

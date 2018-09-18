@@ -1,5 +1,5 @@
 // config.js
-const env = 'prod'; // 'prod' or 'test'
+const env = 'dev'; // 'prod' or 'dev'
 
 const prod = {
  app: {
