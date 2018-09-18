@@ -7,3 +7,4 @@ WRITER_DB_ENDPOINT = 'mongodb://{username}:{password}@13.58.47.75:27017/movies_m
     username='tamu',
     password='notatouchback'
 )
+WRITER_DB_DEV_ENDPOINT = 'mongodb://localhost:27017/movies_mongo'
