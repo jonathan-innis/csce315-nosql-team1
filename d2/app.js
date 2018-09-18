@@ -1,6 +1,12 @@
 const express = require('express')
+const config = require('./config')
 const app = express()
-const port = 3000
+const mongoose = require('mongoose');
+const { db: { host, port, name } } = config;
+const connectionString = `mongodb://${host}:${port}/${name}`;
+mongoose.connect(connectionString)
+
+
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
