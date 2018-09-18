@@ -57,7 +57,7 @@ typings/
 # dotenv environment variables file
 .env
 
-**.json
+d1/data/*.json
 
 #python virtual envs
 venv
