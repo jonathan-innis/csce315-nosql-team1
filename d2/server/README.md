@@ -1,6 +1,6 @@
-#Deadline 2 Server instructions
+# Deadline 2 Server instructions
 
-##Starting the Node Server
+## Starting the Node Server
 
 Type into your terminal
 ```
@@ -11,7 +11,7 @@ and the server should start at port 3000 over the local network stack. If there 
 $ npm run-script build
 ```
 
-##Starting the Node.js Dev environment
+## Starting the Node.js Dev environment
 
 Type into your terminal
 ```
