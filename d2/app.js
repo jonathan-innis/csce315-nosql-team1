@@ -5,7 +5,7 @@ const port = 3000
 const mongoose = require('mongoose');
 const { db } = config;
 const connectionString = `mongodb://${db.host}:${db.port}/${db.name}`;
-mongoose.connect(connectionString)
+mongoose.connect(connectionString, {useNewUrlParser: true})
 
 
 
