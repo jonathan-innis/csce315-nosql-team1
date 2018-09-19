@@ -1,6 +1,6 @@
 const MOVIE_SCHEMA = {
     poster_path: String,
-    production_countries: [{iso_3166_1: String, name: String}],
+    production_countries: Array,
     revenue: Number,
     overview: String,
     video: Boolean,
@@ -24,7 +24,7 @@ const MOVIE_SCHEMA = {
     budget: Number,
     vote_average: Number,
     runtime: Number,
-    credits: Number
+    credits: {cast: Array, crew: Array}
 };
 
 module.exports = MOVIE_SCHEMA;
