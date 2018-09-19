@@ -1,3 +1,9 @@
 module.exports = async (req, res) => {
-    res.sendStatus(400);
+    const {q} = req.query;
+    try{
+        res.sendStatus(200)
+    }
+    catch{
+        res.sendStatus(400);
+    }
 }
