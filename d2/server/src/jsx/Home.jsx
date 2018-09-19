@@ -9,10 +9,14 @@ class Home extends React.Component {
     }
 
     render () {
-        
+
         return (
             <div>
                 Welcome to the Home page
+                This is the current path
+                <div>
+                    {window.location.pathname}
+                </div>
             </div>
         )
     }
