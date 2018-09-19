@@ -5,5 +5,5 @@ var Schema = mongoose.Schema;
 
 module.exports = {
     'movies': new Schema(Movie),
-    //'people': new Schema(People)
+    'people': new Schema(People)
 }
