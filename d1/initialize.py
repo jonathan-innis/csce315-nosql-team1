@@ -126,7 +126,7 @@ class Initialize:
         for credit in self.credits:
             self.create_people_dict(credit, cache_movie_dict)
         people_collection = self.db['people']
-        people_collection.create_index('id')
+        people_collection.create_index([('id', pymongo.ASCENDING)])
         people_collection.insert_many(self.people_dict.values())
 
     def merge_credits_collection(self):
@@ -190,7 +190,7 @@ def query_yes_no(question, default="yes"):
 
 def main():
 
-    with MongoConnection(config.COLLECTION, config.WRITER_DB_ENDPOINT) as db:
+    with MongoConnection(config.COLLECTION, config.WRITER_DB_DEV_ENDPOINT) as db:
 
         if query_yes_no("Would you like to reinitialize the database?"):
             last = time.time()
