@@ -6,7 +6,7 @@ async function convertIdToMovie(_id) {
 
 module.exports = async (req, res) => {
     try{
-        const {q} = req.query;
+        const {q, num} = req.query;
         movies = [];
         people = [];
 
@@ -31,8 +31,9 @@ module.exports = async (req, res) => {
                 people[i]['cast_in'] = castInMovies;
             }
         }
-
-        res.json({movies: movies, people: people})
+        
+        if (num) res.json({movies: movies.slice(0, parseInt(num)), people: people.slice(0, parseInt(num))})
+        else res.json({movies: movies, people: people});
     }
     catch(error){
         console.log(error)
