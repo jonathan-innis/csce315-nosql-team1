@@ -1,7 +1,5 @@
 import React from 'react'
-import {Input, Select, Icon} from 'antd'
 import '../css/base.css'
-const Option = Select.Option;
 
 class Base extends React.Component {
     constructor (props) {

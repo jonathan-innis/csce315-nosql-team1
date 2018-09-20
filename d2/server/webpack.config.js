@@ -6,6 +6,8 @@ var opts = {
     devBuild: process.env.NODE_ENV !== 'production',
 };
 
+opts.x
+
 var config = {
 
     module : {
@@ -34,13 +36,13 @@ var config = {
                 loader : "file-loader"
             }
         ],
-    },
+    }/*,
     plugins: [
         new OnlyIfChangedPlugin({
           cacheDirectory: path.join(opts.rootDir, 'dist/tmp/cache'),
           cacheIdentifier: opts, // all variable opts/environment should be used in cache key
         })
-    ]
+    ]*/
 }
 
 var homepage = Object.assign({}, config, {

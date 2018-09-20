@@ -1,5 +1,5 @@
 import React from 'react'
-import {Input, Select, Icon} from 'antd'
+
 import '../css/home.css'
 
 const Option = Select.Option;
