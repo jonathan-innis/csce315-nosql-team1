@@ -1,0 +1,11 @@
+.searchtitle {
+    font-family: monospace;
+    color : rgb(101, 101, 101);
+}
+
+.searchbar {
+    position: absolute;
+    top : 200px;
+    left : 0px;
+    right : 0px;
+}

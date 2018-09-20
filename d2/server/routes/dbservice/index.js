@@ -9,11 +9,4 @@ router.get('/movie', movie);
 router.get('/person', person);
 router.get('/search', search);
 
-router.get(/\/[A-Za-z_0-9]+\.[a-z]+/g, (req, res) =>
-    console.log(req.url)//require('../../dist' + req.originalUrl)
-)
-router.get('/', (req, res) =>
-    express.static(__dirname  + '../../public/hello.html')
-)
-
 module.exports = router;
