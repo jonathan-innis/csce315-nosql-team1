@@ -13,7 +13,7 @@ class Base extends React.Component {
                 <div className='titlebar'>
                     <img alt="" src='NULL'></img>
                     <h1 className='headertitle'>Fake iMDB</h1>
-                    <img alt="image failed to load" src='/filmreel.png' width="100" height="100" border="0" className='fuckedupface'></img>
+                    <img alt="image failed to load" src='/filmreel.png' width="100" height="92" border="0" className='fuckedupface'></img>
                 </div>
                 <div className='body container'>
                     {this.props.children}
