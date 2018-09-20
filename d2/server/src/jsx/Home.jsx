@@ -2,16 +2,19 @@ import React from 'react'
 
 import '../css/home.css'
 
-const Option = Select.Option;
 
 class Home extends React.Component {
     constructor (props) {
         super(props)
         this.onSearch = this.onSearch.bind(this)
+
+        this.state = {
+            search_query : ""
+        }
     }
 
     onSearch () {
-        console.log("Something was searched")
+        console.log(this.state.search_query)
     }
 
     render () {
@@ -26,7 +29,7 @@ class Home extends React.Component {
                 <div style={{"height" : "200px"}}>
                     
                     <div className="input-group mb-3">
-                        <input type="text" className="form-control" aria-label="enter a movie or cast member"/>
+                        <input type="text" className="form-control" style={{textAlign : "center"}} aria-label="enter a movie or cast member" onChange={(e)=> this.setState({search_query : e.target.value})} value={this.state.search_query}/>
                         <div className="input-group-append">
                             <button className="btn btn-primary" onClick={this.onSearch}>
                                 Go!
