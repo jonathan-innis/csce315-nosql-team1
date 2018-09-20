@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
         people = [];
 
         movies = await Movie.find({title: { $regex: `(?i).*${q}.*` }});
-        people = await People.find({name: { $regex: `(?i).*${q}.*/i` }});
+        people = await People.find({name: { $regex: `(?i).*${q}.*` }});
 
         if (people.length > 0){
             for (let i in people){
