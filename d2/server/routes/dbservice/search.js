@@ -15,16 +15,14 @@ module.exports = async (req, res) => {
 
         if (people.length > 0){
             for (let i in people){
-                const {crew_in, cast_in} = people[i];
+                const {crew_in, cast_in, name} = people[i];
                 let crewInMovies = [];
                 let castInMovies = [];
 
-                for (let movieId of crew_in){
-                    const movie = await convertIdToMovie(movieId);
+                for (let movie of crew_in){
                     crewInMovies.push(movie);
                 }
-                for (let movieId of cast_in){
-                    const movie = await convertIdToMovie(movieId);
+                for (let movie of cast_in){
                     castInMovies.push(movie);
                 }
                 people[i]['crew_in'] = crewInMovies;
