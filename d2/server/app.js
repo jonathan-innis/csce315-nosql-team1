@@ -1,5 +1,5 @@
 const express = require('express')
-const {getDb} = require('./initDB');
+const {getDb} = require('./mongo-utils');
 const app = express()
 const port = 3000
 
