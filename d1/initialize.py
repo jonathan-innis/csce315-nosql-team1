@@ -82,26 +82,28 @@ class Initialize:
 
         #Appending movies that a person is cast in
         for person in credit['cast']:
+            character = person['character']
             if person['id'] in self.people_dict:
                 if 'cast_in' in self.people_dict[person['id']]:
-                    self.people_dict[person['id']]['cast_in'].append(movie_id)
+                    self.people_dict[person['id']]['cast_in'].append({'_id': movie_id, 'character': character})
                 else:
-                    self.people_dict[person['id']]['cast_in'] = [movie_id]
+                    self.people_dict[person['id']]['cast_in'] = [{'_id': movie_id, 'character': character}]
             else:
-                new_person = self.make_person(person)
-                new_person['cast_in'] = [movie_id]
+                new_person = person
+                new_person['cast_in'] = [{'_id': movie_id, 'character': character}]
                 self.people_dict[new_person['id']] = new_person 
 
         #Appending movies that the person is a crew in    
         for person in credit['crew']:
+            job = person['job']
             if person['id'] in self.people_dict:
                 if 'crew_in' in self.people_dict[person['id']]:
-                    self.people_dict[person['id']]['crew_in'].append(movie_id)
+                    self.people_dict[person['id']]['crew_in'].append({'_id': movie_id, 'job': job})
                 else:
-                    self.people_dict[person['id']]['crew_in'] = [movie_id]
+                    self.people_dict[person['id']]['crew_in'] = [{'_id': movie_id, 'job': job}]
             else:
                 new_person = self.make_person(person)
-                new_person['crew_in'] = [movie_id]
+                new_person['crew_in'] = [{'_id': movie_id, 'job': job}]
                 self.people_dict[new_person['id']] = new_person  
 
     def add_people_collection(self):
@@ -148,10 +150,8 @@ class Initialize:
             bulk_operations.append(pymongo.UpdateOne(
                 { u'id': creditID }, 
                 {'$set': {
-                    u'credits' : {
-                        u'cast': credit['cast'],
-                        u'crew': credit['crew']
-                    }
+                    u'cast': credit['cast'],
+                    u'crew': credit['crew']
                 }}))
         movies_collection.bulk_write(bulk_operations, ordered=False)
 
