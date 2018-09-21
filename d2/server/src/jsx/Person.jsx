@@ -19,6 +19,8 @@ class Person extends React.Component {
         }
         
         this.getPersonById()
+
+        console.log(this.state.person_data)
     }
     
     getPersonById (id) {   
