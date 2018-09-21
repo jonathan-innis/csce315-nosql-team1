@@ -1,7 +1,7 @@
 import React from 'react'
-import {Input, Select, Icon} from 'antd'
 
-const Option = Select.Option;
+import '../css/master.css'
+
 
 class Home extends React.Component {
     constructor (props) {
@@ -12,10 +12,10 @@ class Home extends React.Component {
 
         return (
             <div>
-                Welcome to the Home page
-                This is the current path
-                <div>
-                    {window.location.pathname}
+                <div className="homebox">
+                    <div className="title">
+                        <h2> Search your favorite movies and cast members!</h2>
+                    </div>
                 </div>
             </div>
         )

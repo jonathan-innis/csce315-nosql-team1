@@ -6,7 +6,7 @@ const prod = {
    port: 3000
  },
  db: {
-   host: 'reader:ilovetamu@localhost',
+   host: 'reader:ilovetamu@13.58.47.75',
    port: 27017,
    name: 'movies_mongo'
  }
