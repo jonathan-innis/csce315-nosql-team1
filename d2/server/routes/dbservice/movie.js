@@ -7,6 +7,7 @@ module.exports = async (req, res) => {
         res.json(movie)
     }
     catch (error){
+        console.log(error)
         res.sendStatus(400);
     }
 }

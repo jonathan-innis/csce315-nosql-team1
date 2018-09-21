@@ -10,25 +10,8 @@ module.exports = async (req, res) => {
         movies = [];
         people = [];
 
-        movies = await Movie.find({title: { $regex: `(?i).*${q}.*` }});
-        people = await People.find({name: { $regex: `(?i).*${q}.*` }});
-
-        if (people.length > 0){
-            for (let i in people){
-                const {crew_in, cast_in, name} = people[i];
-                let crewInMovies = [];
-                let castInMovies = [];
-
-                for (let movie of crew_in){
-                    crewInMovies.push(movie);
-                }
-                for (let movie of cast_in){
-                    castInMovies.push(movie);
-                }
-                people[i]['crew_in'] = crewInMovies;
-                people[i]['cast_in'] = castInMovies;
-            }
-        }
+        movies = await Movie.search(q);
+        people = await People.search(q);
         
         if (num) res.json({movies: movies.slice(0, parseInt(num)), people: people.slice(0, parseInt(num))})
         else res.json({movies: movies, people: people});
