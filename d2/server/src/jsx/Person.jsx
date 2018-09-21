@@ -20,7 +20,6 @@ class Person extends React.Component {
         
         this.getPersonById()
     }
-
     
     getPersonById (id) {   
         fetch("/dbservice/person?person_id=" + this.state.person_id)
@@ -31,7 +30,6 @@ class Person extends React.Component {
                 (json) => this.setState({person_data : json})
             )
     } 
-
 
     render() {
 

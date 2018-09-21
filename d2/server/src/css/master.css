@@ -1,0 +1,104 @@
+:root {
+    --title-color:teal;
+    --secondary-color:rgb(165, 208, 202);
+    --light-font: white;
+    --dark-font: rgb(48, 48, 48);
+    --dark-color:  rgb(48, 48, 48);
+}
+
+
+
+.titlebar {
+    position: absolute;
+    background-color : var(--title-color);
+    left : 0px;
+    right : 0px;
+    top : 0px; 
+    height : 180px;
+    text-align: center;
+}
+
+
+.body {
+    position: absolute;
+    top : 180px;
+    left : 0px;
+    right : 0px; 
+
+}
+
+.headerbox {
+    display: flex;
+    align-items: center;
+}
+
+
+.headertitle {
+    font-family: monospace;
+    color : var(--light-font);
+}
+
+.fuckedupface {
+    animation: spin 4s infinite;
+    animation-fill-mode: none;
+    animation-timing-function: linear;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg);}
+    100% {transform: rotate(360deg);}
+}
+
+
+.searchbar {
+    display : flex;
+    justify-content: center;
+    flex-flow: column wrap;
+    margin : 50px; 
+}
+
+.searchbar > input {
+    font-family: monospace;
+    font-size: 30px;
+    text-align : center;
+    flex-grow: 2;
+    color : var(--light-font);
+    background-color: transparent;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom-color: var(--secondary-color);
+    border-bottom-width: 10px;
+}
+
+.searchbar > button {
+    font-family: monospace;
+    flex-grow : 2;
+    background-color: var(--secondary-color);
+    color: var(--dark-font);
+    height: 50px;
+    border: none;  
+    border-radius: 0px;
+    
+}
+.searchbar > button:hover {
+    background-color: var(--dark-color); 
+    color: var(--light-font);
+}
+
+.homebox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 500px;
+}
+
+.title {
+    border-bottom-width: 8px;
+    border-bottom-color: var(--title-color)
+}
+
+.title > h2 {
+    font-family:monospace; 
+    color : var(--dark-font);
+}
