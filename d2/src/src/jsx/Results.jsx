@@ -1,31 +1,78 @@
-import React from 'react'
+import React from 'react';
+import {ResutlCard, ResultCard} from './Cards.jsx';
 
 
-const queryMatcher = RegExp(/movie_id=([0-9]+)/g)
+const queryMatcher = RegExp(/query=([a-zA-Z0-9%]+)/g)
 
 class Results extends React.Component {
     constructor (props) {
         super(props)
-        /*
+
+        this.performSearch = this.performSearch.bind(this)
+
         let find = queryMatcher.exec(window.location.search)
-        let movieID = (find === null) 
-            ? ("-1")
+        let query = (find === null) 
+            ? ("")
             : (find[1])
-        */
-        this.state = {
-            movie_id: ""
-        }
         
+        console.log(query)
+
+        this.state = {
+            query_data: {movies : [], people: []}
+        }
+
+        this.performSearch(query)
     }
 
-    
+    performSearch (query) {
+        fetch("/dbservice/search?q=" + query + "&num=100")
+            .then(
+                (response) => response.json() 
+            )
+            .then(
+                (json) => this.setState({query_data : json})
+            )
+    }
 
     render() {
-        return (
-            <div>
-                 I have no clue what we should be displaying right now
-            </div>
+        console.log(this.state.query_data)
+        let movies = this.state.query_data.movies.map(
+            (val, num) => (
+                <ResultCard person={false} imglink={val.poster_path} name={val.title} id={val.id} key={num}/>
+            )
         )
+
+        let people = this.state.query_data.people.map(
+            (val, num) => (
+                <ResultCard person={true} imglink={val.profile_path} name={val.name} id={val.id} key={num}/>
+            )
+        )
+
+        if (movies.length === 0 && people.length === 0){
+            return (
+                <div style={{justifyContent: "center",display: "flex", flexDirection: "row" }}>
+                    <div>
+                        Loading...
+                        <img alt="" src='/filmreel.png' width="100" height="92" border="0" className='spinner'></img>
+                    </div>
+                </div>
+            )
+        }
+
+        else{
+            return (
+                <div style={{justifyContent: "center",display: "flex", flexDirection: "row" }}>
+                    <div className="cards">
+                        <span className="highlight"> Movies: </span>
+                        {movies}
+                    </div>
+                    <div className="cards">
+                        <span className="highlight"> People: </span>
+                        {people}
+                    </div>
+                </div>
+            )
+        }
     }
 }
 
