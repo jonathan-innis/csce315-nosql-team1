@@ -4,6 +4,7 @@ import {Base} from './jsx/Base.jsx';
 import {Person} from './jsx/Person.jsx';
 import registerServiceWorker from './registerServiceWorker';
 import '../node_modules/bootstrap/dist/css/bootstrap.css';
+import './css/master.css';
 
 ReactDOM.render(
     <Base>

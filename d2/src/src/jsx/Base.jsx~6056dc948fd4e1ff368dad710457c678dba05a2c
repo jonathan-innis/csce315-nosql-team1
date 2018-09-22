@@ -4,16 +4,14 @@ import '../css/master.css'
 class Base extends React.Component {
     constructor (props) {
         super(props)
-        this.onTextChange = this.onTextChange.bind(this)
+        this.onSearch = this.onSearch.bind(this)
         this.state = {
             search_query : ""
         }
     }
 
-    onTextChange (e) {
-        this.setState({
-            search_query : e.target.value
-        })
+    onSearch () {
+        console.log(this.state.search_query)
     }
 
     render () {
@@ -24,25 +22,25 @@ class Base extends React.Component {
                             <div style={{flexGrow : 1}}>        
                                 <img alt="" src='NULL'></img>
                                 <h1 className='headertitle'>Fake iMDB</h1>
-                                <img alt="image failed to load" src='/filmreel.png' width="100" height="92" border="0" className='spinner'></img>
+                                <img alt="image failed to load" src='/filmreel.png' width="100" height="92" border="0" className='fuckedupface'></img>
                             </div>
                             <div style={{flexGrow : 4}}>
                                 <div className='searchbar'>
                                     <input 
                                         type="text" 
                                         placeholder="Search Here!"
-                                        onChange={this.onTextChange} 
+                                        onChange={(e)=> this.setState({search_query : e.target.value})} 
                                         value={this.state.search_query}
                                     />
-                                    <a href={"/present/results?query=" + this.state.search_query.split(" ").join("%20")}>
+                                    <button onClick={this.onSearch}>
                                         Go
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
                         </div>
                         
                    
-                <div className='body'>
+                <div className='body container'>
                     {this.props.children}
                 </div>
             </div>
