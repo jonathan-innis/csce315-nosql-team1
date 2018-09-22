@@ -1,6 +1,7 @@
 :root {
     --title-color:teal;
     --secondary-color:rgb(165, 208, 202);
+<<<<<<< HEAD
     --page-color: #aec6cf;
     --light-font: white;
     --dark-font: rgb(48, 48, 48);
@@ -12,6 +13,14 @@ html *
 {
    font-family: monospace;
 }
+=======
+    --light-font: white;
+    --dark-font: rgb(48, 48, 48);
+    --dark-color:  rgb(48, 48, 48);
+}
+
+
+>>>>>>> 6056dc948fd4e1ff368dad710457c678dba05a2c
 
 .titlebar {
     position: absolute;
