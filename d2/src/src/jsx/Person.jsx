@@ -35,41 +35,48 @@ class Person extends React.Component {
     } 
 
     render() {
+        if (this.state.person_data !== null){
+            let query = ""
+            let linkiMDB = ""
+            let linkWiki = ""
 
-        let query = ""
-        let linkiMDB = ""
-        let linkWiki = ""
+            if (this.state.person_data.name !== ""){
+            
+                query =  this.state.person_data.name.split(" ").join("+")
+                linkiMDB = "http://www.google.com/search?q=" + query + "+iMDB&btnI"
+                linkWiki = "http://www.google.com/search?q=" + query + "+Wikipedia&btnI"
+            }
+            
+            
+            console.log(query)
 
-        if (this.state.person_data.name !== ""){
+
         
-            query =  this.state.person_data.name.split(" ").join("+")
-            linkiMDB = "http://www.google.com/search?q=" + query + "+iMDB&btnI"
-            linkWiki = "http://www.google.com/search?q=" + query + "+Wikipedia&btnI"
+        
+            return ( 
+                <div>   
+                    <div className="personSummary">
+                        <div className="personImage">
+                            <img src = {"https://image.tmdb.org/t/p/w600_and_h900_bestv2" + this.state.person_data.profile_path} alt={this.state.person_data.name} height="600" width="400"/>
+                        </div>
+                        <div className="personLinks">
+                            <h2>
+                                {this.state.person_data.name}
+                            </h2>
+                            <a href={linkWiki}> Wikipedia </a> 
+                            <a href={linkiMDB}> iMDB </a>
+                        </div>
+                    </div>
+                    <div>
+
+                    </div>
+                </div>
+            )
         }
-        
-        
-        console.log(query)
+        else {
+            return <span> Error Loading Page</span>
+        }
 
-
-        return (  
-            <div>   
-                <div className="personSummary">
-                    <div className="personImage">
-                        <img src = {"https://image.tmdb.org/t/p/w600_and_h900_bestv2" + this.state.person_data.profile_path} alt={this.state.person_data.name} height="600" width="400"/>
-                    </div>
-                    <div className="personLinks">
-                        <h2>
-                            {this.state.person_data.name}
-                        </h2>
-                        <a href={linkWiki}> Wikipedia </a> 
-                        <a href={linkiMDB}> iMDB </a>
-                    </div>
-                </div>
-                <div>
-
-                </div>
-            </div>
-        )
     }
 }
 
