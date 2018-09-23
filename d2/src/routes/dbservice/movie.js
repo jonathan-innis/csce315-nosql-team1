@@ -15,7 +15,7 @@ movie = async (req, res) => {
 topMovies = async (req, res) => {
     try{
         const {limit} = req.query;
-        const top_movies = await Movie.find().sort({vote_average: -1}).limit(parseInt(limit));
+        const top_movies = await Movie.find().sort({revenue: -1}).limit(parseInt(limit));
         res.json(top_movies)
     }
     catch (error){

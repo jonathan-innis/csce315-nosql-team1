@@ -93,10 +93,9 @@ html *
 }
 
 .homebox {
-    display: flex;
     align-items: center;
     justify-content: center;
-    height: 500px;
+    height: auto;
 }
 
 .title {

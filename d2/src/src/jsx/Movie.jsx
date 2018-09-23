@@ -1,5 +1,6 @@
 import React from 'react';
 import {CrewCard, CastCard} from './Cards.jsx';
+import {numberWithCommas} from './Base.jsx';
 
 
 const queryMatcher = RegExp(/movie_id=([0-9]+)/g)
@@ -112,13 +113,13 @@ class Movie extends React.Component {
                                 <span className="highlight">
                                     Release Date: 
                                 </span>    
-                                {this.state.movie_data.release_date}
+                                {this.state.movie_data.release_date ? new Date(Date.parse(this.state.movie_data.release_date)).toString() : null}
                             </div>   
                             <div> 
                                 <span className="highlight">
-                                    Budget: 
+                                    Budget:
                                 </span>    
-                                {this.state.movie_data.budget}
+                                &nbsp;${this.state.movie_data.budget ? numberWithCommas(this.state.movie_data.budget) : null}
                             </div>                         
                         </div>
                     </div>
