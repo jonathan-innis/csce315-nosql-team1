@@ -44,6 +44,11 @@ html *
     color : var(--light-font);
 }
 
+.headertitle > a {
+    font-family: monospace;
+    color : var(--light-font);
+}
+
 .spinner {
     animation: spin 4s infinite;
     animation-fill-mode: none;
@@ -110,13 +115,12 @@ html *
 
 .personSummary {
     display: flex;
-    justify-content: left;
+    justify-content: center;
     flex-flow: row wrap;
-    margin : 50px; 
 }
 
 .personSummary > div {
-    margin: 75px;
+    margin: 20px;
 }
 
 .personImage {
@@ -133,11 +137,17 @@ html *
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
     transform: translate(20px, 30px);
+    background-image: url(./../../dist/unisex_silhouette.png);
 }
 
+.personImage > img:before {
+    border-width: 20px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    transform: translate(20px, 30px);
+}
 
 .personLinks {
-    flex-grow: 3;
     text-align: center;
     align-content: center;
     display: flex;
@@ -162,12 +172,11 @@ html *
 .movieSummary {
     display: flex;
     justify-content: left;
-    flex-flow: row wrap;
-    margin : 50px; 
+    flex-flow: row;
 }
 
 .movieSummary > div {
-    margin: 75px;
+    margin: 20px;
     
 }
 
@@ -204,7 +213,7 @@ html *
     width: min-content;
 }
 .tagbox {
-    width: 600px;
+    width: 500px;
     display: flex;
     flex-flow: row wrap;
     flex-basis: content;    
