@@ -1,5 +1,7 @@
 import React from 'react'
 import '../css/master.css'
+import {MovieCard} from './Cards.jsx';
+
 
 const queryMatcher = RegExp(/person_id=([0-9]+)/g)
 
@@ -11,12 +13,9 @@ function uniqjob(a) {
         }
         else{
         }
-        console.log(seen);
         return seen;
         } 
     ) 
-    console.log('LAST');
-    console.log(seen);
     return seen;
 }
 
@@ -34,7 +33,7 @@ class Person extends React.Component {
     
         this.state = {
             person_id: personID,
-            person_data: {name:"", profile_path: "", crew_in : []}
+            person_data: {name:"", profile_path: "", crew_in : [], cast_in : [] }
         }
          
         this.getPersonById()
@@ -74,6 +73,18 @@ class Person extends React.Component {
                 ) 
             )
 
+            let CastMovie = this.state.person_data.cast_in.map(
+                (val, num) => (
+                    <MovieCard title={val.movie.title} job={val.character} imglink={val.movie.poster_path} id={val.movie.id} key={num}/>
+                )  
+            )
+
+            let CrewMovie = this.state.person_data.crew_in.map(
+                (val, num) => (
+                    <MovieCard title={val.movie.title} job={val.job} imglink={val.movie.poster_path} id={val.movie.id} key={num}/>
+                )  
+            )
+
             console.log(query)
 
 
@@ -98,6 +109,17 @@ class Person extends React.Component {
                     </div>
                     <div>
 
+                    </div>
+
+                    <div style={{justifyContent: "center",display: "flex", flexDirection: "row" }}>
+                        <div className="cards">
+                            <span className="highlight"> Movies crew in: </span>
+                            {CrewMovie}
+                        </div>
+                        <div className="cards">
+                            <span className="highlight"> Movies cast in: </span>
+                            {CastMovie}
+                        </div>
                     </div>
                 </div>
             )
