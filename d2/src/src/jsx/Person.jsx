@@ -4,12 +4,21 @@ import '../css/master.css'
 const queryMatcher = RegExp(/person_id=([0-9]+)/g)
 
 function uniqjob(a) {
-    var seen = {};
-    return a.filter(function(item) {
-        return seen.hasOwnProperty(item.job) ? false : (seen[item] = true);
-    });
+    var seen = [];
+    a.map(function(val,num){
+        if (seen.indexOf(val.job) === -1){
+            seen.push(val.job)
+        }
+        else{
+        }
+        console.log(seen);
+        return seen;
+        } 
+    ) 
+    console.log('LAST');
+    console.log(seen);
+    return seen;
 }
-
 
 
 class Person extends React.Component {
@@ -56,10 +65,11 @@ class Person extends React.Component {
                 linkWiki = "http://www.google.com/search?q=" + query + "+Wikipedia&btnI"
             }
             
+
             let jobTags = uniqjob(this.state.person_data.crew_in).map(
-                (val, num) => (
-                    <div className="classtag" key={num}>
-                        <span> {val.job} </span>
+                job => (
+                    <div className="classtag" >
+                        <span> {job} </span>
                     </div>
                 ) 
             )
@@ -73,13 +83,13 @@ class Person extends React.Component {
                 <div>   
                     <div className="personSummary">
                         <div className="personImage">
-                            <img src = {"https://image.tmdb.org/t/p/w600_and_h900_bestv2" + this.state.person_data.profile_path} alt={this.state.person_data.name} height="600" width="400"/>
+                            <img src = {"https://image.tmdb.org/t/p/w600_and_h900_bestv2" + this.state.person_data.profile_path} alt="/unisex_silhouette.png" onError={(e)=>e.target.src="/unisex_silhouette.png"} height="600" width="400"/>
                         </div>
                         <div className="personLinks">
                             <h2>
                                 {this.state.person_data.name}
                             </h2>
-                            <div  className="tagbox">
+                            <div className="tagbox" style={{justifyContent : 'center'}}>
                                 {jobTags}
                             </div>
                             <a href={linkWiki}> Wikipedia </a> 
