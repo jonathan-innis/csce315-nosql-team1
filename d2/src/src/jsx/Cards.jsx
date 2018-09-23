@@ -36,6 +36,24 @@ class CastCard extends React.PureComponent {
     }
 }
 
+class MovieCard extends React.PureComponent { 
+    render() {
+        return (
+            <div className="card">
+                <div>
+                    <img src={"https://image.tmdb.org/t/p/w138_and_h175_face" + this.props.imglink} width={138} height={175} alt=""/>
+                </div>
+                <a href={"/present/movie?movie_id=" + this.props.id}>
+                    {this.props.title}
+                </a>
+                <span>
+                    {this.props.job}
+                </span>
+            </div>
+        )
+    }
+}
+
 class ResultCard extends React.PureComponent {
     render() {
         let name;

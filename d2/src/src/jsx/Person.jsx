@@ -11,12 +11,9 @@ function uniqjob(a) {
         }
         else{
         }
-        console.log(seen);
         return seen;
         } 
     ) 
-    console.log('LAST');
-    console.log(seen);
     return seen;
 }
 
@@ -34,7 +31,7 @@ class Person extends React.Component {
     
         this.state = {
             person_id: personID,
-            person_data: {name:"", profile_path: "", crew_in : []}
+            person_data: {name:"", profile_path: "", crew_in : [], cast_in : [] }
         }
          
         this.getPersonById()
@@ -73,6 +70,12 @@ class Person extends React.Component {
                     </div>
                 ) 
             )
+
+            // let movie = this.state.person_data.cast_in.map(
+            //     (val, num) => (
+            //         <MovieCard title={val.movie.title} imglink={val.poster_path} id={val.id} key={num}/>
+            //     )  
+            // )
 
             console.log(query)
 
