@@ -1,9 +1,5 @@
 const {Movie, People} = require('../../models');
 
-async function convertIdToMovie(_id) {
-    return await Movie.findById(_id);
-}
-
 module.exports = async (req, res) => {
     try{
         const {q, num} = req.query;
