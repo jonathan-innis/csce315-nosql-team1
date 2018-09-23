@@ -3,6 +3,15 @@ import '../css/master.css'
 
 const queryMatcher = RegExp(/person_id=([0-9]+)/g)
 
+function uniqjob(a) {
+    var seen = {};
+    return a.filter(function(item) {
+        return seen.hasOwnProperty(item.job) ? false : (seen[item] = true);
+    });
+}
+
+
+
 class Person extends React.Component {
     constructor (props) {
         super(props)
@@ -16,7 +25,7 @@ class Person extends React.Component {
     
         this.state = {
             person_id: personID,
-            person_data: {name:"", profile_path: ""}
+            person_data: {name:"", profile_path: "", crew_in : []}
         }
          
         this.getPersonById()
@@ -47,7 +56,14 @@ class Person extends React.Component {
                 linkWiki = "http://www.google.com/search?q=" + query + "+Wikipedia&btnI"
             }
             
-            
+            let jobTags = uniqjob(this.state.person_data.crew_in).map(
+                (val, num) => (
+                    <div className="classtag" key={num}>
+                        <span> {val.job} </span>
+                    </div>
+                ) 
+            )
+
             console.log(query)
 
 
@@ -63,6 +79,9 @@ class Person extends React.Component {
                             <h2>
                                 {this.state.person_data.name}
                             </h2>
+                            <div  className="tagbox">
+                                {jobTags}
+                            </div>
                             <a href={linkWiki}> Wikipedia </a> 
                             <a href={linkiMDB}> iMDB </a>
                         </div>

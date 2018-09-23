@@ -23,7 +23,11 @@ class Base extends React.Component {
                         <div className="headerbox">
                             <div style={{flexGrow : 1}}>        
                                 <img alt="" src='NULL'></img>
-                                <h1 className='headertitle'>Fake iMDB</h1>
+                                <h1 className='headertitle'>
+                                    <a href={"/"}>
+                                            Fake iMDB
+                                    </a>
+                                </h1>
                                 <img alt="image failed to load" src='/filmreel.png' width="100" height="92" border="0" className='spinner'></img>
                             </div>
                             <div style={{flexGrow : 4}}>

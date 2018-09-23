@@ -44,6 +44,11 @@ html *
     color : var(--light-font);
 }
 
+.headertitle > a {
+    font-family: monospace;
+    color : var(--light-font);
+}
+
 .spinner {
     animation: spin 4s infinite;
     animation-fill-mode: none;
