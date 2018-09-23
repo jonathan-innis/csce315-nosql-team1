@@ -37,6 +37,7 @@ class Home extends React.Component {
                 <div className="homebox">
                     <div className="title">
                         <h2> Search your favorite movies and cast members!</h2>
+                        <p>Welcome to Fake IMdB where you can search your favorite movies and your favorite people. All you have to do is search in the top search bar.</p>
                     </div>
                     <div className="cards" style={{position: 'absolute', left: '50%', transform: 'translateX(-50%)'}}>
                         <span className="highlight" style={{textAlign: 'center', width: '100%'}}> Top Movies: </span>

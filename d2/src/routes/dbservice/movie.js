@@ -24,4 +24,16 @@ topMovies = async (req, res) => {
     }
 }
 
-module.exports={movie, topMovies};
+popularMovies = async (req, res) => {
+    try{
+        const {limit} = req.query;
+        const top_movies = await Movie.find().sort({vote_average: -1}).limit(parseInt(limit));
+        res.json(top_movies)
+    }
+    catch (error){
+        console.log(error)
+        res.sendStatus(400);
+    }
+}
+
+module.exports={movie, topMovies, popularMovies};
