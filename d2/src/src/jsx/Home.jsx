@@ -70,7 +70,7 @@ class Home extends React.Component {
                         </div>
                     </div>
                     <div className="cards" style={{position: 'absolute', left: '50%', transform: 'translateX(-50%)'}}>
-                        <span className="highlight" style={{textAlign: 'center', width: '100%'}}> Top Movies: </span>
+                        <span className="highlight" style={{textAlign: 'center', width: '100%'}}> Top Grossing Movies: </span>
                         {movies}
                     </div>
                 </div>
