@@ -46,7 +46,7 @@ class Home extends React.Component {
 
         let popmovies = this.state.popularMovies.map(
             (val, num) => (
-                <ResultCard person={false} imglink={val.poster_path} name={`${val.title} ($${numberWithCommas(val.revenue)})`} id={val.id} key={num}/>
+                <ResultCard person={false} imglink={val.poster_path} name={`${val.title} (Rating: ${val.vote_average})`} id={val.id} key={num}/>
             )
         )
 
