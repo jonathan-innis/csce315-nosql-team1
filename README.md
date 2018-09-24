@@ -16,8 +16,15 @@ This setup assumes that you have MongoDB installed/access to the AWS VM as well 
 This setup assumes that you have Node.js installed/access to the AWS VM
 
 1. Run `npm install` on the `/d2/server` directory
-2. Run `node app.js` to start the server. The server should be listening on `localhost:3000` at this point
-3. Go to `http://localhost:3000` in the browser to see the website
+2. Run `npm run build` on the directory
+3. Run `npm run start` to start the server. The server should be listening on `localhost:3000` at this point
+4. Go to `http://localhost:3000` in the browser to see the website
+
+## Code Organization
+- Code is organized in a `src/` directory where there is both React.js code and node.js/Express code
+- All of the code related to the database and the backend is stored in the `models/`, `schemas/`, and `routes/` directories
+- All of the code related to the frontend is stored in the `src/` and `dist/` directories
+- Both sets of code are run jointly on the server
 
 ## Deliverable 2
 ### Backend (Node.js)
@@ -30,7 +37,7 @@ Return useful data about a person, as JSON. You may notice, our dataset is relat
 - `/dbservice/search?q=query_string&num=max_num_results`
 Return, as JSON, an array of matching movie objects and an array of matching people objects. The query string should be either a movie title or person name. To generate the results, perform 2 find operations, with the same query_string, perhaps padded with wildcard characters, on: (1) your movies collection and (2) your persons collection. For each find operation, build and return an array. In most cases, one of these arrays will be empty. Sometimes, both may be empty. The num parameter let's the caller limit the number of maximum number of results for each query.
 
-### Frontend (Pug/React.js)
+### Frontend (React.js)
 - Create a website that uses HTML5, including CSS and perhaps JavaScript, to present movies data to users.
 - A home page, as `/`. 
 This is a good place to include a description of your site, effectively present content, which includes links to popular movies and actors, and a text entry field for a search function. (To streamline the presentation, you may choose to have an about page, linked from here, which describes your website, and skip the description on your home page.)
