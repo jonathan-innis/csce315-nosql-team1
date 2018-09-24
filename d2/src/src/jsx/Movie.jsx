@@ -56,11 +56,18 @@ class Movie extends React.Component {
             )
 
             let producerTags = this.state.movie_data.production_companies.map(
-                (val, num) => (
-                    <div className="classtag" key={num}>
-                        <span> {val.name} </span>
-                    </div>
-                ) 
+                function (val, num) {
+                    if (val != null){
+                        return (
+                            <div className="classtag" key={num}>
+                                <span> {val.name} </span>
+                            </div>
+                        )
+                    }
+                    else {
+                        return <div/>
+                    }
+                }
             )
 
             let crew = this.state.movie_data.crew.map(
