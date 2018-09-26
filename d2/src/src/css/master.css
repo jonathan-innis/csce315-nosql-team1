@@ -1,296 +1,163 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800,300italic,400italic,600italic,700italic,800italic);
 @import url(https://fonts.googleapis.com/css?family=Oswald);
+@import url('https://fonts.googleapis.com/css?family=Raleway');
 @import "~slick-carousel/slick/slick.css";
 @import "~slick-carousel/slick/slick-theme.css";
 
+.background-wrapper{
+  z-index: -1;
+  background-color: #2f1e36;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  left: 0px;
+  top: 0px;
+}
+
 body{
-  font-family: "Oswald" !important;
+  font-family: "Raleway" !important;
+  color: white;
 }
 
 .result-header{
-  margin-left: 120px;
-  font-size: 3rem !important;
+  font-size: 2.5rem !important;
+  color: white;
 }
 
 .title-bar{
-  background-color: #1e1b26;
+  background: linear-gradient(-134deg,#792c8d 8%,#e61b44);
   width: 100%;
   height: 80px;
 }
 
 .title{
   font-size: 3.5rem !important;
-  color: #b28900;
+  color: white;
   display: inline-block;
   margin-left: 20px;
   margin-top: 2px;
   text-decoration: none;
+  font-family: "Oswald" !important;
 }
 
-.container {
+.people-names{
+  color: white;
+  text-decoration: none;
+  margin: 0px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+a:hover{
+  text-decoration: none !important;
+}
+
+.movie-wrapper{
+  width: 175px;
+  height: 325px;
+  margin: 20px;
+}
+
+.movie-hover-wrapper{
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  height: 100%;
+  width: 100%;
+}
+
+.movie-hover-wrapper .background{
+  background-color: black;
+  opacity: 0;
+  z-index: 10;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  height: 100%;
+  width: 100%;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.movie-hover-wrapper .icon-wrapper{
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  z-index: 11;
+  display: flex;
+}
+
+.movie-hover-wrapper .hover-icon{
+  display: inline-block;
+  position: relative;
+  color: white;
+  opacity: 0;
+  transition: all 0.5s ease-in-out;
+  border: 2px solid white;
+  width: 50px;
+  height: 50px;
+  border-radius: 100px;
+  margin: 5px;
+}
+
+.movie-hover-wrapper .hover-icon .icon{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  transition: all 0.5s ease-in-out;
+}
+
+.movie-wrapper a:hover .movie-hover-wrapper .background{
+  opacity: 0.5;
+}
+
+.movie-wrapper a:hover .movie-hover-wrapper .hover-icon{
+  opacity: 1;
+}
+
+.movie-hover-wrapper .hover-icon:hover{
+  background-color: white;
+}
+
+.movie-hover-wrapper .hover-icon:hover .icon{
+  color: #2f1e36;
+}
+
+.movie-wrapper a:hover .movie-img{
+  transform: scale(1.1);
+}
+
+.movie{
+  width: 175px;
+  height: 250px;
+  position: relative;
+  overflow: hidden;
+}
+
+.movie-img{
+  position: absolute;
+  left: 0px;
+  top: 0px;
   width: 100%;
   height: 100%;
+  transition: transform 0.5s ease-in-out;
+}
+
+.text-movie-cont h1{
+  color: white;
+  font-size: 15px !important;
+  font-weight: bold;
+  margin-top: 5px;
 }
 
 .cellphone-container {
   width: 175px;
   height: 250px;
-  margin: 30px;
+  margin: 20px;
   border-radius: 4px;
-}
-
-.menu {
-  position: absolute;
-  left: 12px;
-  top: 6px;
-  z-index: 999;
-}
-.menu i {
-  font-size: 40px;
-  color: #fe4141;
-  filter: drop-shadow(4px 4px 10px rgba(0, 0, 0, 0.5));
-}
-
-.movie-img {
-  width: 100%;
-  height: 250px;
-  background: url("https://upload.wikimedia.org/wikipedia/commons/9/93/Default_profile_picture_%28male%29_on_Facebook.jpg");
-  /*background-size: contain;*/
-  background-size: cover;
-  z-index: 111 !important;
-  box-shadow: 5px 5px 115px -14px black;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, black), color-stop(0.35, black), color-stop(0.5, black), color-stop(0.65, black), color-stop(0.85, rgba(0, 0, 0, 0.6)), color-stop(1, rgba(0, 0, 0, 0)));
-}
-
-.movie {
-  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+39,1e1b26+53&0+38,1+55 */
-  background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, 0.06) 39%, rgba(30, 27, 38, 0.88) 53%, #1e1b26 55%);
-  /* FF3.6-15 */
-  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, 0.06) 39%, rgba(30, 27, 38, 0.88) 53%, #1e1b26 55%);
-  /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, 0.06) 39%, rgba(30, 27, 38, 0.88) 53%, #1e1b26 55%);
-  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#00ffffff", endColorstr="#1e1b26",GradientType=0 );
-  /* IE6-9 */
-  position: absolute;
-  background-size: contain;
-  background-size: cover;
-  z-index: 1 !important;
-  width: 175px;
-  height: 250px;
-  display: block;
-  border-radius: 10px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-}
-
-.text-movie-cont {
-  position: absolute;
-  bottom: 0px;
-  margin-top: 10px;
-  padding: 0px 12px;
-  text-align: left;
-  height: auto;
-  border-radius: 5px;
-  width: 100%;
-}
-
-.action-btn {
-  text-align: right;
-}
-.action-btn i {
-  color: #fe4141;
-  font-size: 28px;
-  text-align: right;
-}
-
-.watch-btn {
-  display: block;
-  border: 1px solid #fe4141;
-  border-radius: 5px;
-  padding: 4px;
-  width: 140px;
-}
-.watch-btn h3 i {
-  font-size: 14px;
-  margin-right: 2px;
-  position: relative;
-  float: left;
-  line-height: 1;
-}
-
-.action-row {
-  margin-top: 24px;
-}
-
-.summary-row {
-  margin-top: 12px;
-}
-
-/* TYPOGRAPHY STARTS */
-/* Fonts */
-h1, h2, h3, h4, h5 {
-  color: #e7e7e7;
-  margin: 0px;
-}
-
-h1 {
-  font-size: 1.1rem !important;
-  font-weight: 400;
-}
-
-h3 {
-  font-size: 14px;
-  font-weight: 400;
-  color: #fe4141;
-}
-
-h5 {
-  font-size: 12px;
-  font-weight: 400;
-}
-
-.movie-gen, .movie-likes {
-  margin: 0px;
-  padding: 0px;
-}
-.movie-gen li, .movie-likes li {
-  font-size: 12px;
-  color: #818181;
-  width: auto;
-  display: block;
-  float: left;
-  margin-right: 6px;
-  font-weight: 600;
-}
-
-.movie-likes {
-  float: right;
-}
-.movie-likes li {
-  color: #fe4141;
-}
-.movie-likes li:last-child {
-  margin-right: 0px;
-}
-.movie-likes li i {
-  font-size: 14px;
-  margin-right: 4px;
-  position: relative;
-  float: left;
-  line-height: 1;
-}
-
-.movie-details {
-  font-family: "Open Sans", sans-serif;
-  font-size: 12px;
-  font-weight: 300;
-  color: #b4b4b4;
-}
-
-.movie-description {
-  font-family: "Open Sans", sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  color: #9b9b9b;
-  text-align: justify;
-}
-
-.movie-actors {
-  font-family: "Open Sans", sans-serif;
-  font-size: 12px;
-  font-weight: 300;
-  color: #e7e7e7;
-  font-style: italic;
-}
-
-.like-circle{
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
-  background-color: white;
-  position: absolute;
-  right: -15px;
-  bottom: -15px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-}
-
-/* TYPOGRAPHY ENDS */
-/** GRID STARTS **/
-.thegrid {
-  margin: 0 auto;
-}
-
-.elements-distance, .movie-details, .movie-description, .movie-actors {
-  margin: 0px;
-}
-
-.mr-grid {
-  width: 100%;
-}
-
-.mr-grid:before, .mr-grid:after {
-  content: "";
-  display: table;
-}
-
-.mr-grid:after {
-  clear: both;
-}
-
-.mr-grid {
-  *zoom: 1;
-}
-
-.col1, .col2, .col3, .col3rest, .col4, .col4rest, .col5, .col5rest, .col6, .col6rest {
-  margin: 0% 0.5% 0.5% 0.5%;
-  padding: 1%;
-  float: left;
-  display: block;
-}
-
-/* Columns match, minus margin sum. E.G. margin-left+margin-right=1%, col2=50%-1% - added padding:1%*/
-.col1 {
-  width: 98%;
-}
-
-.col2 {
-  width: 47%;
-}
-
-.col3 {
-  width: 30.3333333333%;
-}
-
-.col4 {
-  width: 22%;
-}
-
-.col5 {
-  width: 17%;
-}
-
-.col6 {
-  width: 13.6666666667%;
-}
-
-/* Columns match with their individual number. E.G. col3+col3rest=full width row */
-.col3rest {
-  width: 63.6666666667%;
-}
-
-.col4rest {
-  width: 72%;
-}
-
-.col5rest {
-  width: 77%;
-}
-
-.col6rest {
-  width: 80.3333333333%;
 }
 
 .search{
@@ -307,20 +174,18 @@ h5 {
 .react-autosuggest__input {
   width: 40vw;
   height: 30px;
-  padding: 20px 10px;
+  padding: 20px;
   font-weight: 300;
-  font-size: 25px;
-  border: 1px solid #aaa;
-  border-radius: 4px;
+  font-size: 20px;
+  background: transparent;
+  border-radius: 30px;
+  border: 1px solid white;
+  color: white;
+  -webkit-text-fill-color: white;
 }
 
 .react-autosuggest__input:focus {
   outline: none;
-}
-
-.react-autosuggest__container--open .react-autosuggest__input {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
 }
 
 .react-autosuggest__suggestions-container {
@@ -344,6 +209,7 @@ h5 {
 .react-autosuggest__suggestions-list {
   margin: 0;
   padding: 0;
+  border-radius: 20px;
   list-style-type: none;
 }
 

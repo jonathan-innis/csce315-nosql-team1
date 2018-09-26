@@ -9,9 +9,9 @@ class SimpleSlider extends React.Component {
     render() {
         var settings = {
             dots: true,
-            infinite: false,
+            infinite: true,
             speed: 500,
-            slidesToShow: 7,
+            slidesToShow: 5,
             slidesToScroll: 1,
             initialSlide: 0,
             autoplay: true,
@@ -45,7 +45,8 @@ class SimpleSlider extends React.Component {
             ]
           };
         return (
-            <div className="container-fluid">
+            <div className="container">
+            <h4 style={{marginTop: 50}} className="result-header">{this.props.title}</h4>
             <Slider {...settings}>
                 {this.props.items}
             </Slider>
@@ -104,10 +105,12 @@ class Home extends React.Component {
 
         return (
             <div>
-                <h1 className="result-header" style={{marginTop: 50, marginLeft: 10}}>Top Ranking Movies</h1>
-                <SimpleSlider items={popmovies}/>
-                <h1 className="result-header" style={{marginTop: 50, marginLeft: 10}}>Top Grossing Movies</h1>
-                <SimpleSlider items={movies}/>
+                <div className="container" style={{marginTop: 30}}>
+                    <h2 style={{textAlign: "center", color: 'white'}}>Welcome to a fake IMDb site. Yeah, you're probably here to look up some movies or something. So you can just go ahead and do that by putting the movie or person you want to search in the search box above.</h2>
+                </div>
+                <SimpleSlider items={popmovies} title="Top Ranking Movies"/>
+                <SimpleSlider items={movies} title="Top Grossing Movies"/>
+                <SimpleSlider items={movies} title="Top Actors"/>
             </div>
         )
     }

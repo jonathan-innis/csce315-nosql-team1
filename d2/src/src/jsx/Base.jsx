@@ -40,6 +40,7 @@ class Base extends React.Component {
             <div className='container-fluid'>
                 {this.props.children}
             </div>
+            <div className="background-wrapper"></div>
             </div>
         )
     }
