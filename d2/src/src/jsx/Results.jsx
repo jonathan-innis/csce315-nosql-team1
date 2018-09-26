@@ -61,13 +61,13 @@ class Results extends React.Component {
 
         else{
             return (
-                <div style={{justifyContent: "center",display: "flex", flexDirection: "row" }}>
-                    <div className="cards">
-                        <span className="highlight"> Movies: </span>
+                <div>
+                    <h1 className="result-header" style={{marginTop: 50}}>Movies</h1>
+                    <div className="row" style={{justifyContent: "center"}}>
                         {movies}
                     </div>
-                    <div className="cards">
-                        <span className="highlight"> People: </span>
+                    <h1 className="result-header" style={{marginTop: 50}}>People</h1>
+                    <div className="row" style={{justifyContent: "center"}}>
                         {people}
                     </div>
                 </div>

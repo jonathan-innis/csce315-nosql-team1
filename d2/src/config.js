@@ -17,7 +17,7 @@ const dev = {
    port: 3000
  },
  db: {
-  host: 'reader:ilovetamu@13.58.47.75',
+  host: 'localhost',
   port: 27017,
   name: 'movies_mongo'
  }

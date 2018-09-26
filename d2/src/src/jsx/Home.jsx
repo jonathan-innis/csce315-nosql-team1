@@ -1,8 +1,58 @@
 import React from 'react';
 import {ResultCard} from './Cards.jsx';
 import {numberWithCommas} from './Base.jsx';
+import Slider from "react-slick";
 
 import '../css/master.css'
+
+class SimpleSlider extends React.Component {
+    render() {
+        var settings = {
+            dots: true,
+            infinite: false,
+            speed: 500,
+            slidesToShow: 7,
+            slidesToScroll: 1,
+            initialSlide: 0,
+            autoplay: true,
+            autoplaySpeed: 5000,
+
+            responsive: [
+              {
+                breakpoint: 1300,
+                settings: {
+                  slidesToShow: 5,
+                  slidesToScroll: 1,
+                  infinite: true
+                }
+              },
+              {
+                breakpoint: 1100,
+                settings: {
+                  slidesToShow: 4,
+                  slidesToScroll: 1,
+                  infinite: true
+                }
+              },
+              {
+                breakpoint: 900,
+                settings: {
+                  slidesToShow: 3,
+                  slidesToScroll: 1,
+                  infinite: true
+                }
+              }
+            ]
+          };
+        return (
+            <div className="container-fluid">
+            <Slider {...settings}>
+                {this.props.items}
+            </Slider>
+            </div>
+        );
+    }
+  } 
 
 
 class Home extends React.Component {
@@ -40,13 +90,13 @@ class Home extends React.Component {
 
         let movies = this.state.topMovies.map(
             (val, num) => (
-                <ResultCard person={false} imglink={val.poster_path} name={`${val.title} ($${numberWithCommas(val.revenue)})`} id={val.id} key={num}/>
+                <ResultCard person={false} imglink={val.poster_path} name={val.title} id={val.id} key={num}/>
             )
         )
 
         let popmovies = this.state.popularMovies.map(
             (val, num) => (
-                <ResultCard person={false} imglink={val.poster_path} name={`${val.title} (Rating: ${val.vote_average})`} id={val.id} key={num}/>
+                <ResultCard person={false} imglink={val.poster_path} name={val.title} id={val.id} key={num}/>
             )
         )
 
@@ -54,26 +104,10 @@ class Home extends React.Component {
 
         return (
             <div>
-                <div className="homebox">
-                    <div className="title">
-                        <h2> Search your favorite movies and cast members!</h2>
-                        <p>Welcome to Fake IMdB where you can search your favorite movies and your favorite people. All you have to do is search in the top search bar.</p>
-                    </div>
-                    <div style={{justifyContent: "center",display: "flex", flexDirection: "row" }}>
-                        <div className="cards">
-                            <span className="highlight"> Popular Movies: </span>
-                            {popmovies}
-                        </div>
-                        <div className="cards">
-                            <span className="highlight"> Popular People: </span>
-                            {poppeople}
-                        </div>
-                    </div>
-                    <div className="cards" style={{position: 'absolute', left: '50%', transform: 'translateX(-50%)'}}>
-                        <span className="highlight" style={{textAlign: 'center', width: '100%'}}> Top Grossing Movies: </span>
-                        {movies}
-                    </div>
-                </div>
+                <h1 className="result-header" style={{marginTop: 50, marginLeft: 10}}>Top Ranking Movies</h1>
+                <SimpleSlider items={popmovies}/>
+                <h1 className="result-header" style={{marginTop: 50, marginLeft: 10}}>Top Grossing Movies</h1>
+                <SimpleSlider items={movies}/>
             </div>
         )
     }

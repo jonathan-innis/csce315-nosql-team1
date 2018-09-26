@@ -1,4 +1,6 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 class CrewCard extends React.PureComponent {
     render() {
@@ -56,41 +58,39 @@ class MovieCard extends React.PureComponent {
 
 class ResultCard extends React.PureComponent {
     render() {
-        let name;
-        let img;
+        let name_link;
+        let img_link;
         if(this.props.person){
-            name = (
-                <a href={"/present/person?person_id=" + this.props.id}>
-                    {this.props.name}
-                </a>
-            )
-            img = (
-                <div>
-                    <img src={"https://image.tmdb.org/t/p/w138_and_h175_face" + this.props.imglink} onError={(e)=>e.target.src="/unisex_silhouette.png"} width={150} height={225} alt=""/>
-                </div>
-            )
+            name_link = "/present/person?person_id=" + this.props.id;
+            img_link = "https://image.tmdb.org/t/p/w138_and_h175_face" + this.props.imglink;
         }
 
         else {
-            name = (
-                <a href={"/present/movie?movie_id=" + this.props.id}>
-                    {this.props.name}
-                </a>
-            )
-
-            img = (
-                <div>
-                    <img src={"https://image.tmdb.org/t/p/w600_and_h900_bestv2" + this.props.imglink} width={150} height={225} alt=""/>
-                </div>
-            )
+            name_link = "/present/movie?movie_id=" + this.props.id;
+            img_link = "https://image.tmdb.org/t/p/w600_and_h900_bestv2" + this.props.imglink;
         }
 
 
         return (
-            <div className="card">
-                {name}
-                {img}
+            <div class="cellphone-container"> 
+                <a href={name_link}>   
+                <div class="movie">       
+                  <img  class="movie-img" src={img_link}></img>
+                  <div class="text-movie-cont">
+                    <div class="mr-grid">
+                      <div class="col1">
+                        <h1 style={{color: "white"}}>{this.props.name}</h1>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="like-circle">
+                    <FontAwesomeIcon icon={faHeart} style={{position: 'relative', left: '50%', top: '40%', transform: 'translate(-50%, -50%)', color: 'lightgray'}}/>
+                  </div>
+                </div>
+                </a>
             </div>
+          
+
         )
     }
 }
