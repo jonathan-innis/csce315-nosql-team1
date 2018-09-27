@@ -29,32 +29,33 @@ class Base extends React.Component {
 
         return (
             <div className='titlebar'>
-                        <div className="headerbox">
-                            <div style={{flexGrow : 1}}>        
-                                <img alt="" src='NULL'></img>
-                                <h1 className='headertitle'>
-                                    <a href={"/"}>
-                                            Fake iMDB
-                                    </a>
-                                </h1>
-                                <img alt="image failed to load" src='/filmreel.png' width="100" height="92" border="0" className='spinner'></img>
-                            </div>
-                            <div style={{flexGrow : 4}}>
-                                <div className='searchbar'>
-                                    <input 
-                                        type="text" 
-                                        placeholder="Search Here!"
-                                        onChange={this.onTextChange} 
-                                        value={this.state.search_query}
-                                    />
-                                    <a href={"/present/results?query=" + this.state.search_query.split(" ").join("%20")}>
-                                        Go
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                <div className="headerbox">
+                    <div style={{flexGrow : 1}}>        
+                        <img alt="" src='NULL'></img>
+                        <h1 className='headertitle'>
+                            <a href={"/"}>
+                                    Fake iMDB
+                            </a>
+                        </h1>
+                        <img alt="image failed to load" src='/filmreel.png' width="100" height="92" border="0" className='spinner'></img>
+                    </div>
+                    <div style={{flexGrow : 4}}>
+                        <div className='searchbar'>
+                            <input 
+                                type="text" 
+                                placeholder="Search Here!"
+                                onChange={this.onTextChange} 
+                                value={this.state.search_query}
+                            />
+                            <a href={"/present/results?query=" + this.state.search_query.split(" ").join("%20")}>
+                                Go
+                            </a>
                         </div>
-                        
+                    </div>
+                    <div class="g-signin2" data-onsuccess="onSignIn">
+                    </div>
+                </div>
+                
                    
                 <div className='body'>
                     {this.props.children}

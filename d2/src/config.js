@@ -3,7 +3,7 @@ const env = 'dev'; // 'prod' or 'dev'
 
 const prod = {
  app: {
-   port: 3000
+   port: 80
  },
  db: {
    host: 'reader:ilovetamu@13.58.47.75',
