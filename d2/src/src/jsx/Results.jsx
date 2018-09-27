@@ -62,14 +62,22 @@ class Results extends React.Component {
         else{
             return (
                 <div className="container">
+                    {movies.length != 0 ?
+                    <div>
                     <h1 className="result-header" style={{marginTop: 50}}>Movies</h1>
                     <div className="row" style={{justifyContent: "center"}}>
                         {movies}
                     </div>
+                    </div>
+                    : null}
+                    {people.length != 0 ?
+                    <div>
                     <h1 className="result-header" style={{marginTop: 50}}>People</h1>
                     <div className="row" style={{marginLeft: 5}}>
                         {people}
                     </div>
+                    </div>
+                    : null}
                 </div>
             )
         }
