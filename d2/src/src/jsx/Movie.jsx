@@ -1,10 +1,9 @@
 import React from 'react';
 import {numberWithCommas} from './Base.jsx';
 import ReactStars from 'react-stars';
-import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
+import { MetaDataTableRow } from './Cards.jsx';
 
 
 const styles = {
@@ -128,51 +127,7 @@ class Movie extends React.Component {
                             )}
                         </div>
                     </div>
-                    <SimpleTabs cast={this.state.movie_data.cast} crew={this.state.movie_data.crew}/>
-                        {/*
-                        <div className="movieDesc">
-                            <div>
-                                <h2>
-                                    {this.state.movie_data.title}
-                                </h2>
-                                <a href={linkWiki}> Wikipedia </a> 
-                                <a href={linkiMDB}> iMDB </a>
-                            </div>
-                            <div>
-                                {this.state.movie_data.tagline}
-                            </div>
-                            <div>
-                                <span className="highlight"> Genres: </span>
-                            </div>
-                            <div  className="tagbox">
-                                {genresTags}
-                            </div>
-                            <div>
-                                <span className="highlight"> Production: </span>
-                            </div>   
-                            <div  className="tagbox">
-                                {producerTags}
-                            </div>
-                            <div> 
-                            <span className="highlight">Summary:</span>{this.state.movie_data.overview}
-                            </div>    
-                            <div> 
-                                <span className="highlight">
-                                    Budget:
-                                </span>    
-                                &nbsp;${this.state.movie_data.budget ? numberWithCommas(this.state.movie_data.budget) : null}
-                            </div>                         
-                        </div>
-                    </div>
-                    <div style={{justifyContent: "center",display: "flex", flexDirection: "row" }}>
-                        <div className="cards">
-                            <span className="highlight"> Crew: </span>
-                            {crew}
-                        </div>
-                        <div className="cards">
-                            <span className="highlight"> Cast: </span>
-                            {cast}
-                        </div>*/}
+                    <MetaTabs cast={this.state.movie_data.cast} crew={this.state.movie_data.crew}/>
                     </div>
             )
         }
@@ -182,21 +137,7 @@ class Movie extends React.Component {
     }
 }
 
-const TableRow = (props) => {
-    return (
-        <div className="table-item-wrapper">
-        <a href={"/present/person?person_id=" + props.id}>
-        <div className="table-item">
-            <img src={"https://image.tmdb.org/t/p/w138_and_h175_face" + props.imgLink} height={100} width={80} onError={(e)=>e.target.src="/unisex_silhouette.png"}/>
-            <h5 style={{display: 'inline-block', marginLeft: 20, fontFamily: 'Raleway', color: 'white', fontWeight: 'bolder'}}>{props.name}</h5>
-            <p style={{position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)', fontFamily: 'Raleway', color: 'white'}}>{props.title}</p>
-        </div>
-        </a>
-        </div>
-    );
-}
-
-class SimpleTabs extends React.Component {
+class MetaTabs extends React.Component {
     state = {
       value: 0,
     };
@@ -219,13 +160,13 @@ class SimpleTabs extends React.Component {
             {value === 0 && 
             <div>
                 {cast.map((val, num) => (
-                    <TableRow name={val.name} title={val.character} id={val.id} key={num} imgLink={val.profile_path}/>
+                    <MetaDataTableRow name={val.name} title={val.character} id={val.id} key={num} imgLink={val.profile_path}/>
                 ))}
             </div>}
             {value === 1 && 
             <div>
                 {crew.map((val, num) => (
-                    <TableRow name={val.name} title={val.job} id={val.id} key={num} imgLink={val.profile_path}/>
+                    <MetaDataTableRow name={val.name} title={val.job} id={val.id} key={num} imgLink={val.profile_path}/>
                 ))}
             </div>}
         </div>

@@ -1,6 +1,8 @@
 import React from 'react'
 import '../css/master.css'
-import {MovieCard} from './Cards.jsx';
+import {MetaDataTableRow} from './Cards.jsx';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 
 const queryMatcher = RegExp(/person_id=([0-9]+)/g)
@@ -73,56 +75,26 @@ class Person extends React.Component {
                 ) 
             )
 
-            let CastMovie = this.state.person_data.cast_in.map(
-                (val, num) => (
-                    <MovieCard title={val.movie.title} job={val.character} imglink={val.movie.poster_path} id={val.movie.id} key={num}/>
-                )  
-            )
-
-            let CrewMovie = this.state.person_data.crew_in.map(
-                (val, num) => (
-                    <MovieCard title={val.movie.title} job={val.job} imglink={val.movie.poster_path} id={val.movie.id} key={num}/>
-                )  
-            )
-
             console.log(query)
 
 
         
         
             return ( 
-                <div>   
-                    <div className="personSummary">
-                        <div className="personImage">
-                            <img src = {"https://image.tmdb.org/t/p/w600_and_h900_bestv2" + this.state.person_data.profile_path} alt="/unisex_silhouette.png" onError={(e)=>e.target.src="/unisex_silhouette.png"} height="600" width="400"/>
+                <div>
+                    <div className="container" style={{paddingTop: 80}}>  
+                    <div className="row">
+                        <div style={{width: 266}}>
+                            <img className="big-movie-img" src = {"https://image.tmdb.org/t/p/w600_and_h900_bestv2" + this.state.person_data.profile_path} alt={this.state.person_data.name}/>
                         </div>
-                        <div className="personLinks">
-                            <h2>
-                                {this.state.person_data.name}
-                            </h2>
-                            <div className="tagbox" style={{justifyContent : 'center'}}>
-                                {jobTags}
-                            </div>
-                            <a href={linkWiki}> Wikipedia </a> 
-                            <a href={linkiMDB}> iMDB </a>
-                        </div>
-                    </div>
-                    <div>
-
-                    </div>
-
-                    <div style={{justifyContent: "center",display: "flex", flexDirection: "row" }}>
-                        <div className="cards">
-                            <span className="highlight"> Movies crew in: </span>
-                            {CrewMovie}
-                        </div>
-                        <div className="cards">
-                            <span className="highlight"> Movies cast in: </span>
-                            {CastMovie}
+                        <div className="col" style={{marginLeft: 20}}>
+                            <h1 style={{color: 'white'}}>{this.state.person_data.name}</h1>
                         </div>
                     </div>
                 </div>
-            )
+                <MetaTabs cast_in={this.state.person_data.cast_in} crew_in={this.state.person_data.crew_in}/>
+                </div>
+            );
         }
         else {
             return <span> Error Loading Page</span>
@@ -130,6 +102,56 @@ class Person extends React.Component {
 
     }
 }
+
+const TableRow = (props) => {
+    return (
+        <div className="table-item-wrapper">
+        <a href={"/present/movie?movie_id=" + props.id}>
+        <div className="table-item">
+            <img src={"https://image.tmdb.org/t/p/w138_and_h175_face" + props.imgLink} height={100} width={80} onError={(e)=>e.target.src="/noposter.jpg"}/>
+            <h5 style={{display: 'inline-block', marginLeft: 20, fontFamily: 'Raleway', color: 'white', fontWeight: 'bolder'}}>{props.name}</h5>
+            <p style={{position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)', fontFamily: 'Raleway', color: 'white'}}>{props.title}</p>
+        </div>
+        </a>
+        </div>
+    );
+}
+
+class MetaTabs extends React.Component {
+    state = {
+      value: 0,
+    };
+  
+    handleChange = (event, value) => {
+      this.setState({ value });
+    };
+  
+    render() {
+      const { value } = this.state;
+      const {crew_in, cast_in} = this.props;
+        
+      return (
+        <div style={{marginTop: 30}}>
+            <Tabs value={value} onChange={this.handleChange}>
+                <Tab label="Movies Cast In" style={{color: 'white', borderBottom: '2px solid gray', fontFamily: 'Raleway'}}/>
+                <Tab label="Movies Crew In" style={{color: 'white', borderBottom: '2px solid gray', fontFamily: 'Raleway'}}/>
+            </Tabs>
+            {value === 0 && 
+            <div>
+                {cast_in.map((val, num) => (
+                    <MetaDataTableRow name={val.movie.title} title={val.character} id={val.movie.id} key={num} imgLink={val.movie.poster_path}/>
+                ))}
+            </div>}
+            {value === 1 && 
+            <div>
+                {crew_in.map((val, num) => (
+                    <MetaDataTableRow name={val.movie.title} title={val.job} id={val.movie.id} key={num} imgLink={val.movie.poster_path}/>
+                ))}
+            </div>}
+        </div>
+      );
+    }
+  }
 
 export {
     Person

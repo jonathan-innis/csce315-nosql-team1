@@ -2,22 +2,18 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImdb, faWikipediaW } from '@fortawesome/free-brands-svg-icons';
 
-class MovieCard extends React.PureComponent { 
-    render() {
-        return (
-            <div>
-                <div>
-                    <img src={"https://image.tmdb.org/t/p/w138_and_h175_face" + this.props.imglink} width={138} height={175} alt=""/>
-                </div>
-                <a href={"/present/movie?movie_id=" + this.props.id}>
-                    {this.props.title}
-                </a>
-                <span>
-                    {this.props.job}
-                </span>
-            </div>
-        )
-    }
+const MetaDataTableRow = (props) => {
+    return (
+        <div className="table-item-wrapper">
+        <a href={"/present/person?person_id=" + props.id}>
+        <div className="table-item">
+            <img src={"https://image.tmdb.org/t/p/w138_and_h175_face" + props.imgLink} height={100} width={80} onError={(e)=>e.target.src="/unisex_silhouette.png"}/>
+            <h5 style={{display: 'inline-block', marginLeft: 20, fontFamily: 'Raleway', color: 'white', fontWeight: 'bolder'}}>{props.name}</h5>
+            <p style={{position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)', fontFamily: 'Raleway', color: 'white'}}>{props.title}</p>
+        </div>
+        </a>
+        </div>
+    );
 }
 
 class ResultCard extends React.PureComponent {
@@ -69,6 +65,6 @@ class ResultCard extends React.PureComponent {
 }
 
 export {
-    MovieCard,
+    MetaDataTableRow,
     ResultCard
 }
