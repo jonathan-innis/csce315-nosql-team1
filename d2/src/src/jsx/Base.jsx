@@ -52,6 +52,7 @@ class Base extends React.Component {
                                     </a>
                                 </div>
                             </div>
+                            <div class="g-signin2" data-onsuccess="onSignIn"></div>
                         </div>
                         
                    

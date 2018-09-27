@@ -4,12 +4,13 @@ let router = express.Router();
 
 const dbServiceRoutes = require('./dbservice');
 const present = require('./present')
+const profile = require('./profile')
 
 router.use('/dbservice', dbServiceRoutes);
 
 router.use('/present', present);
 
-
+router.use('/profile', profile);
 //THESE ARE EXTREMEMLY UNSAFE WAYS OF SENDING FILES MOVE THIS TO NGINX WHEN ITS FOR REAL GUYS
 //IM NOT JOKING THIS MAY LOOSE US POINTS FOR STUPIDITY
 router.get(/\/[A-Za-z_0-9]+\.(js)/g, (req, res) =>
