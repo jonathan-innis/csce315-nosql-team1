@@ -44,7 +44,7 @@ class Results extends React.Component {
 
         let people = this.state.query_data.people.map(
             (val, num) => (
-                <ResultCard person={true} imglink={val.profile_path} name={val.name} id={val.id} key={num}/>
+                <a href={"/present/person?person_id=" + val.id}><p className="people-names">{val.name},&nbsp;</p></a>
             )
         )
 
@@ -52,7 +52,7 @@ class Results extends React.Component {
             return (
                 <div style={{justifyContent: "center",display: "flex", flexDirection: "row" }}>
                     <div>
-                        Loading...
+                          Loading...
                         <img alt="" src='/filmreel.png' width="100" height="92" border="0" className='spinner'></img>
                     </div>
                 </div>
@@ -61,15 +61,23 @@ class Results extends React.Component {
 
         else{
             return (
-                <div style={{justifyContent: "center",display: "flex", flexDirection: "row" }}>
-                    <div className="cards">
-                        <span className="highlight"> Movies: </span>
+                <div className="container">
+                    {movies.length != 0 ?
+                    <div>
+                    <h1 className="result-header" style={{marginTop: 50}}>Movies</h1>
+                    <div className="row" style={{justifyContent: "center"}}>
                         {movies}
                     </div>
-                    <div className="cards">
-                        <span className="highlight"> People: </span>
+                    </div>
+                    : null}
+                    {people.length != 0 ?
+                    <div>
+                    <h1 className="result-header" style={{marginTop: 50}}>People</h1>
+                    <div className="row" style={{marginLeft: 5}}>
                         {people}
                     </div>
+                    </div>
+                    : null}
                 </div>
             )
         }

@@ -190,7 +190,7 @@ def query_yes_no(question, default="yes"):
 
 def main():
 
-    with MongoConnection(config.COLLECTION, config.WRITER_DB_ENDPOINT) as db:
+    with MongoConnection(config.COLLECTION, config.WRITER_DB_DEV_ENDPOINT) as db:
 
         if query_yes_no("Would you like to reinitialize the database?"):
             last = time.time()
