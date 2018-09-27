@@ -3,7 +3,11 @@ import {numberWithCommas, aggregateCrewData} from './Base.jsx';
 import ReactStars from 'react-stars';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import { MetaDataTableRow } from './Cards.jsx';
+import { MetaDataTableRow, SortingSelect } from './Cards.jsx';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
 
 
 const styles = {
@@ -51,7 +55,7 @@ class Movie extends React.Component {
                     this.setState({movie_data : data});
                 }
             )
-    }  
+    }
 
     render() {
         if (this.state.movie_data !== null){
@@ -147,22 +151,66 @@ class Movie extends React.Component {
 class MetaTabs extends React.Component {
     state = {
       value: 0,
+      sortby: 10,
+      open: false,
+      crew: [],
+      cast: []
+    };
+
+    handleClose = () => {
+        this.setState({ open: false });
+    };
+
+    handleOpen = () => {
+        this.setState({ open: true });
     };
   
     handleChange = (event, value) => {
       this.setState({ value });
     };
+
+    componentWillReceiveProps(nextProps){
+        if(nextProps.crew !== this.props.crew){
+            this.setState({crew:nextProps.crew, cast: nextProps.cast});
+        }
+    }
   
+
+    handleSortChange = event => {
+        console.log("Hello");
+        this.setState({ [event.target.name]: event.target.value });
+      };
+
     render() {
       const { value } = this.state;
-      const {crew, cast} = this.props;
-      console.log(crew, cast)
+      const {crew, cast} = this.state;
         
       return (
         <div style={{marginTop: 30}}>
             <Tabs value={value} onChange={this.handleChange}>
                 <Tab label="Cast" style={{color: 'white', borderBottom: '2px solid gray', fontFamily: 'Raleway'}}/>
               <Tab label="Crew" style={{color: 'white', borderBottom: '2px solid gray', fontFamily: 'Raleway'}}/>
+              <div style={{position: 'absolute', right: 5}} className="sorting">
+                <FormControl>
+                    <InputLabel htmlFor="demo-controlled-open-select" style={{color: 'white'}}>Sort By:</InputLabel>
+                    <Select
+                        open={this.state.open}
+                        onClose={this.handleClose}
+                        onOpen={this.handleOpen}
+                        value={this.state.sortby}
+                        onChange={this.handleSortChange}
+                        style={{color: 'white'}}
+                        inputProps={{
+                        name: 'sortby',
+                        id: 'demo-controlled-open-select',
+                        }}
+                    >
+                        <MenuItem value={10}>Last Name</MenuItem>
+                        <MenuItem value={20}>First Name</MenuItem>
+                        <MenuItem value={30}>Character</MenuItem>
+                    </Select>
+                </FormControl>
+              </div>
             </Tabs>
             {value === 0 && 
             <div>

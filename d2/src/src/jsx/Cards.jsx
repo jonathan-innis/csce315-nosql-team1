@@ -1,6 +1,10 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImdb, faWikipediaW } from '@fortawesome/free-brands-svg-icons';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
 
 const MetaDataTableRow = (props) => {
     return (
@@ -15,6 +19,46 @@ const MetaDataTableRow = (props) => {
         </div>
     );
 }
+
+class SortingSelect extends React.Component{
+    state = {
+        open: false,
+      };
+    
+      handleClose = () => {
+        this.setState({ open: false });
+      };
+    
+      handleOpen = () => {
+        this.setState({ open: true });
+      };
+    
+      render() {
+        const { classes } = this.props;
+    
+        return (
+            <FormControl>
+              <InputLabel htmlFor="demo-controlled-open-select" style={{color: 'white'}}>Sort By:</InputLabel>
+              <Select
+                open={this.state.open}
+                onClose={this.handleClose}
+                onOpen={this.handleOpen}
+                value={this.state.sortby}
+                onChange={this.props.handleChange}
+                style={{color: 'white'}}
+                inputProps={{
+                  name: 'sortby',
+                  id: 'demo-controlled-open-select',
+                }}
+              >
+                <MenuItem value={10}>Last Name</MenuItem>
+                <MenuItem value={20}>First Name</MenuItem>
+                <MenuItem value={30}>Character</MenuItem>
+              </Select>
+            </FormControl>
+        );
+      }
+    }
 
 class ResultCard extends React.PureComponent {
     render() {
@@ -66,5 +110,6 @@ class ResultCard extends React.PureComponent {
 
 export {
     MetaDataTableRow,
-    ResultCard
+    ResultCard,
+    SortingSelect
 }

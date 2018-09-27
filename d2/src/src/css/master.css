@@ -306,3 +306,7 @@ button:focus{
 .table-item-wrapper:nth-child(odd){
     background-color: #2c1933;
 }
+
+.sorting svg{
+  color: white;
+}
