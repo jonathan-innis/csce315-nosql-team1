@@ -90,6 +90,7 @@ class Movie extends React.Component {
             const overview = this.state.movie_data.overview ? <p style={{color: 'white'}}>{this.state.movie_data.overview}</p> : null;
             const pipe = <p style={styles.metaData}>&nbsp;|&nbsp;</p>;
 
+            /*
             const producers = this.state.movie_data.production_companies.map((val, num) => {
                 if (num == this.state.movie_data.production_companies.length - 1){
                     return <p style={styles.metaData} key={num}>{val.name}</p>
@@ -99,7 +100,7 @@ class Movie extends React.Component {
                         <div><p style={styles.metaData} key={num}>{val.name}</p>{pipe}</div>
                     )
                 }
-            })
+            })*/
 
             console.log(this.state.movie_data.crew);
             

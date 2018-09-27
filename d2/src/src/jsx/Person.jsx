@@ -131,7 +131,7 @@ class MetaTabs extends React.Component {
       const {crew_in, cast_in} = this.props;
         
       return (
-        <div style={{marginTop: 30}}>
+        <div style={{marginTop: 30}} className="container">
             <Tabs value={value} onChange={this.handleChange}>
                 <Tab label="Movies Cast In" style={{color: 'white', borderBottom: '2px solid gray', fontFamily: 'Raleway'}}/>
                 <Tab label="Movies Crew In" style={{color: 'white', borderBottom: '2px solid gray', fontFamily: 'Raleway'}}/>
