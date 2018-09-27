@@ -2,42 +2,6 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImdb, faWikipediaW } from '@fortawesome/free-brands-svg-icons';
 
-class CrewCard extends React.PureComponent {
-    render() {
-        return (
-            <div className="card">
-                <div>
-                    <img src={"https://image.tmdb.org/t/p/w138_and_h175_face" + this.props.imglink} onError={(e)=>e.target.src="/unisex_silhouette.png"} width={138} height={175} alt=""/>
-                </div>
-                <a href={"/present/person?person_id=" + this.props.id}>
-                    {this.props.name}
-                </a>
-                <span>
-                    {this.props.department} : {this.props.job}
-                </span>
-            </div>
-        )
-    }
-}
-
-class CastCard extends React.PureComponent { 
-    render() {
-        return (
-            <div className="card">
-                <div>
-                    <img src={"https://image.tmdb.org/t/p/w138_and_h175_face" + this.props.imglink} onError={(e)=>e.target.src="/unisex_silhouette.png"} width={138} height={175} alt=""/>
-                </div>
-                <a href={"/present/person?person_id=" + this.props.id}>
-                    {this.props.name}
-                </a>
-                <span>
-                    {this.props.role}
-                </span>
-            </div>
-        )
-    }
-}
-
 class MovieCard extends React.PureComponent { 
     render() {
         return (
@@ -105,8 +69,6 @@ class ResultCard extends React.PureComponent {
 }
 
 export {
-    CrewCard,
-    CastCard,
     MovieCard,
     ResultCard
 }
