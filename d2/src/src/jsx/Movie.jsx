@@ -36,7 +36,7 @@ class Movie extends React.Component {
             movie_data: {title:"", poster_path: "", genres : [], production_companies: [], belongs_to_collection: {}, crew: [], cast: []}
         }
 
-        this.getMovieById()
+        this.getMovieById();
     }
 
     getMovieById (id) {   
@@ -45,9 +45,30 @@ class Movie extends React.Component {
                 (response) => response.json() //returns peopl
             )
             .then(
-                (json) => this.setState({movie_data : json})
+                (json) => {
+                    let data = this.aggregateCrewData(json);
+                    
+                    this.setState({movie_data : data});
+                }
             )
-    } 
+    }
+
+    aggregateCrewData(json){
+        let crew = json.crew;
+        let new_crew = {};
+        for (let member of crew){
+            if (member.name in new_crew){
+                new_crew[member.name].job += `, ${member.job}`;
+            }
+            else{
+                new_crew[member.name] = member;
+            }
+        }
+        console.log('New Crew', new_crew);
+        let data = json;
+        data.crew = Object.values(new_crew);
+        return data
+    }   
 
     render() {
         if (this.state.movie_data !== null){
@@ -96,6 +117,8 @@ class Movie extends React.Component {
                     )
                 }
             })
+
+            console.log(this.state.movie_data.crew);
             
             return (  
                 <div className="container" style={{paddingTop: 80}}>  
