@@ -13,6 +13,22 @@ function numberWithCommas(x) {
     return x;
 }
 
+function aggregateCrewData(json){
+    let crew = json.crew;
+    let new_crew = {};
+    for (let member of crew){
+        if (member.name in new_crew){
+            new_crew[member.name].job += `, ${member.job}`;
+        }
+        else{
+            new_crew[member.name] = member;
+        }
+    }
+    let data = json;
+    data.crew = Object.values(new_crew);
+    return data
+}
+
 class Base extends React.Component {
     constructor (props) {
         super(props)
@@ -47,5 +63,5 @@ class Base extends React.Component {
 }
 
 export {
-    Base, numberWithCommas
+    Base, numberWithCommas, aggregateCrewData
 }

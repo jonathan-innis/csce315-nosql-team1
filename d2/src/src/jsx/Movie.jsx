@@ -1,5 +1,5 @@
 import React from 'react';
-import {numberWithCommas} from './Base.jsx';
+import {numberWithCommas, aggregateCrewData} from './Base.jsx';
 import ReactStars from 'react-stars';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -46,29 +46,12 @@ class Movie extends React.Component {
             )
             .then(
                 (json) => {
-                    let data = this.aggregateCrewData(json);
+                    let data = aggregateCrewData(json);
                     
                     this.setState({movie_data : data});
                 }
             )
-    }
-
-    aggregateCrewData(json){
-        let crew = json.crew;
-        let new_crew = {};
-        for (let member of crew){
-            if (member.name in new_crew){
-                new_crew[member.name].job += `, ${member.job}`;
-            }
-            else{
-                new_crew[member.name] = member;
-            }
-        }
-        console.log('New Crew', new_crew);
-        let data = json;
-        data.crew = Object.values(new_crew);
-        return data
-    }   
+    }  
 
     render() {
         if (this.state.movie_data !== null){
