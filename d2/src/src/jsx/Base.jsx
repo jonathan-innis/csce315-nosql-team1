@@ -80,7 +80,7 @@ class Base extends React.Component {
                 <Search/> 
                 <FontAwesomeIcon icon={faUserCircle} style={{color: 'white', position: 'absolute', right: 20, top: 20, fontSize: '2rem'}}/>
             </div>
-            <div className='container-fluid'>
+            <div className='container-fluid' style={{paddingBottom: 20}}>
                 {this.props.children}
             </div>
             <div className="background-wrapper"></div>

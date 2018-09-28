@@ -44,7 +44,7 @@ class Results extends React.Component {
 
         let people = this.state.query_data.people.map(
             (val, num) => (
-                <a href={"/present/person?person_id=" + val.id}><p className="people-names">{val.name},&nbsp;</p></a>
+                <ResultCard person={true} imglink={val.profile_path} name={val.name} id={val.id} key={num}/>
             )
         )
 

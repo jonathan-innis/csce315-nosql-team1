@@ -79,20 +79,27 @@ a:hover{
   transition: opacity 0.5s ease-in-out;
 }
 
+.icon-wrapper{
+  z-index: 11;
+  display: inline-block;
+  vertical-align: bottom;
+  margin-left: 20px;
+}
+
 .movie-hover-wrapper .icon-wrapper{
   position: absolute;
   left: 50%;
   bottom: 10px;
   transform: translateX(-50%);
-  z-index: 11;
   display: flex;
+  margin: 0px;
+  vertical-align: none;
 }
 
-.movie-hover-wrapper .hover-icon{
+.hover-icon{
   display: inline-block;
   position: relative;
   color: white;
-  opacity: 0;
   transition: all 0.5s ease-in-out;
   border: 2px solid white;
   width: 50px;
@@ -101,7 +108,11 @@ a:hover{
   margin: 5px;
 }
 
-.movie-hover-wrapper .hover-icon .icon{
+.movie-hover-wrapper .hover-icon{
+  opacity: 0;
+}
+
+.hover-icon .icon{
   position: absolute;
   left: 50%;
   top: 50%;
@@ -118,11 +129,11 @@ a:hover{
   opacity: 1;
 }
 
-.movie-hover-wrapper .hover-icon:hover{
+.hover-icon:hover{
   background-color: white;
 }
 
-.movie-hover-wrapper .hover-icon:hover .icon{
+.hover-icon:hover .icon{
   color: #2f1e36;
 }
 
@@ -313,4 +324,27 @@ button:focus{
 
 .sorting svg{
   color: white;
+}
+
+.show-table-icon-wrapper{
+  width: 100%;
+  position: relative;
+  text-align: center;
+  cursor: pointer;
+}
+
+.show-table-icon-wrapper .icon{
+  color: white;
+  font-size: 2rem;
+  vertical-align: middle;
+}
+
+.show-table-icon-wrapper p{
+  display: inline-block;
+  color: white;
+  margin: 5px;
+}
+
+.show-table-icon-wrapper:hover{
+  background-color: black;
 }
