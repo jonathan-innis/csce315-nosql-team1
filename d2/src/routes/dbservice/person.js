@@ -2,7 +2,7 @@ const {People} = require('../../models');
 const {Movie}  = require('../../models');
 
 convertMovieIdToMovie = async function(movie_id){
-    return await Movie.findById(movie_id).select('id title poster_path');
+    return await Movie.findById(movie_id).select('id title poster_path release_date genres popularity');
 }
 
 module.exports = async (req, res) => {

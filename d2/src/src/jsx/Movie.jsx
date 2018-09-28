@@ -105,8 +105,6 @@ class Movie extends React.Component {
                     )
                 }
             })*/
-
-            console.log(this.state.movie_data.crew);
             
             return (  
                 <div className="container" style={{paddingTop: 80}}>  
@@ -151,10 +149,11 @@ class Movie extends React.Component {
 class MetaTabs extends React.Component {
     state = {
       value: 0,
-      sortby: 10,
+      sortby: 'lastname',
       open: false,
       crew: [],
-      cast: []
+      cast: [],
+      showAll: false,
     };
 
     handleClose = () => {
@@ -167,23 +166,71 @@ class MetaTabs extends React.Component {
   
     handleChange = (event, value) => {
       this.setState({ value });
+      if (value === 0 && this.state.sortby === 'department') this.state.sortby = 'character';
+      else if (value === 1 && this.state.sortby === 'character') this.state.sortby = 'department';
     };
 
     componentWillReceiveProps(nextProps){
-        if(nextProps.crew !== this.props.crew){
+        if (nextProps.crew !== this.props.crew){
+            let sort_function = function(a,b){return a.name.split(" ")[1] > b.name.split(" ")[1] ? 1 : -1}
+            nextProps.crew.sort(sort_function);
+            nextProps.cast.sort(sort_function);
             this.setState({crew:nextProps.crew, cast: nextProps.cast});
         }
     }
   
 
     handleSortChange = event => {
-        console.log("Hello");
+        let cast = this.state.cast;
+        let crew = this.state.crew;
+        let sort_function;
         this.setState({ [event.target.name]: event.target.value });
+        switch (event.target.value){
+            case 'lastname':
+                sort_function = function(a,b){return a.name.split(" ")[1] > b.name.split(" ")[1] ? 1 : -1}
+                break;
+            case 'firstname':
+                sort_function = function(a,b){return a.name.split(" ")[0] > b.name.split(" ")[0] ? 1 : -1}
+                break;
+            case 'department':
+                sort_function = function(a,b){return a.department > b.department ? 1 : -1}
+                break;
+            case 'character':
+                sort_function = function(a,b){return a.character > b.character ? 1 : -1}
+        }
+        crew.sort(sort_function);
+        cast.sort(sort_function)
+        this.setState({crew: crew, cast: cast});
       };
 
     render() {
       const { value } = this.state;
       const {crew, cast} = this.state;
+
+      let cast_rendered, crew_rendered;
+
+      if (cast.length < 3 || this.state.showAll){
+        cast_rendered = cast.map((val, num) => (
+            <MetaDataTableRow name={val.name} title={val.character} id={val.id} key={num} imgLink={val.profile_path}/>
+        ))
+      }
+      else{
+        console.log("Hello")
+        cast_rendered = cast.slice(0, 3).map((val, num) => (
+            <MetaDataTableRow name={val.name} title={val.character} id={val.id} key={num} imgLink={val.profile_path}/>
+        ))
+      }
+
+      if (crew.length < 3 || this.state.showAll){
+        crew_rendered = crew.map((val, num) => (
+            <MetaDataTableRow name={val.name} title={val.character} id={val.id} key={num} imgLink={val.profile_path}/>
+        ))
+      }
+      else{
+        crew_rendered = crew.slice(1,3).map((val, num) => (
+            <MetaDataTableRow name={val.name} title={val.character} id={val.id} key={num} imgLink={val.profile_path}/>
+        ))
+      } 
         
       return (
         <div style={{marginTop: 30}}>
@@ -205,24 +252,20 @@ class MetaTabs extends React.Component {
                         id: 'demo-controlled-open-select',
                         }}
                     >
-                        <MenuItem value={10}>Last Name</MenuItem>
-                        <MenuItem value={20}>First Name</MenuItem>
-                        <MenuItem value={30}>Character</MenuItem>
+                        <MenuItem value={'lastname'}>Last Name</MenuItem>
+                        <MenuItem value={'firstname'}>First Name</MenuItem>
+                        {this.state.value == 0 ? <MenuItem value={'character'}>Character</MenuItem>: <MenuItem value={'department'}>Department</MenuItem>}
                     </Select>
                 </FormControl>
               </div>
             </Tabs>
             {value === 0 && 
-            <div>
-                {cast.map((val, num) => (
-                    <MetaDataTableRow name={val.name} title={val.character} id={val.id} key={num} imgLink={val.profile_path}/>
-                ))}
+            <div style={{marginTop: 10}}>
+                {cast_rendered}
             </div>}
             {value === 1 && 
-            <div>
-                {crew.map((val, num) => (
-                    <MetaDataTableRow name={val.name} title={val.job} id={val.id} key={num} imgLink={val.profile_path}/>
-                ))}
+            <div style={{marginTop: 10}}>
+                {crew_rendered}
             </div>}
         </div>
       );

@@ -29,6 +29,33 @@ function aggregateCrewData(json){
     return data
 }
 
+function aggregateMovieData(json){
+    let {crew_in, cast_in} = json;
+    let new_crew_in = {};
+    let new_cast_in = {};
+    for (let member of crew_in){
+        if (member.movie.title in new_crew_in){
+            new_crew_in[member.movie.title].job += `, ${member.job}`;
+        }
+        else{
+            new_crew_in[member.movie.title] = member;
+        }
+    }
+    for (let member of cast_in){
+        if (member.movie.title in new_cast_in){
+            new_cast_in[member.movie.title].character += `, ${member.character}`;
+        }
+        else{
+            new_cast_in[member.movie.title] = member;
+        }
+    }
+    let data = json;
+    data.crew_in = Object.values(new_crew_in);
+    data.cast_in = Object.values(new_cast_in);
+    console.log(data);
+    return data;
+}
+
 class Base extends React.Component {
     constructor (props) {
         super(props)
@@ -63,5 +90,5 @@ class Base extends React.Component {
 }
 
 export {
-    Base, numberWithCommas, aggregateCrewData
+    Base, numberWithCommas, aggregateCrewData, aggregateMovieData
 }

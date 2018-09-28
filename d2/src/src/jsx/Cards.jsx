@@ -7,12 +7,14 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 
 const MetaDataTableRow = (props) => {
+    console.log(props.year);
     return (
         <div className="table-item-wrapper">
         <a href={"/present/person?person_id=" + props.id}>
         <div className="table-item">
             <img src={"https://image.tmdb.org/t/p/w138_and_h175_face" + props.imgLink} height={100} width={80} onError={(e)=>e.target.src="/unisex_silhouette.png"}/>
-            <h5 style={{display: 'inline-block', marginLeft: 20, fontFamily: 'Raleway', color: 'white', fontWeight: 'bolder'}}>{props.name}</h5>
+            <h5 style={{display: 'inline', marginLeft: 20, fontFamily: 'Raleway', color: 'white', fontWeight: 'bolder'}}>{props.name}</h5>
+            {props.year ? <p style={{display: 'inline-block', fontFamily: 'Raleway', color: 'white', fontSize: '0.75rem', marginLeft: 10}}>{props.year}</p> : null}
             <p style={{position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)', fontFamily: 'Raleway', color: 'white'}}>{props.title}</p>
         </div>
         </a>

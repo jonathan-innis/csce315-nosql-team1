@@ -307,6 +307,10 @@ button:focus{
     background-color: #2c1933;
 }
 
+.table-item-wrapper:hover{
+  background-color: black;
+}
+
 .sorting svg{
   color: white;
 }
