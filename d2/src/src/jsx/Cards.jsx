@@ -13,8 +13,11 @@ const MetaDataTableRow = (props) => {
         <a href={props.pageLink}>
         <div className="table-item">
             <img src={"https://image.tmdb.org/t/p/w138_and_h175_face" + props.imgLink} height={100} width={80} onError={(e)=>e.target.src="/unisex_silhouette.png"}/>
+            <div style={{display: 'inline-block', position: 'relative'}}>
             <h5 style={{display: 'inline', marginLeft: 20, fontFamily: 'Raleway', color: 'white', fontWeight: 'bolder'}}>{props.name}</h5>
             {props.year ? <p style={{display: 'inline-block', fontFamily: 'Raleway', color: 'white', fontSize: '0.75rem', marginLeft: 10}}>{props.year}</p> : null}
+            {props.genre ? <p style={{fontFamily: 'Raleway', color: 'white', fontSize: '0.75rem', marginLeft: 10, left: 12, position: 'absolute', top: 25, fontStyle: 'italic'}}>{props.genre}</p> : null}
+            </div>
             <p style={{position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)', fontFamily: 'Raleway', color: 'white'}}>{props.title}</p>
             {props.department ? <p style={{display: 'inline-block', fontFamily: 'Raleway', color: 'white', fontSize: '0.75rem', marginLeft: 10}}>{props.department}</p> : null}
         </div>

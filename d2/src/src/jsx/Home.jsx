@@ -61,10 +61,12 @@ class Home extends React.Component {
         super(props)
         this.state = {
             topMovies: [],
-            popularMovies: []
+            popularMovies: [],
+            popularActors: []
         }
         this.getTopMoives();
         this.getPopularMovies();
+        this.getPopularActors();
     }
 
     getTopMoives(){
@@ -87,6 +89,16 @@ class Home extends React.Component {
             )
     }
 
+    getPopularActors(){
+        fetch("/dbservice/popularactors?limit=10")
+            .then(
+                response => response.json()
+            )
+            .then(
+                json => this.setState({popularActors : json})
+            )
+    }
+
     render () {
 
         let movies = this.state.topMovies.map(
@@ -101,7 +113,11 @@ class Home extends React.Component {
             )
         )
 
-        let poppeople = []
+        let popactors = this.state.popularActors.map(
+            (val, num) => (
+                <ResultCard person={true} imglink={val.profile_path} name={val.name} id={val.id} key={num}/>
+            )
+        )
 
         return (
             <div>
@@ -110,7 +126,7 @@ class Home extends React.Component {
                 </div>
                 <SimpleSlider items={popmovies} title="Top Ranking Movies"/>
                 <SimpleSlider items={movies} title="Top Grossing Movies"/>
-                <SimpleSlider items={movies} title="Top Actors"/>
+                <SimpleSlider items={popactors} title="Top Actors"/>
             </div>
         )
     }

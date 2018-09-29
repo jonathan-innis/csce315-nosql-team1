@@ -1,14 +1,10 @@
 import React from 'react'
 import '../css/master.css'
-import {MetaDataTableRow} from './Cards.jsx';
 import {aggregateMovieData} from './Base.jsx';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import InputLabel from '@material-ui/core/InputLabel';
 import { PersonTabs } from './Tabs.jsx';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faImdb, faWikipediaW } from '@fortawesome/free-brands-svg-icons';
+
 
 
 const queryMatcher = RegExp(/person_id=([0-9]+)/g)
@@ -65,13 +61,13 @@ class Person extends React.Component {
     render() {
         if (this.state.person_data !== null){
             let query = ""
-            let linkiMDB = ""
+            let linkIMDB = ""
             let linkWiki = ""
 
             if (this.state.person_data.name !== ""){
             
                 query =  this.state.person_data.name.split(" ").join("+")
-                linkiMDB = "http://www.google.com/search?q=" + query + "+iMDB&btnI"
+                linkIMDB = "http://www.google.com/search?q=" + query + "+iMDB&btnI"
                 linkWiki = "http://www.google.com/search?q=" + query + "+Wikipedia&btnI"
             }
             
@@ -83,6 +79,20 @@ class Person extends React.Component {
                     </div>
                 ) 
             )
+
+            const icons = 
+            <div className="icon-wrapper">
+                {linkIMDB != "" ?<a href={linkIMDB} target="_blank">
+                    <div className="hover-icon">
+                        <FontAwesomeIcon icon={faImdb} className="icon"/>
+                    </div>
+                </a> : null}
+                {linkWiki != "" ?<a href={linkWiki} target="_blank">
+                    <div className="hover-icon">
+                        <FontAwesomeIcon icon={faWikipediaW} className="icon"/>
+                    </div>
+                </a> : null}
+            </div>;
 
             console.log(query)
 
@@ -97,7 +107,8 @@ class Person extends React.Component {
                             <img className="big-movie-img" src = {"https://image.tmdb.org/t/p/w600_and_h900_bestv2" + this.state.person_data.profile_path} alt={this.state.person_data.name} onError={(e)=>e.target.src="/unisex_silhouette.png"}/>
                         </div>
                         <div className="col" style={{marginLeft: 20}}>
-                            <h1 style={{color: 'white'}}>{this.state.person_data.name}</h1>
+                            <h1 style={{color: 'white', display: 'inline-block'}}>{this.state.person_data.name}</h1>
+                            {icons}
                         </div>
                     </div>
                 </div>

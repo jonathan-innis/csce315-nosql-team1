@@ -36,7 +36,7 @@ class MovieTabs extends React.Component {
 
     componentWillReceiveProps(nextProps){
         if (nextProps.crew !== this.props.crew){
-            let sort_function = function(a,b){return a.name.split(" ")[1] > b.name.split(" ")[1] ? 1 : -1}
+            let sort_function = function(a,b){return a.name.split(" ")[a.name.split(" ").length - 1] > b.name.split(" ")[b.name.split(" ").length - 1] ? 1 : -1}
             nextProps.crew.sort(sort_function);
             nextProps.cast.sort(sort_function);
             this.setState({crew: nextProps.crew, cast: nextProps.cast});
@@ -52,7 +52,7 @@ class MovieTabs extends React.Component {
         this.setState({ [event.target.name]: event.target.value });
         switch (event.target.value){
             case 'lastname':
-                sort_function = function(a,b){return a.name.split(" ")[1] > b.name.split(" ")[1] ? 1 : -1}
+                sort_function = function(a,b){return a.name.split(" ")[a.name.split(" ").length - 1] > b.name.split(" ")[b.name.split(" ").length - 1] ? 1 : -1}
                 break;
             case 'firstname':
                 sort_function = function(a,b){return a.name.split(" ")[0] > b.name.split(" ")[0] ? 1 : -1}
@@ -186,7 +186,15 @@ class MovieTabs extends React.Component {
                   sort_function = function(a,b){return new Date(a.movie.release_date).getFullYear() < new Date(b.movie.release_date).getFullYear() ? 1 : -1}
                   break;
               case 'genre':
-                  sort_function = function(a,b){return a.name.split(" ")[0] > b.name.split(" ")[0] ? 1 : -1}
+                  sort_function = function(a,b){
+                        if(a.movie.genres[0] === null){
+                            return 1;
+                        }
+                        else if(b.movie.genres[0] === null){
+                            return -1;
+                        }
+                        return a.movie.genres[0].name > b.movie.genres[0].name ? 1 : -1
+                        }
                   break;
               case 'popularity':
                   sort_function = function(a,b){return a.movie.popularity < b.movie.popularity ? 1 : -1}
@@ -207,7 +215,7 @@ class MovieTabs extends React.Component {
         cast_in_rendered = 
             <div>
                 {cast_in.slice(0, this.state.cast_in_sliced_index).map((val, num) => (
-                    <MetaDataTableRow name={val.movie.title} title={val.character} pageLink={"/present/movie?movie_id=" + val.movie.id} key={num} imgLink={val.movie.poster_path} year={new Date(val.movie.release_date).getFullYear()}/>
+                    <MetaDataTableRow name={val.movie.title} title={val.character} pageLink={"/present/movie?movie_id=" + val.movie.id} key={num} imgLink={val.movie.poster_path} year={new Date(val.movie.release_date).getFullYear()} genre={val.movie.genres[0] ? val.movie.genres[0].name : null}/>
                 ))}
                 {!this.state.showAllCastIn && cast_in.length >= 4 ? <div className="show-table-icon-wrapper table-item-wrapper" onClick={() => this.setState({showAllCastIn: true, cast_in_sliced_index: cast_in.length})}>
                     <p>Show More...</p>
@@ -222,7 +230,7 @@ class MovieTabs extends React.Component {
         crew_in_rendered = 
             <div>
                 {crew_in.slice(0, this.state.crew_in_sliced_index).map((val, num) => (
-                    <MetaDataTableRow name={val.movie.title} title={val.job} pageLink={"/present/movie?movie_id=" + val.movie.id} key={num} imgLink={val.movie.poster_path} year={new Date(val.movie.release_date).getFullYear()}/>
+                    <MetaDataTableRow name={val.movie.title} title={val.job} pageLink={"/present/movie?movie_id=" + val.movie.id} key={num} imgLink={val.movie.poster_path} year={new Date(val.movie.release_date).getFullYear()} genre={val.movie.genres[0] ? val.movie.genres[0].name : null}/>
                 ))}
                 {!this.state.showAllCrewIn && crew_in.length >= 4 ? <div className="show-table-icon-wrapper table-item-wrapper" onClick={() => this.setState({showAllCrewIn: true, crew_in_sliced_index: crew_in.length})}>
                     <p>Show More...</p>

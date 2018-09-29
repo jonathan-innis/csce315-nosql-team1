@@ -6,10 +6,12 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 // Imagine you have a list of languages that you'd like to autosuggest.
 const languages = [
   {
+    id: 2,
     name: 'C',
     year: 1972
   },
   {
+    id: 2,
     name: 'Elm',
     year: 2012
   },
@@ -33,7 +35,8 @@ const getSuggestionValue = suggestion => suggestion.name;
 // Use your imagination to render suggestions.
 const renderSuggestion = suggestion => (
   <div>
-    {suggestion.name}
+    <img src="/noposter.jpg" className="suggestion-img"/>
+    <p className="suggestion"><b>{suggestion.name}</b> ({suggestion.year})</p>
   </div>
 );
 
@@ -62,6 +65,10 @@ export default class Search extends React.Component {
     if (e.key == 'Enter'){
       window.location.href =  "/present/results?query=" + this.state.value;
     }
+  }
+
+  onSuggestionSelected = (event, {suggestion}) => {
+    window.location.href = "/present/movie?movie_id=" + suggestion.id;
   }
 
   // Autosuggest will call this function every time you need to update suggestions.
@@ -97,6 +104,7 @@ export default class Search extends React.Component {
         suggestions={suggestions}
         onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
         onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+        onSuggestionSelected={this.onSuggestionSelected}
         getSuggestionValue={getSuggestionValue}
         renderSuggestion={renderSuggestion}
         inputProps={inputProps}
