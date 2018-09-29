@@ -7,4 +7,4 @@ movies.statics.search = async function search(query){
 
 let Movie = mongoose.model('Movie', movies, 'movies');
 
-module.exports = Movie
+module.exports = Movie;
