@@ -59,6 +59,84 @@ function aggregateMovieData(json){
     return data;
 }
 
+function like(type, id, token) {
+    switch (type){
+        case 'movie':
+            fetch('/profile/favoriteMovie', {
+                method: 'POST',
+                body: JSON.stringify({
+                    token : token,
+                    movie_id: id
+                }),
+                headers: {
+                    'Accept' : 'application/json',
+                    'Content-Type' : 'application/json'
+                }
+            }).then( 
+                (r) => r.json()
+            ).then( 
+                (j) => console.log(j)
+            )
+        break;
+        case 'person':
+            fetch('/profile/favoritePerson', {
+                method: 'POST',
+                body: JSON.stringify({
+                    token : token,
+                    person_id: id
+                }),
+                headers: {
+                    'Accept' : 'application/json',
+                    'Content-Type' : 'application/json'
+                }
+            }).then( 
+                (r) => r.json()
+            ).then( 
+                (j) => console.log(j)
+            )
+            break;
+    }
+}
+
+function unlike(type, id, token){
+    switch (type){
+        case 'movie':
+            fetch('/profile/unfavoriteMovie', {
+                method: 'POST',
+                body: JSON.stringify({
+                    token : token,
+                    movie_id: id
+                }),
+                headers: {
+                    'Accept' : 'application/json',
+                    'Content-Type' : 'application/json'
+                }
+            }).then( 
+                (r) => r.json()
+            ).then( 
+                (j) => console.log(j)
+            )
+        break;
+        case 'person':
+            fetch('/profile/unfavoritePerson', {
+                method: 'POST',
+                body: JSON.stringify({
+                    token : token,
+                    person_id: id
+                }),
+                headers: {
+                    'Accept' : 'application/json',
+                    'Content-Type' : 'application/json'
+                }
+            }).then( 
+                (r) => r.json()
+            ).then( 
+                (j) => console.log(j)
+            )
+            break;
+    }
+}
+
 class Base extends React.Component {
 
     constructor (props) {
@@ -66,7 +144,6 @@ class Base extends React.Component {
 
         this.onTextChange = this.onTextChange.bind(this)
         this.onLogin  = this.onLogin.bind(this)
-        this.like = this.like.bind(this)
         this.state = {
             search_query : "",
             logged_in : false,
@@ -86,26 +163,6 @@ class Base extends React.Component {
         console.log(res)
     }
 
-    like() {
-        
-        fetch('/profile/getProfile', {
-            method: 'POST',
-            body: JSON.stringify({
-                token : this.state.cookies.get('token')
-            }),
-            headers: {
-                'Accept' : 'application/json',
-                'Content-Type' : 'application/json'
-            }
-        }).then( 
-            (r) => r.json()
-        ).then( 
-            (j) => console.log(j)
-        )
-        
-        
-    }
-
     render () {
 
 
@@ -115,62 +172,26 @@ class Base extends React.Component {
                     clientId="61301743792-kpgmt4gnscti2tren89sc5t4nfk7iq15.apps.googleusercontent.com"
                     buttonText="Login"
                     onSuccess={this.onLogin}
-                    onFailure={this.onLogin}
+                    style={{backgroundColor: 'transparent', border: '1px solid white', padding: '10px 30px', borderRadius: 10, color: 'white', cursor: 'pointer'}}
                 />
             ) : (
                 <GoogleLogout
                     buttonText="Logout"
                     onLogoutSuccess={() => this.setState({logged_in : false})}
+                    style={{backgroundColor: 'transparent', border: '1px solid white', padding: '10px 30px', borderRadius: 10, color: 'white', cursor: 'pointer'}}
                 />
             )
 
         return (
-          {/*           
-                <div>
-                    <div className='titlebar'>
-                        <div className="headerbox">
-                            <div style={{flexGrow : 1}}>        
-                                <img alt="" src='NULL'></img>
-                                <h1 className='headertitle'>
-                                    <a href={"/"}>
-                                        Fake iMDB
-                                    </a>
-                                </h1>
-                                <img alt="image failed to load" src='/filmreel.png' width="100" height="92" border="0" className='spinner'></img>
-                            </div>
-                            <div style={{flexGrow : 4}}>
-                                <div className='searchbar'>
-                                    <input 
-                                        type="text" 
-                                        placeholder="Search Here!"
-                                        onChange={this.onTextChange} 
-                                        value={this.state.search_query}
-                                    />
-                                    <a href={"/present/results?query=" + this.state.search_query.split(" ").join("%20")}>
-                                        Go
-                                    </a>
-                                </div>
-                            </div>
-                            <div>
-                                {loginbutton}
-                            </div>
-                            <div>
-                                <button onClick={this.like} buttonText={"Like"} />
-                            </div>
-                        </div>
-                        
-                        <div className='body'>
-                            {this.props.children}
-                        </div>
-                        
-                    </div>
-                </div>*/}
               
-            <div>
+          <div>
             <div className='title-bar'>
                 <a href="/"><h1 className="title">IMDb</h1></a>
                 <Search/> 
-                <FontAwesomeIcon icon={faUserCircle} style={{color: 'white', position: 'absolute', right: 20, top: 20, fontSize: '2rem'}}/>
+                <div style={{right: 20, top: 20, position: 'absolute'}} className="user-login">
+                    {loginbutton}
+                    <FontAwesomeIcon icon={faUserCircle} style={{marginLeft: 20, color: 'white', fontSize: '2rem'}}/>
+                </div>
             </div>
             <div className='container-fluid' style={{paddingBottom: 20}}>
                 {this.props.children}
@@ -183,5 +204,5 @@ class Base extends React.Component {
 }
 
 export {
-    Base, numberWithCommas, aggregateCrewData, aggregateMovieData
+    Base, numberWithCommas, aggregateCrewData, aggregateMovieData, like, unlike
 }

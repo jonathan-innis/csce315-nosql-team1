@@ -358,3 +358,8 @@ button:focus{
 .show-table-icon-wrapper:hover{
   background-color: black;
 }
+
+.user-login button:hover{
+  background-color: white;
+  color: black;
+}

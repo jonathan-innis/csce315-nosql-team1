@@ -1,9 +1,10 @@
 import React from 'react';
-import {numberWithCommas, aggregateCrewData} from './Base.jsx';
+import {numberWithCommas, aggregateCrewData, like, unlike} from './Base.jsx';
 import ReactStars from 'react-stars';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { MovieTabs } from './Tabs.jsx';
 import { faImdb, faWikipediaW } from '@fortawesome/free-brands-svg-icons';
+import Cookies from 'universal-cookie';
 
 
 
@@ -34,7 +35,9 @@ class Movie extends React.Component {
     
         this.state = {
             movie_id: movieID,
-            movie_data: {title:"", poster_path: "", genres : [], production_companies: [], belongs_to_collection: {}, crew: [], cast: []}
+            movie_data: {title:"", poster_path: "", genres : [], production_companies: [], belongs_to_collection: {}, crew: [], cast: []},
+            cookies: new Cookies(),
+            liked: false,
         }
 
         this.getMovieById();
@@ -52,6 +55,17 @@ class Movie extends React.Component {
                     this.setState({movie_data : data});
                 }
             )
+    }
+
+    handleLike = () => {
+        if (this.state.liked){
+            unlike('movie', this.state.movie_id, this.state.cookies.get('token'));
+            this.setState({liked : false});
+        }
+        else{
+            like('movie', this.state.movie_id, this.state.cookies.get('token'));
+            this.setState({liked: true});
+        }
     }
 
     render() {
@@ -102,6 +116,7 @@ class Movie extends React.Component {
                         <FontAwesomeIcon icon={faWikipediaW} className="icon"/>
                     </div>
                 </a> : null}
+                <button onClick={() => this.handleLike()}/>
             </div>;
 
             /*

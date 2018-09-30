@@ -30,18 +30,20 @@ favoriteMovie = async (req, res) => {
         let person = await verify(req.body.token)
 
         let entry = await Profile.findProfile(person.id)
+        console.log(entry)
 
         if (entry === null) {
-            Profile.addProfile(profile.id, profile.familyName, profile.givenName, profile.email)
+            Profile.addProfile(person.id, person.familyName, person.givenName, person.email)
         }
 
-        await Profile.likeMovie(profile.id, req.body.movie_id);
+        await Profile.likeMovie(person.id, req.body.movie_id);
+        res.sendStatus(200);
 
 
         
     } catch(error) {
         console.log(error)
-        res.sendStatus(200);
+        res.sendStatus(400);
     }
   
 }
@@ -57,7 +59,7 @@ favoritePerson = async (req, res) => {
             Profile.addProfile(profile.id, profile.familyName, profile.givenName, profile.email)
         }
 
-        await Profile.likePerson(person.id, req.body.person_id);
+        await Profile.likePerson(profile.id, req.body.person_id);
 
         res.sendStatus(200);
 
@@ -72,14 +74,16 @@ unfavoriteMovie = async (req, res) => {
         let profile = await verify(req.body.token)
 
         let entry = await Profile.findProfile(profile.id)
+        console.log(req.body.movie_id);
+        console.log(entry.id);
 
-        Profile.update(
+        Profile.updateOne(
             { 
-                id: entry.id 
+                id: parseInt(entry.id)
             },
             { 
                 $pull: { 
-                    'movieFavorites': this.body.movie_id
+                    movieFavorites: req.body.movie_id.toString()
                 }
             }
         );
@@ -104,7 +108,7 @@ unfavoritePerson = async (req, res) => {
             },
             { 
                 $pull: { 
-                    'personFavorites': this.body.person_id
+                    'personFavorites': req.body.person_id
                 }
             }
         );
@@ -126,7 +130,7 @@ getProfile = async (req, res) => {
         
 
         if (entry == null) {
-            res.body = {"error" : "user does not exist"}
+            res.json = {"error" : "user does not exist"}
         
         }
         else {
@@ -155,6 +159,8 @@ getProfile = async (req, res) => {
 
 
 module.exports = {
+    unfavoriteMovie,
+    unfavoritePerson,
     favoritePerson,
     favoriteMovie,
     getProfile
