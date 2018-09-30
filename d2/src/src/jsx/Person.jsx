@@ -1,9 +1,12 @@
 import React from 'react'
 import '../css/master.css'
-import {aggregateMovieData} from './Base.jsx';
+import {aggregateMovieData, like, unlike} from './Base.jsx';
 import { PersonTabs } from './Tabs.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImdb, faWikipediaW } from '@fortawesome/free-brands-svg-icons';
+import { faHeart as solidHeart} from '@fortawesome/free-solid-svg-icons';
+import { faHeart as regularHeart} from '@fortawesome/free-regular-svg-icons';
+import Cookies from 'universal-cookie';
 
 
 
@@ -37,7 +40,8 @@ class Person extends React.Component {
     
         this.state = {
             person_id: personID,
-            person_data: {name:"", profile_path: "", crew_in : [], cast_in : [] }
+            person_data: {name:"", profile_path: "", crew_in : [], cast_in : [] },
+            cookies: new Cookies(),
         }
          
         this.getPersonById()
@@ -57,6 +61,17 @@ class Person extends React.Component {
                 }
             )
     } 
+
+    handleLike = () => {
+        if (this.state.liked){
+            unlike('person', this.state.person_id, this.state.cookies.get('token'));
+            this.setState({liked : false});
+        }
+        else{
+            like('person', this.state.person_id, this.state.cookies.get('token'));
+            this.setState({liked: true});
+        }
+    }
 
     render() {
         if (this.state.person_data !== null){
@@ -79,7 +94,7 @@ class Person extends React.Component {
                     </div>
                 ) 
             )
-
+            const heartIcon = this.state.liked ? <FontAwesomeIcon icon={solidHeart} onClick={() => this.handleLike()} className="heart-icon"/> : <FontAwesomeIcon icon={regularHeart} onClick={() => this.handleLike()} className="heart-icon"/>;
             const icons = 
             <div className="icon-wrapper">
                 {linkIMDB != "" ?<a href={linkIMDB} target="_blank">
@@ -92,6 +107,7 @@ class Person extends React.Component {
                         <FontAwesomeIcon icon={faWikipediaW} className="icon"/>
                     </div>
                 </a> : null}
+                {heartIcon}
             </div>;
 
             console.log(query)

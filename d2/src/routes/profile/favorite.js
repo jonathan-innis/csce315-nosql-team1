@@ -29,13 +29,15 @@ favoriteMovie = async (req, res) => {
         
         let profile = await verify(req.body.token)
         
-        let entry = await Profile.findProfile(person.email)
+        let entry = await Profile.findProfile(profile.email)
+        console.log(entry, req.body);
 
         if (entry === null) {
             Profile.addProfile(profile.familyName, profile.givenName, profile.email)
         }
 
         await Profile.likeMovie(profile.email, req.body.movie_id);
+        res.sendStatus(200);
         
     } catch(error) {
         console.log(error)
@@ -50,6 +52,8 @@ favoritePerson = async (req, res) => {
         let profile = await verify(req.body.token)
 
         let entry = await Profile.findProfile(profile.email)
+        console.log(entry, req.body);
+
 
         if (entry === null) {
             Profile.addProfile(profile.familyName, profile.givenName, profile.email)
@@ -68,19 +72,21 @@ favoritePerson = async (req, res) => {
 unfavoriteMovie = async (req, res) => {
     try{
         let profile = await verify(req.body.token)
+        console.log(req.body.movie_id);
 
         let entry = await Profile.findProfile(profile.email)
+        console.log(entry);
 
-        Profile.updateOne(
+        Profile.findOneAndUpdate(
             { 
                 email: entry.email 
             },
             { 
                 $pull: { 
-                    movieFavorites: req.body.movie_id.toString()
+                    movieFavorites: req.body.movie_id
                 }
             }
-        );
+        ).exec();
 
         res.sendStatus(200);
 
@@ -102,10 +108,10 @@ unfavoritePerson = async (req, res) => {
             },
             { 
                 $pull: { 
-                    'personFavorites': req.body.person_id
+                    personFavorites: req.body.person_id
                 }
             }
-        );
+        ).exec();
 
         res.sendStatus(200);
 
@@ -129,10 +135,10 @@ checkMovie = async (req, res) => {
         else {
             let p = await Profile.findOne({
                 email : entry.email,
-                movieFavorites : res.body.movie_id
+                movieFavorites : req.body.movie_id
             })
 
-            if ( p !== null) {
+            if ( p != null) {
                 res.json({favorited: true})
             }
             else {
@@ -160,7 +166,7 @@ checkPerson = async (req, res) => {
         else {
             let p = await Profile.findOne({
                 email : entry.email,
-                personFavorites : res.body.person_id
+                personFavorites : req.body.person_id
             })
 
             if ( p !== null) {

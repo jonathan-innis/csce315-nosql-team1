@@ -137,6 +137,45 @@ function unlike(type, id, token){
     }
 }
 
+function check(type, id, token){
+    switch (type){
+        case 'movie':
+            fetch('/profile/checkMovie', {
+                method: 'POST',
+                body: JSON.stringify({
+                    token : token,
+                    movie_id: id
+                }),
+                headers: {
+                    'Accept' : 'application/json',
+                    'Content-Type' : 'application/json'
+                }
+            }).then( 
+                (r) => r.json()
+            ).then( 
+                (j) => console.log(j)
+            )
+        break;
+        case 'person':
+            fetch('/profile/checkPerson', {
+                method: 'POST',
+                body: JSON.stringify({
+                    token : token,
+                    person_id: id
+                }),
+                headers: {
+                    'Accept' : 'application/json',
+                    'Content-Type' : 'application/json'
+                }
+            }).then( 
+                (r) => r.json()
+            ).then( 
+                (j) => console.log(j)
+            )
+            break;
+    }
+}
+
 class Base extends React.Component {
 
     constructor (props) {
@@ -149,6 +188,11 @@ class Base extends React.Component {
             logged_in : false,
             cookies : new Cookies()
         }
+        console.log(this.state.cookies.get("token"));   
+    }
+
+    componentDidMount(){
+        if (this.state.cookies.get('token') !== null) this.setState({logged_in: true});
     }
 
     onTextChange (e) {
@@ -164,7 +208,7 @@ class Base extends React.Component {
     }
 
     render () {
-
+        console.log(this.state.logged_in)
 
         let loginbutton = (!this.state.logged_in)
             ? (
@@ -204,5 +248,5 @@ class Base extends React.Component {
 }
 
 export {
-    Base, numberWithCommas, aggregateCrewData, aggregateMovieData, like, unlike
+    Base, numberWithCommas, aggregateCrewData, aggregateMovieData, like, unlike, check
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import {numberWithCommas, aggregateCrewData, like, unlike} from './Base.jsx';
+import {numberWithCommas, aggregateCrewData, like, unlike, check} from './Base.jsx';
 import ReactStars from 'react-stars';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { MovieTabs } from './Tabs.jsx';
@@ -39,10 +39,29 @@ class Movie extends React.Component {
             movie_id: movieID,
             movie_data: {title:"", poster_path: "", genres : [], production_companies: [], belongs_to_collection: {}, crew: [], cast: []},
             cookies: new Cookies(),
-            liked: false,
+            liked: false
         }
 
         this.getMovieById();
+        this.checkMovieLike(movieID);
+    }
+
+    checkMovieLike(id){
+        fetch('/profile/checkMovie', {
+            method: 'POST',
+            body: JSON.stringify({
+                token : new Cookies().get("token"),
+                movie_id: id
+            }),
+            headers: {
+                'Accept' : 'application/json',
+                'Content-Type' : 'application/json'
+            }
+        }).then( 
+            (r) => r.json()
+        ).then( 
+            (j) => console.log(j)
+        )
     }
 
     getMovieById (id) {   
