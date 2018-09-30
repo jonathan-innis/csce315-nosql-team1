@@ -1,6 +1,5 @@
 const {Movie} = require('../../models');
-const {AutoComplete} = require('mongoose-in-memory-autocomplete')
-
+const {AutoComplete} = require('mongoose-in-memory-autocomplete');
 
 movie = async (req, res) => {
     try{
@@ -38,7 +37,8 @@ popularMovies = async (req, res) => {
     }
 }
 
-autocomplete = async (req, res) => {
+movieAutoComplete = async (req, res) => {
+
     try{
         const q = req.query.q;
 
@@ -46,9 +46,9 @@ autocomplete = async (req, res) => {
         // Autocomplete configuration
         var configuration = {
             //Fields being autocompleted, they will be concatenated
-            autoCompleteFields : [ "title", "belongs_to_collection.name"],
+            autoCompleteFields : [ "title"],
             //Returned data with autocompleted results
-            dataFields: ["id", "title"],
+            dataFields: ["id"],
             //Maximum number of results to return with an autocomplete request
             maximumResults: 5,
             //MongoDB model (defined earlier) that will be used for autoCompleteFields and dataFields
@@ -79,4 +79,4 @@ autocomplete = async (req, res) => {
     }
 }
 
-module.exports={movie, topMovies, popularMovies, autocomplete};
+module.exports={movie, topMovies, popularMovies, movieAutoComplete};
