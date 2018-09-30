@@ -20,6 +20,7 @@
     "express": "^4.16.3",
     "file-loader": "^2.0.0",
     "mongoose": "^5.2.15",
+    "mongoose-in-memory-autocomplete": "^1.2.3",
     "only-if-changed-webpack-plugin": "0.0.2",
     "react": "^16.5.2",
     "react-autosuggest": "^9.4.2",
