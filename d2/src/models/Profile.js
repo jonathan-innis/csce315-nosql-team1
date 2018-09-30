@@ -1,18 +1,17 @@
 const {profiles} = require('../schemas');
 const mongoose = require('mongoose');
 
-profiles.statics.findProfile = async function findProfile(userID) {
+profiles.statics.findProfile = async function findProfile(email) {
     return await this.model('Profiles', profiles, 'profiles').findOne(
         {
-            "id" : userID
+            "email" : email
         }
     )
 }
 
-profiles.statics.addProfile= async function addProfile(userID, familyName, givenName, email) {
+profiles.statics.addProfile= async function addProfile(familyName, givenName, email) {
     return await this.model('Profiles', profiles, 'profiles').create(
         {
-            "id" : userID,
             "familyName" : familyName,
             "givenName" : givenName,
             "email" : email,
@@ -22,10 +21,10 @@ profiles.statics.addProfile= async function addProfile(userID, familyName, given
     )
 }
 
-profiles.statics.likePerson = async function likePerson(userID, personID) {
+profiles.statics.likePerson = async function likePerson(email, personID) {
     return await this.model('Profiles', profiles, 'profiles').updateOne(
         {
-            "id" : userID
+            "email" : email
         },
         {
             $addToSet : {
@@ -35,10 +34,10 @@ profiles.statics.likePerson = async function likePerson(userID, personID) {
     )
 }
 
-profiles.statics.likeMovie = async function likeMovie(userID, movieID) {
+profiles.statics.likeMovie = async function likeMovie(email, movieID) {
     return await this.model('Profiles', profiles, 'profiles').updateOne(
         {
-            "id" : userID
+            "email" : email
         },
         {
             $addToSet : {

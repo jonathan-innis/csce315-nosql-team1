@@ -27,15 +27,15 @@ favoriteMovie = async (req, res) => {
     
     try{
         
-        let person = await verify(req.body.token)
+        let profile = await verify(req.body.token)
 
-        let entry = await Profile.findProfile(person.id)
+        let entry = await Profile.findProfile(person.email)
 
         if (entry === null) {
-            Profile.addProfile(profile.id, profile.familyName, profile.givenName, profile.email)
+            Profile.addProfile(profile.familyName, profile.givenName, profile.email)
         }
 
-        await Profile.likeMovie(profile.id, req.body.movie_id);
+        await Profile.likeMovie(profile.email, req.body.movie_id);
 
 
         
@@ -51,13 +51,13 @@ favoritePerson = async (req, res) => {
     try{
         let profile = await verify(req.body.token)
 
-        let entry = await Profile.findProfile(profile.id)
+        let entry = await Profile.findProfile(profile.email)
 
         if (entry === null) {
-            Profile.addProfile(profile.id, profile.familyName, profile.givenName, profile.email)
+            Profile.addProfile(profile.familyName, profile.givenName, profile.email)
         }
 
-        await Profile.likePerson(person.id, req.body.person_id);
+        await Profile.likePerson(profile.email, req.body.person_id);
 
         res.sendStatus(200);
 
@@ -71,11 +71,11 @@ unfavoriteMovie = async (req, res) => {
     try{
         let profile = await verify(req.body.token)
 
-        let entry = await Profile.findProfile(profile.id)
+        let entry = await Profile.findProfile(profile.email)
 
         Profile.update(
             { 
-                id: entry.id 
+                email: entry.email 
             },
             { 
                 $pull: { 
@@ -96,11 +96,11 @@ unfavoritePerson = async (req, res) => {
     try{
         let profile = await verify(req.body.token)
 
-        let entry = await Profile.findProfile(profile.id)
+        let entry = await Profile.findProfile(profile.email)
 
         Profile.update(
             { 
-                id: entry.id 
+                email: entry.email 
             },
             { 
                 $pull: { 
@@ -115,6 +115,68 @@ unfavoritePerson = async (req, res) => {
         console.log(error)
         res.sendStatus(400);
     } 
+}
+
+checkMovie = async (req, res) => {
+    try {
+        let profile = await verify(req.body.token)
+
+        let entry = await Profile.findProfile(profile.email)
+
+        if (entry === null) {
+            Profile.addProfile(profile.familyName, profile.givenName, profile.email)
+            res.json({favorited: false})
+        }
+
+        else {
+            let p = await Profile.findOne({
+                email : entry.email,
+                movieFavorites : res.body.movie_id
+            })
+
+            if ( p !== null) {
+                res.json({favorited: true})
+            }
+            else {
+                res.json({favorited: false})
+            }
+        }
+
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400)
+    }
+}
+
+checkPerson = async (req, res) => {
+    try {
+        let profile = await verify(req.body.token)
+
+        let entry = await Profile.findProfile(profile.email)
+
+        if (entry === null) {
+            Profile.addProfile(profile.familyName, profile.givenName, profile.email)
+            res.json({favorited: false})
+        }
+
+        else {
+            let p = await Profile.findOne({
+                email : entry.email,
+                personFavorites : res.body.person_id
+            })
+
+            if ( p !== null) {
+                res.json({favorited: true})
+            }
+            else {
+                res.json({favorited: false})
+            }
+        }
+        
+    } catch (error) {
+        console.log(error)
+        res.sendStatus(400)
+    }
 }
 
 getProfile = async (req, res) => {
@@ -157,5 +219,7 @@ getProfile = async (req, res) => {
 module.exports = {
     favoritePerson,
     favoriteMovie,
-    getProfile
+    getProfile,
+    checkMovie,
+    checkPerson
 } 

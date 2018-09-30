@@ -125,7 +125,7 @@ class Base extends React.Component {
             )
 
         return (
-          {/*           
+          /*{           
                 <div>
                     <div className='titlebar'>
                         <div className="headerbox">
@@ -164,7 +164,7 @@ class Base extends React.Component {
                         </div>
                         
                     </div>
-                </div>*/}
+                </div> } */
               
             <div>
             <div className='title-bar'>
