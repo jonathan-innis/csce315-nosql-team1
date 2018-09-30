@@ -46,7 +46,7 @@ movieAutoComplete = async (req, res) => {
         // Autocomplete configuration
         var configuration = {
             //Fields being autocompleted, they will be concatenated
-            autoCompleteFields : [ "title"],
+            autoCompleteFields : [ "title" ],
             //Returned data with autocompleted results
             dataFields: ["id"],
             //Maximum number of results to return with an autocomplete request
@@ -58,7 +58,7 @@ movieAutoComplete = async (req, res) => {
         //initialization of AutoComplete Module
         var myMembersAutoComplete = new AutoComplete(configuration, function(){
           //any calls required after the initialization
-          console.log("Loaded " + myMembersAutoComplete.getCacheSize() + " words in auto complete");
+          // console.log("Loaded " + myMembersAutoComplete.getCacheSize() + " words in auto complete");
         });
 
         // //Finding in the autocomplete
