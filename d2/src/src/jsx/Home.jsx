@@ -1,8 +1,59 @@
 import React from 'react';
 import {ResultCard} from './Cards.jsx';
 import {numberWithCommas} from './Base.jsx';
+import Slider from "react-slick";
 
 import '../css/master.css'
+
+class SimpleSlider extends React.Component {
+    render() {
+        var settings = {
+            dots: true,
+            infinite: true,
+            speed: 500,
+            slidesToShow: 5,
+            slidesToScroll: 1,
+            initialSlide: 0,
+            autoplay: true,
+            autoplaySpeed: 5000,
+
+            responsive: [
+              {
+                breakpoint: 1300,
+                settings: {
+                  slidesToShow: 5,
+                  slidesToScroll: 1,
+                  infinite: true
+                }
+              },
+              {
+                breakpoint: 1100,
+                settings: {
+                  slidesToShow: 4,
+                  slidesToScroll: 1,
+                  infinite: true
+                }
+              },
+              {
+                breakpoint: 900,
+                settings: {
+                  slidesToShow: 3,
+                  slidesToScroll: 1,
+                  infinite: true
+                }
+              }
+            ]
+          };
+        return (
+            <div className="container">
+            <h4 style={{marginTop: 50}} className="result-header">{this.props.title}</h4>
+            <Slider {...settings}>
+                {this.props.items}
+            </Slider>
+            </div>
+        );
+    }
+  } 
 
 
 class Home extends React.Component {
@@ -10,10 +61,12 @@ class Home extends React.Component {
         super(props)
         this.state = {
             topMovies: [],
-            popularMovies: []
+            popularMovies: [],
+            popularActors: []
         }
         this.getTopMoives();
         this.getPopularMovies();
+        this.getPopularActors();
     }
 
     getTopMoives(){
@@ -36,44 +89,44 @@ class Home extends React.Component {
             )
     }
 
+    getPopularActors(){
+        fetch("/dbservice/popularactors?limit=10")
+            .then(
+                response => response.json()
+            )
+            .then(
+                json => this.setState({popularActors : json})
+            )
+    }
+
     render () {
 
         let movies = this.state.topMovies.map(
             (val, num) => (
-                <ResultCard person={false} imglink={val.poster_path} name={`${val.title} ($${numberWithCommas(val.revenue)})`} id={val.id} key={num}/>
+                <ResultCard person={false} imglink={val.poster_path} name={val.title} id={val.id} key={num}/>
             )
         )
 
         let popmovies = this.state.popularMovies.map(
             (val, num) => (
-                <ResultCard person={false} imglink={val.poster_path} name={`${val.title} (Rating: ${val.vote_average})`} id={val.id} key={num}/>
+                <ResultCard person={false} imglink={val.poster_path} name={val.title} id={val.id} key={num}/>
             )
         )
 
-        let poppeople = []
+        let popactors = this.state.popularActors.map(
+            (val, num) => (
+                <ResultCard person={true} imglink={val.profile_path} name={val.name} id={val.id} key={num}/>
+            )
+        )
 
         return (
             <div>
-                <div className="homebox">
-                    <div className="title">
-                        <h2> Search your favorite movies and cast members!</h2>
-                        <p>Welcome to Fake IMdB where you can search your favorite movies and your favorite people. All you have to do is search in the top search bar.</p>
-                    </div>
-                    <div style={{justifyContent: "center",display: "flex", flexDirection: "row" }}>
-                        <div className="cards">
-                            <span className="highlight"> Popular Movies: </span>
-                            {popmovies}
-                        </div>
-                        <div className="cards">
-                            <span className="highlight"> Popular People: </span>
-                            {poppeople}
-                        </div>
-                    </div>
-                    <div className="cards" style={{position: 'absolute', left: '50%', transform: 'translateX(-50%)'}}>
-                        <span className="highlight" style={{textAlign: 'center', width: '100%'}}> Top Grossing Movies: </span>
-                        {movies}
-                    </div>
+                <div className="container" style={{marginTop: 30}}>
+                    <h2 style={{textAlign: "center", color: 'white'}}>Welcome to a fake IMDb site. Yeah, you're probably here to look up some movies or something. So you can just go ahead and do that by putting the movie or person you want to search in the search box above.</h2>
                 </div>
+                <SimpleSlider items={popmovies} title="Top Ranking Movies"/>
+                <SimpleSlider items={movies} title="Top Grossing Movies"/>
+                <SimpleSlider items={popactors} title="Top Actors"/>
             </div>
         )
     }

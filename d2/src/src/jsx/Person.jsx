@@ -1,6 +1,10 @@
 import React from 'react'
 import '../css/master.css'
-import {MovieCard} from './Cards.jsx';
+import {aggregateMovieData} from './Base.jsx';
+import { PersonTabs } from './Tabs.jsx';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faImdb, faWikipediaW } from '@fortawesome/free-brands-svg-icons';
+
 
 
 const queryMatcher = RegExp(/person_id=([0-9]+)/g)
@@ -47,20 +51,23 @@ class Person extends React.Component {
                 (response) => response.json() //returns peopl
             )
             .then(
-                (json) => this.setState({person_data : json})
+                (json) =>{
+                    let data = aggregateMovieData(json);
+                    this.setState({person_data : data})
+                }
             )
     } 
 
     render() {
         if (this.state.person_data !== null){
             let query = ""
-            let linkiMDB = ""
+            let linkIMDB = ""
             let linkWiki = ""
 
             if (this.state.person_data.name !== ""){
             
                 query =  this.state.person_data.name.split(" ").join("+")
-                linkiMDB = "http://www.google.com/search?q=" + query + "+iMDB&btnI"
+                linkIMDB = "http://www.google.com/search?q=" + query + "+iMDB&btnI"
                 linkWiki = "http://www.google.com/search?q=" + query + "+Wikipedia&btnI"
             }
             
@@ -73,17 +80,19 @@ class Person extends React.Component {
                 ) 
             )
 
-            let CastMovie = this.state.person_data.cast_in.map(
-                (val, num) => (
-                    <MovieCard title={val.movie.title} job={val.character} imglink={val.movie.poster_path} id={val.movie.id} key={num}/>
-                )  
-            )
-
-            let CrewMovie = this.state.person_data.crew_in.map(
-                (val, num) => (
-                    <MovieCard title={val.movie.title} job={val.job} imglink={val.movie.poster_path} id={val.movie.id} key={num}/>
-                )  
-            )
+            const icons = 
+            <div className="icon-wrapper">
+                {linkIMDB != "" ?<a href={linkIMDB} target="_blank">
+                    <div className="hover-icon">
+                        <FontAwesomeIcon icon={faImdb} className="icon"/>
+                    </div>
+                </a> : null}
+                {linkWiki != "" ?<a href={linkWiki} target="_blank">
+                    <div className="hover-icon">
+                        <FontAwesomeIcon icon={faWikipediaW} className="icon"/>
+                    </div>
+                </a> : null}
+            </div>;
 
             console.log(query)
 
@@ -91,38 +100,21 @@ class Person extends React.Component {
         
         
             return ( 
-                <div>   
-                    <div className="personSummary">
-                        <div className="personImage">
-                            <img src = {"https://image.tmdb.org/t/p/w600_and_h900_bestv2" + this.state.person_data.profile_path} alt="/unisex_silhouette.png" onError={(e)=>e.target.src="/unisex_silhouette.png"} height="600" width="400"/>
+                <div>
+                    <div className="container" style={{paddingTop: 80}}>  
+                    <div className="row">
+                        <div style={{width: 266}}>
+                            <img className="big-movie-img" src = {"https://image.tmdb.org/t/p/w600_and_h900_bestv2" + this.state.person_data.profile_path} alt={this.state.person_data.name} onError={(e)=>e.target.src="/unisex_silhouette.png"}/>
                         </div>
-                        <div className="personLinks">
-                            <h2>
-                                {this.state.person_data.name}
-                            </h2>
-                            <div className="tagbox" style={{justifyContent : 'center'}}>
-                                {jobTags}
-                            </div>
-                            <a href={linkWiki}> Wikipedia </a> 
-                            <a href={linkiMDB}> iMDB </a>
-                        </div>
-                    </div>
-                    <div>
-
-                    </div>
-
-                    <div style={{justifyContent: "center",display: "flex", flexDirection: "row" }}>
-                        <div className="cards">
-                            <span className="highlight"> Movies crew in: </span>
-                            {CrewMovie}
-                        </div>
-                        <div className="cards">
-                            <span className="highlight"> Movies cast in: </span>
-                            {CastMovie}
+                        <div className="col" style={{marginLeft: 20}}>
+                            <h1 style={{color: 'white', display: 'inline-block'}}>{this.state.person_data.name}</h1>
+                            {icons}
                         </div>
                     </div>
                 </div>
-            )
+                <PersonTabs cast_in={this.state.person_data.cast_in} crew_in={this.state.person_data.crew_in}/>
+                </div>
+            );
         }
         else {
             return <span> Error Loading Page</span>
