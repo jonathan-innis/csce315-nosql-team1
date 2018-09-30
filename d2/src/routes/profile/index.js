@@ -2,12 +2,18 @@ const express = require('express');
 const path = require('path');
 let router = express.Router();
 
-const {favorite} = require('./favorite')
+var bodyParser = require('body-parser');  
+var jsonParser = bodyParser.json()  
 
-router.post('/favorite', favorite)
+const {favoriteMovie, favoritePerson, getProfile} = require('./favorite')
+const {google} = require('./google')
 
-router.get('/testauth', (req, res) =>
-    res.sendFile(path.resolve('public/testauth.html'))
-)
+//router.post('/favorite', favorite)
+
+router.post('/google', jsonParser, google)
+router.post('/favoriteMovie', jsonParser, favoriteMovie)
+router.post('/favoritePerson', jsonParser, favoritePerson)
+router.post('/getProfile', jsonParser, getProfile)
+
 
 module.exports = router;
