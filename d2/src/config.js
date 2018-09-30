@@ -3,7 +3,7 @@ const env = 'dev'; // 'prod' or 'dev'
 
 const prod = {
  app: {
-   port: 3000
+   port: 80
  },
  db: {
    host: 'reader:ilovetamu@13.58.47.75',
@@ -17,7 +17,7 @@ const dev = {
    port: 3000
  },
  db: {
-  host: 'localhost',
+  host: 'tamu:notatouchback@13.58.47.75',
   port: 27017,
   name: 'movies_mongo'
  }
