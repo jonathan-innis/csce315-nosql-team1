@@ -16,8 +16,8 @@ router.post('/favoritePerson', jsonParser, favoritePerson)
 router.post('/getProfile', jsonParser, getProfile)
 
 
-router.post('/checkMovie', jsonParse, getProfile)
-router.post('/checkPerson', jsonParse, getProfile)
+router.post('/checkMovie', jsonParser, getProfile)
+router.post('/checkPerson', jsonParser, getProfile)
 
 
 module.exports = router;
