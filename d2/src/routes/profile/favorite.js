@@ -84,11 +84,12 @@ getProfile = async (req, res) => {
 
             let p = await People.find({
                 'id' : { $in : entry.personFavorites}
-            }).
+            })
 
-            p.
+            entry.movieFavorites = m
+            entry.personFavorites = p
 
-            res.json({movies: m, people: p})
+            res.json(entry)
         }
 
         
