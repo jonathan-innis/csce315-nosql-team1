@@ -31,10 +31,8 @@
     "react-scripts": "1.1.5",
     "universal-cookie": "^3.0.4",
     "react-autosuggest": "^9.4.2",
-    "react-dom": "^16.5.2",
     "react-fontawesome": "^1.6.1",
     "react-icons": "^3.1.0",
-    "react-scripts": "1.1.5",
     "react-stars": "^2.2.5",
     "slick-carousel": "^1.8.1",
     "webpack-cli": "^3.1.0"

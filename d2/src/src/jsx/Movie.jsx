@@ -1,9 +1,12 @@
 import React from 'react';
-import {numberWithCommas, aggregateCrewData} from './Base.jsx';
+import {numberWithCommas, aggregateCrewData, like, unlike} from './Base.jsx';
 import ReactStars from 'react-stars';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { MovieTabs } from './Tabs.jsx';
 import { faImdb, faWikipediaW } from '@fortawesome/free-brands-svg-icons';
+import { faHeart as solidHeart} from '@fortawesome/free-solid-svg-icons';
+import { faHeart as regularHeart} from '@fortawesome/free-regular-svg-icons';
+import Cookies from 'universal-cookie';
 
 
 
@@ -34,7 +37,9 @@ class Movie extends React.Component {
     
         this.state = {
             movie_id: movieID,
-            movie_data: {title:"", poster_path: "", genres : [], production_companies: [], belongs_to_collection: {}, crew: [], cast: []}
+            movie_data: {title:"", poster_path: "", genres : [], production_companies: [], belongs_to_collection: {}, crew: [], cast: []},
+            cookies: new Cookies(),
+            liked: false,
         }
 
         this.getMovieById();
@@ -52,6 +57,17 @@ class Movie extends React.Component {
                     this.setState({movie_data : data});
                 }
             )
+    }
+
+    handleLike = () => {
+        if (this.state.liked){
+            unlike('movie', this.state.movie_id, this.state.cookies.get('token'));
+            this.setState({liked : false});
+        }
+        else{
+            like('movie', this.state.movie_id, this.state.cookies.get('token'));
+            this.setState({liked: true});
+        }
     }
 
     render() {
@@ -90,6 +106,7 @@ class Movie extends React.Component {
             const budget = this.state.movie_data.budget ? <p style={styles.metaData}>Budget: ${numberWithCommas(this.state.movie_data.budget)}</p> : null;
             const overview = this.state.movie_data.overview ? <p style={{color: 'white'}}>{this.state.movie_data.overview}</p> : null;
             const pipe = <p style={styles.metaData}>&nbsp;|&nbsp;</p>;
+            const heartIcon = this.state.liked ? <FontAwesomeIcon icon={solidHeart} onClick={() => this.handleLike()} className="heart-icon"/> : <FontAwesomeIcon icon={regularHeart} onClick={() => this.handleLike()} className="heart-icon"/>;
             const icons = 
             <div className="icon-wrapper">
                 {linkIMDB != "" ?<a href={linkIMDB} target="_blank">
@@ -102,6 +119,7 @@ class Movie extends React.Component {
                         <FontAwesomeIcon icon={faWikipediaW} className="icon"/>
                     </div>
                 </a> : null}
+                {heartIcon}
             </div>;
 
             /*
