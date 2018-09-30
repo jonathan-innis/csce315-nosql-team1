@@ -363,3 +363,11 @@ button:focus{
   background-color: white;
   color: black;
 }
+
+.heart-icon{
+  cursor: pointer;
+  color: red;
+  font-size: 2rem;
+  margin: 15px 10px;
+  vertical-align: top;
+}
