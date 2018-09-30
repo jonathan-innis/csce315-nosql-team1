@@ -1,10 +1,9 @@
 const PROFILE_SCHEMA = {
-    id: Number,
     familyName : String,
     givenName : String,
     email : String,
-    movieFavorites : Array,
-    personFavorites : Array
+    movieFavorites : [Number],
+    personFavorites : [Number]
 }
 
 module.exports = PROFILE_SCHEMA;
