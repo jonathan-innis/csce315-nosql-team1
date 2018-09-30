@@ -41,6 +41,7 @@ favoriteMovie = async (req, res) => {
         
     } catch(error) {
         console.log(error)
+        res.sendStatus(200);
     }
   
 }
@@ -58,10 +59,62 @@ favoritePerson = async (req, res) => {
 
         await Profile.likePerson(person.id, req.body.person_id);
 
+        res.sendStatus(200);
 
     } catch(error) {
         console.log(error)
+        res.sendStatus(400);
     }
+}
+
+unfavoriteMovie = async (req, res) => {
+    try{
+        let profile = await verify(req.body.token)
+
+        let entry = await Profile.findProfile(profile.id)
+
+        Profile.update(
+            { 
+                id: entry.id 
+            },
+            { 
+                $pull: { 
+                    'movieFavorites': this.body.movie_id
+                }
+            }
+        );
+
+        res.sendStatus(200);
+
+    }  catch(error) {
+        console.log(error)
+        res.sendStatus(400);
+    } 
+}
+
+unfavoritePerson = async (req, res) => {
+    try{
+        let profile = await verify(req.body.token)
+
+        let entry = await Profile.findProfile(profile.id)
+
+        Profile.update(
+            { 
+                id: entry.id 
+            },
+            { 
+                $pull: { 
+                    'personFavorites': this.body.person_id
+                }
+            }
+        );
+
+        res.sendStatus(200);
+
+    }  catch(error) {
+        console.log(error)
+        res.sendStatus(400);
+    } 
 }
 
 getProfile = async (req, res) => {
@@ -95,6 +148,7 @@ getProfile = async (req, res) => {
         
     } catch(error) {
         console.log(error)
+        res.sendStatus(400);
     } 
 }
 
