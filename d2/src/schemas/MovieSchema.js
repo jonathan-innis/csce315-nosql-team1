@@ -25,6 +25,6 @@ const MOVIE_SCHEMA = {
     vote_average: Number,
     runtime: Number,
     credits: {cast: Array, crew: Array}
-};
+}; 
 
 module.exports = MOVIE_SCHEMA;

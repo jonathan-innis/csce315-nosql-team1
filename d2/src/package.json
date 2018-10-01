@@ -22,6 +22,7 @@
     "file-loader": "^2.0.0",
     "google-auth-library": "^2.0.0",
     "mongoose": "^5.2.15",
+    "mongoose-in-memory-autocomplete": "^1.2.3",
     "only-if-changed-webpack-plugin": "0.0.2",
     "react": "^16.5.2",
     "react-cookie": "^3.0.4",

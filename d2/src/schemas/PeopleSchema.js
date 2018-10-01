@@ -1,6 +1,6 @@
 const PEOPLE_SCHEMA = {
     name: String,
-    gender: Number, 
+    gender: Number,
     crew_in: Array,
     cast_in: Array,
     credit_id: String,
