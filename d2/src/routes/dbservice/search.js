@@ -9,33 +9,22 @@ module.exports = async (req, res) => {
         movies = await Movie.search(q);
         people = await People.search(q);
 
-        let whole = Array.prototype.concat(movies, people).sort(
-          function (a,b){
-            if ( a.score > b.score ){
-              return -1;
-            }
-            else if ( b.score > a.score ){
+        let whole = movies.concat(people);
+        await whole.sort(
+          function ( a, b ){
+            if ( parseFloat(a.score) > parseFloat(b.score) ){
               return 1;
             }
-            else {
-              return 0;
+            if ( parseFloat(a.score) < parseFloat(b.score) ){
+              return -1;
             }
-          }
-        );
+            return 0;
+          }  );
 
-        var countParam = num;
-        var startParam = start;
+        var countParam = parseInt(num);
+        var startParam = parseInt(start);
 
-        if ( (num + startParam) >= whole.length ){
-          countParam = whole.length - startParam - 1;
-        }
-        if ( startParam >= whole.length){
-          startParam = 0;
-          res.sendStatus(400);
-          console.log("start index out of range");
-        }
-
-        res.json( { result: whole.slice(startParam, startParam + countParam ) } );
+        res.json( { result: whole.slice( startParam, startParam + countParam ) } );
     }
     catch(error){
         console.log(error)
