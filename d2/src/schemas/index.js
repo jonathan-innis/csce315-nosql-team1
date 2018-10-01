@@ -11,7 +11,7 @@ people.index( ( { name: "text" } ) );
 
 module.exports = {
     'movies': movie,
-    'people': people
+    'people': people,
     'profiles' : new Schema(Profiles)
 }
 
