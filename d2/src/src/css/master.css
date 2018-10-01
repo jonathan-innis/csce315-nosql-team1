@@ -358,3 +358,16 @@ button:focus{
 .show-table-icon-wrapper:hover{
   background-color: black;
 }
+
+.user-login button:hover{
+  background-color: white;
+  color: black;
+}
+
+.heart-icon{
+  cursor: pointer;
+  color: red;
+  font-size: 2rem;
+  margin: 15px 10px;
+  vertical-align: top;
+}

@@ -1,5 +1,6 @@
 const Movie = require('./MovieSchema');
 const People = require('./PeopleSchema');
+const Profiles = require('./ProfileSchema');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
@@ -11,4 +12,6 @@ people.index( ( { name: "text" } ) );
 module.exports = {
     'movies': movie,
     'people': people
+    'profiles' : new Schema(Profiles)
 }
+

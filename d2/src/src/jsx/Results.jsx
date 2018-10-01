@@ -1,5 +1,6 @@
 import React from 'react';
 import {ResutlCard, ResultCard} from './Cards.jsx';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const queryMatcher = RegExp(/query=([a-zA-Z0-9%]+)/g)
@@ -50,10 +51,9 @@ class Results extends React.Component {
 
         if (movies.length === 0 && people.length === 0){
             return (
-                <div style={{justifyContent: "center",display: "flex", flexDirection: "row" }}>
+                <div style={{position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)'}}>
                     <div>
-                          Loading...
-                        <img alt="" src='/filmreel.png' width="100" height="92" border="0" className='spinner'></img>
+                          <CircularProgress/>
                     </div>
                 </div>
             )
