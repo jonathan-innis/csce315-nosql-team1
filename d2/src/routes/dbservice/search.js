@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
         var countParam = parseInt(num);
         var startParam = parseInt(start);
 
-        res.json( { result: whole.slice( startParam, startParam + countParam ) } );
+        res.json({result: whole.slice(startParam, startParam + countParam )});
     }
     catch(error){
         console.log(error)

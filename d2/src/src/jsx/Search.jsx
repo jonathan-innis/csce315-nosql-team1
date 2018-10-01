@@ -3,29 +3,6 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
-// Imagine you have a list of languages that you'd like to autosuggest.
-const languages = [
-  {
-    id: 2,
-    name: 'C',
-    year: 1972
-  },
-  {
-    id: 2,
-    name: 'Elm',
-    year: 2012
-  },
-];
-
-// Teach Autosuggest how to calculate suggestions for any given input value.
-const getSuggestions = value => {
-  const inputValue = value.trim().toLowerCase();
-  const inputLength = inputValue.length;
-
-  return inputLength === 0 ? [] : languages.filter(lang =>
-    lang.name.toLowerCase().slice(0, inputLength) === inputValue
-  );
-};
 
 // When suggestion is clicked, Autosuggest needs to populate the input
 // based on the clicked suggestion. Teach Autosuggest how to calculate the
@@ -35,8 +12,8 @@ const getSuggestionValue = suggestion => suggestion.name;
 // Use your imagination to render suggestions.
 const renderSuggestion = suggestion => (
   <div>
-    <img src="/noposter.jpg" className="suggestion-img"/>
-    <p className="suggestion"><b>{suggestion.name}</b> ({suggestion.year})</p>
+    <img src={"https://image.tmdb.org/t/p/w600_and_h900_bestv2" + suggestion.data[1]} onError={(e)=>e.target.src="/unisex_silhouette.png"} className="suggestion-img"/>
+    <p className="suggestion"><b>{suggestion.word}</b> ({new Date(suggestion.data[3]).getFullYear()})</p>
   </div>
 );
 
@@ -51,9 +28,45 @@ export default class Search extends React.Component {
     // and they are initially empty because the Autosuggest is closed.
     this.state = {
       value: '',
-      suggestions: []
+      suggestions: [],
+      movies: [],
+      people: [],
     };
   }
+
+  getMovieSuggestions (value) {   
+    fetch(`/dbservice/movieautocomplete?q=${value}`)
+      .then(
+          (response) => response.json() //returns peopl
+      )
+      .then(
+          (json) => {
+              this.setState({movies : json});
+          }
+      )
+  }   
+
+  getPeopleSuggestions (value) {   
+    fetch(`/dbservice/personautocomplete?q=${value}`)
+      .then(
+          (response) => response.json() //returns peopl
+      )
+      .then(
+          (json) => {
+              this.setState({people : json});
+          }
+      )
+  }   
+
+  getSuggestions = value => {
+    this.getMovieSuggestions(value);
+    //this.getPeopleSuggestions(value);
+    console.log(this.state.movies)
+    const inputValue = value.trim().toLowerCase();
+    const inputLength = inputValue.length;
+  
+    return inputLength === 0 || this.state.movies == "No Matches" ? [] : this.state.movies;
+  };
 
   onChange = (event, { newValue, method }) => {
     this.setState({
@@ -63,19 +76,19 @@ export default class Search extends React.Component {
 
   onKeyPress = (e) => {
     if (e.key == 'Enter'){
-      window.location.href =  "/present/results?query=" + this.state.value;
+      window.location.href =  "/present/results?query=" + this.state.value + "&start=0&num=10";
     }
   }
 
   onSuggestionSelected = (event, {suggestion}) => {
-    window.location.href = "/present/movie?movie_id=" + suggestion.id;
+    window.location.href = "/present/movie?movie_id=" + suggestion.data[0];
   }
 
   // Autosuggest will call this function every time you need to update suggestions.
   // You already implemented this logic above, so just use it.
   onSuggestionsFetchRequested = ({ value }) => {
     this.setState({
-      suggestions: getSuggestions(value)
+      suggestions: this.getSuggestions(value)
     });
   };
 
@@ -99,7 +112,7 @@ export default class Search extends React.Component {
 
     // Finally, render it!
     return (
-      <div class="search">
+      <div class="search" style={{zIndex: 20}}>
       <Autosuggest
         suggestions={suggestions}
         onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}

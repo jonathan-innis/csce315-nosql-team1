@@ -56,10 +56,9 @@ personAutoComplete = async (req, res) => {
         const q = req.query.q;
 
         var configuration = { 
-            autoCompleteFields : [ "name"],
+            autoCompleteFields : ["name"],
             dataFields: [
                 "id",
-                "gender",
                 "profile_path"
             ],
             maximumResults: 5,

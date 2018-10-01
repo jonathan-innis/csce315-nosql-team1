@@ -1,9 +1,13 @@
 import React from 'react';
 import {ResutlCard, ResultCard} from './Cards.jsx';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 const queryMatcher = RegExp(/query=([a-zA-Z0-9%]+)/g)
+const startMatcher = RegExp(/start=([0-9]+)/g);
+const numMatcher = RegExp(/num=([0-9]+)/g);
 
 class Results extends React.Component {
     constructor (props) {
@@ -11,24 +15,39 @@ class Results extends React.Component {
 
         this.performSearch = this.performSearch.bind(this)
 
+        //Finding the query
         let find = queryMatcher.exec(window.location.search)
         let query = (find === null) 
             ? ("")
             : (find[1])
         
+        //Finding the start point
+        let find2 = startMatcher.exec(window.location.search);
+        let start = (find2 === null)
+            ? ("")
+            : (find2[1])
+        
+        //Finding the num point
+        let find3 = numMatcher.exec(window.location.search);
+        let num = (find3 === null)
+            ? ("")
+            : (find3[1])
+        
         console.log(query)
 
         this.state = {
+            query: query,
+            start: parseInt(start),
+            num: parseInt(num),
             query_data: {result: []},
-            current_page: 1,
-            totalResults: [1,2,3],
         }
 
         this.performSearch(query)
     }
 
     performSearch (query) {
-        fetch("/dbservice/search?q=" + encodeURIComponent(query.trim()) + "&start=0&num=10")
+        console.log(this.state.current_page);
+        fetch("/dbservice/search?q=" + encodeURIComponent(query.trim()) + `&start=${this.state.start}&num=${this.state.num}`)
             .then(
                 (response) => response.json() 
             )
@@ -41,22 +60,14 @@ class Results extends React.Component {
     }
 
     changePageNumber(val){
-        this.setState({current_page: val});
+        window.location.href =  "/present/results?query=" + this.state.query + "&start=" + (this.state.start + val) + "&num=" + this.state.num;
     }
 
     render() {
-        console.log(this.state.query_data)
-        let results = this.state.query_data.result.slice(0,10).map(
+        let results = this.state.query_data.result.slice(0,this.state.num).map(
             (val, num) => (
                 <ResultCard person={val.name ? true : false} imglink={val.poster_path ? val.poster_path : val.profile_path} name={val.title ? val.title : val.name} id={val.id} key={num}/>
             )
-        )
-
-        let pageNumbers = this.state.totalResults.map(
-            (val, num) => (
-                <p className={this.state.current_page == val ? "page-number selected" : "page-number"} onClick={() => this.changePageNumber(val)}>{val}</p>
-            )
-
         )
 
         if (results.length === 0){
@@ -74,14 +85,16 @@ class Results extends React.Component {
                 <div className="container">
                     {results.length != 0 ?
                     <div>
-                    <h1 className="result-header" style={{marginTop: 50}}>Movies</h1>
+                    <h1 className="result-header" style={{marginTop: 50}}>Results</h1>
                     <div className="row" style={{justifyContent: "center"}}>
                         {results}
                     </div>
                     </div>
                     : null}
                     <div class="page-number-wrapper">
-                        {pageNumbers}
+                        {this.state.start >= this.state.num ? <FontAwesomeIcon onClick={() => this.changePageNumber(-10)} icon={faChevronLeft} className="chevron-icon"/> : null}
+                        <p className={"page-number"}>Displaying Results: {this.state.start + 1}-{this.state.start + this.state.num - 1}</p>
+                        {results.length == this.state.num ? <FontAwesomeIcon onClick={() => this.changePageNumber(10)} icon={faChevronRight} className="chevron-icon"/> : null}
                     </div>
                 </div>
             )
