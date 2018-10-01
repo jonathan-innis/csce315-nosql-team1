@@ -35,7 +35,6 @@ module.exports = async (req, res) => {
           console.log("start index out of range");
         }
 
-
         res.json( { result: whole.slice(startParam, startParam + countParam ) } );
     }
     catch(error){
