@@ -366,7 +366,7 @@ button:focus{
 
 .heart-icon{
   cursor: pointer;
-  color: red;
+  color: #e61b44;
   font-size: 2rem;
   margin: 15px 10px;
   vertical-align: top;

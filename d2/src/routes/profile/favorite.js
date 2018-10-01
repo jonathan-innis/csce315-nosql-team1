@@ -30,7 +30,6 @@ favoriteMovie = async (req, res) => {
         let profile = await verify(req.body.token)
         
         let entry = await Profile.findProfile(profile.email)
-        console.log(entry, req.body);
 
         if (entry === null) {
             Profile.addProfile(profile.familyName, profile.givenName, profile.email)
@@ -52,8 +51,6 @@ favoritePerson = async (req, res) => {
         let profile = await verify(req.body.token)
 
         let entry = await Profile.findProfile(profile.email)
-        console.log(entry, req.body);
-
 
         if (entry === null) {
             Profile.addProfile(profile.familyName, profile.givenName, profile.email)
@@ -72,12 +69,11 @@ favoritePerson = async (req, res) => {
 unfavoriteMovie = async (req, res) => {
     try{
         let profile = await verify(req.body.token)
-        console.log(req.body.movie_id);
 
         let entry = await Profile.findProfile(profile.email)
         console.log(entry);
 
-        Profile.findOneAndUpdate(
+        Profile.updateOne(
             { 
                 email: entry.email 
             },
@@ -102,7 +98,7 @@ unfavoritePerson = async (req, res) => {
 
         let entry = await Profile.findProfile(profile.email)
 
-        Profile.update(
+        Profile.updateOne(
             { 
                 email: entry.email 
             },

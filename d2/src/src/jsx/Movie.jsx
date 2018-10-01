@@ -43,14 +43,14 @@ class Movie extends React.Component {
         }
 
         this.getMovieById();
-        this.checkMovieLike(movieID);
+        this.checkMovieLike(this.state.movie_id)
     }
-
+    
     checkMovieLike(id){
         fetch('/profile/checkMovie', {
             method: 'POST',
             body: JSON.stringify({
-                token : new Cookies().get("token"),
+                token : this.state.cookies.get("token"),
                 movie_id: id
             }),
             headers: {
@@ -60,7 +60,7 @@ class Movie extends React.Component {
         }).then( 
             (r) => r.json()
         ).then( 
-            (j) => console.log(j)
+            (j) => this.setState({liked: j.favorited})
         )
     }
 

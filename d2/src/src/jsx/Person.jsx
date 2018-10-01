@@ -42,9 +42,11 @@ class Person extends React.Component {
             person_id: personID,
             person_data: {name:"", profile_path: "", crew_in : [], cast_in : [] },
             cookies: new Cookies(),
+            liked: false,
         }
          
         this.getPersonById()
+        this.checkPersonLike(this.state.person_id);
 
         console.log(this.state.person_data)
     }
@@ -61,6 +63,24 @@ class Person extends React.Component {
                 }
             )
     } 
+
+    checkPersonLike(id){
+        fetch('/profile/checkPerson', {
+            method: 'POST',
+            body: JSON.stringify({
+                token : this.state.cookies.get("token"),
+                person_id: id
+            }),
+            headers: {
+                'Accept' : 'application/json',
+                'Content-Type' : 'application/json'
+            }
+        }).then( 
+            (r) => r.json()
+        ).then( 
+            (j) => this.setState({liked: j.favorited})
+        )
+    }
 
     handleLike = () => {
         if (this.state.liked){
