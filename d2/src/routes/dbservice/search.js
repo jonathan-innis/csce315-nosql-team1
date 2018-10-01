@@ -35,9 +35,7 @@ module.exports = async (req, res) => {
           console.log("start index out of range");
         }
 
-
-        if (num) res.json({movies: movies.slice(0, parseInt(num)), people: people.slice(0, parseInt(num))})
-        else res.json( { result: whole.slice(startParam, startParam + countParam ) } );
+        res.json( { result: whole.slice(startParam, startParam + countParam ) } );
     }
     catch(error){
         console.log(error)

@@ -41,31 +41,23 @@ movieAutoComplete = async (req, res) => {
 
     try{
         const q = req.query.q;
-
-        // const movie = await Movie.autocomplete(q);
-        // Autocomplete configuration
         var configuration = {
-            //Fields being autocompleted, they will be concatenated
             autoCompleteFields : [ "title" ],
-            //Returned data with autocompleted results
-            dataFields: ["id"],
-            //Maximum number of results to return with an autocomplete request
-            maximumResults: 5,
-            //MongoDB model (defined earlier) that will be used for autoCompleteFields and dataFields
+            dataFields: [
+                "id", 
+                "poster_path",
+                "genres",
+                "release_date",
+                "budget",
+                "runtime"
+            ],
+            maximumResults: 5,   
             model: Movie
         }
-
-        //initialization of AutoComplete Module
-        var myMembersAutoComplete = new AutoComplete(configuration, function(){
-          //any calls required after the initialization
-          // console.log("Loaded " + myMembersAutoComplete.getCacheSize() + " words in auto complete");
+        
+        var myMembersAutoComplete = new AutoComplete(configuration, function(){         
         });
 
-        // //Finding in the autocomplete
-        // //
-        // // Lets say we have in mongodb a document -> { firstName : "James", lastName: "Green", _id: "535f06a28ddfa3880f000003"}
-        // // getResults will return words -> [{"word": "James Green","data": ["535f06a28ddfa3880f000003"]}]
-        // //
         myMembersAutoComplete.getResults(q, function(err, words){
           if(err)
             res.json(err);
