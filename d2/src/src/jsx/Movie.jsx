@@ -45,7 +45,7 @@ class Movie extends React.Component {
         this.getMovieById();
         this.checkMovieLike(this.state.movie_id)
     }
-    
+
     checkMovieLike(id){
         fetch('/profile/checkMovie', {
             method: 'POST',
@@ -161,6 +161,7 @@ class Movie extends React.Component {
                         </div>
                         <div className="col" style={{marginLeft: 20}}>
                             <h1 style={{color: 'white', display: 'inline-block'}}>{this.state.movie_data.title}</h1>
+                            <br/>
                             {icons}
                             <br/>
                             {year ? <p style={styles.boldMetaData}>{year}</p> : null}

@@ -94,7 +94,6 @@ a:hover{
   z-index: 11;
   display: inline-block;
   vertical-align: bottom;
-  margin-left: 20px;
 }
 
 .movie-hover-wrapper .icon-wrapper{
@@ -370,4 +369,27 @@ button:focus{
   font-size: 2rem;
   margin: 15px 10px;
   vertical-align: top;
+}
+
+.page-number-wrapper{
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-block;
+}
+
+.page-number{
+  color: white;
+  margin: 0px;
+  padding: 5px 10px;
+  border: 2px solid white;
+  border-radius: 5px;
+  display: inline-block;
+  margin: 0px 10px;
+  cursor: pointer;
+}
+
+.page-number-wrapper .selected{
+  color: #2f1e36;
+  background-color: white;
 }

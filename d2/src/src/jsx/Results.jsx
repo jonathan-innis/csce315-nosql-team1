@@ -19,37 +19,47 @@ class Results extends React.Component {
         console.log(query)
 
         this.state = {
-            query_data: {movies : [], people: []}
+            query_data: {result: []},
+            current_page: 1,
+            totalResults: [1,2,3],
         }
 
         this.performSearch(query)
     }
 
     performSearch (query) {
-        fetch("/dbservice/search?q=" + query + "&num=100")
+        fetch("/dbservice/search?q=" + encodeURIComponent(query.trim()) + "&start=0&num=10")
             .then(
                 (response) => response.json() 
             )
             .then(
-                (json) => this.setState({query_data : json})
+                (json) =>{
+                    this.setState({query_data : json});
+                    console.log(json);
+                }
             )
+    }
+
+    changePageNumber(val){
+        this.setState({current_page: val});
     }
 
     render() {
         console.log(this.state.query_data)
-        let movies = this.state.query_data.movies.map(
+        let results = this.state.query_data.result.slice(0,10).map(
             (val, num) => (
-                <ResultCard person={false} imglink={val.poster_path} name={val.title} id={val.id} key={num}/>
+                <ResultCard person={val.name ? true : false} imglink={val.poster_path ? val.poster_path : val.profile_path} name={val.title ? val.title : val.name} id={val.id} key={num}/>
             )
         )
 
-        let people = this.state.query_data.people.map(
+        let pageNumbers = this.state.totalResults.map(
             (val, num) => (
-                <ResultCard person={true} imglink={val.profile_path} name={val.name} id={val.id} key={num}/>
+                <p className={this.state.current_page == val ? "page-number selected" : "page-number"} onClick={() => this.changePageNumber(val)}>{val}</p>
             )
+
         )
 
-        if (movies.length === 0 && people.length === 0){
+        if (results.length === 0){
             return (
                 <div style={{position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)'}}>
                     <div>
@@ -62,22 +72,17 @@ class Results extends React.Component {
         else{
             return (
                 <div className="container">
-                    {movies.length != 0 ?
+                    {results.length != 0 ?
                     <div>
                     <h1 className="result-header" style={{marginTop: 50}}>Movies</h1>
                     <div className="row" style={{justifyContent: "center"}}>
-                        {movies}
+                        {results}
                     </div>
                     </div>
                     : null}
-                    {people.length != 0 ?
-                    <div>
-                    <h1 className="result-header" style={{marginTop: 50}}>People</h1>
-                    <div className="row" style={{marginLeft: 5}}>
-                        {people}
+                    <div class="page-number-wrapper">
+                        {pageNumbers}
                     </div>
-                    </div>
-                    : null}
                 </div>
             )
         }

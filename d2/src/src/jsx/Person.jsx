@@ -144,6 +144,7 @@ class Person extends React.Component {
                         </div>
                         <div className="col" style={{marginLeft: 20}}>
                             <h1 style={{color: 'white', display: 'inline-block'}}>{this.state.person_data.name}</h1>
+                            <br/>
                             {icons}
                         </div>
                     </div>
